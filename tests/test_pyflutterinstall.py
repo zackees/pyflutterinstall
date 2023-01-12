@@ -1,13 +1,11 @@
 import unittest
-
+import os
 
 class PyflutterinstallTester(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.cleanup = []
-
     def test_platform_executable(self) -> None:
-        print("TODO add tests")
+        rtn = os.system("python -m pyflutterinstall.run --help")
+        self.assertEqual(rtn, 0)
+        
 
 
 if __name__ == "__main__":
