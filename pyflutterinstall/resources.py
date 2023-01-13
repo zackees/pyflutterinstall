@@ -16,6 +16,7 @@ CMDLINE_TOOLS = [
     "platforms;android-33",
     "emulator",
     "tools",
+    "system-images;android-27;google_apis_playstore;x86"
 ]
 
 if sys.platform == "win32":
