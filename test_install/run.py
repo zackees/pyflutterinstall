@@ -52,8 +52,8 @@ def main() -> int:
             print(line, end="")
         except StopIteration:
             break
-        except UnicodeDecodeError:
-            print(f"UnicodeDecodeError: {str(line)}")
+        except UnicodeDecodeError as err:
+            print(f"UnicodeDecodeError: {err}")
             continue
     print("STDERR:")
     while True:
@@ -63,8 +63,8 @@ def main() -> int:
             print(line, end="")
         except StopIteration:
             break
-        except UnicodeDecodeError:
-            print(f"UnicodeDecodeError: {str(line)}")
+        except UnicodeDecodeError as err:
+            print(f"UnicodeDecodeError: {err}")
             continue
     rtn = proc.wait()
     print("\n\n\n")
