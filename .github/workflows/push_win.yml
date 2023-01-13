@@ -26,7 +26,6 @@ jobs:
       run: |
         pip install -e '.[test]'
     - name: Run tests
-      run: |
-        pytest tests
+      run: pytest tests
     - name: Run Install Test
       run: cd test_install && python run.py
