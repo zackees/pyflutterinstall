@@ -15,7 +15,7 @@ CMDLINE_TOOLS = [
     "cmdline-tools;latest",
     "platform-tools",
     "build-tools;33.0.1",
-    "platforms;android-30",
+    "platforms;android-33",
     "emulator",
     "tools",
 ]
