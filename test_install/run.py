@@ -40,15 +40,29 @@ def main() -> int:
     assert stdout is not None
     stderr = proc.stderr
     assert stderr is not None
+    
+    stdout_iter = iter(stdout.readline, "")
+    stderr_iter = iter(stderr.readline, "")
     print("STDOUT:")
-
-    for line in iter(stdout.readline, ""):
-        # Have to use print() in order to get the output to the console in order.
-        print(line, end="")
+    while True:
+        try:
+            line = next(stdout_iter)
+            print(line, end="")
+        except StopIteration:
+            break
+        except UnicodeDecodeError:
+            print(f"UnicodeDecodeError: {str(line)}")
+            continue
     print("STDERR:")
-    for line in iter(stderr.readline, ""):
-        # Have to use print() in order to get the output to the console in order.
-        print(line, end="")
+    while True:
+        try:
+            line = next(stderr_iter)
+            print(line, end="")
+        except StopIteration:
+            break
+        except UnicodeDecodeError:
+            print(f"UnicodeDecodeError: {str(line)}")
+            continue
     rtn = proc.wait()
     print("\n\n\n")
     print_env()
