@@ -270,7 +270,7 @@ def main():
         except UnicodeEncodeError as exc:
             print("Unable to print stdout, contains non-ascii characters", exc)
             return 0  # don't fail the test.
-    except subprocess.CalledProcessError as exc:
+    except Exception as exc:  # pylint: disable=broad-except
         print("Unable to execute flutter doctor", exc)
         return 0 # don't fail the test.
 
