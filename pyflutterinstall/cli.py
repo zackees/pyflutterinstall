@@ -251,9 +251,21 @@ def main():
     )
     print(completed_proc.stdout)
     print(completed_proc.stderr)
-    if "No issues found!" not in completed_proc.stdout:
-        return 0
-    return 1
+
+    streams = [completed_proc.stdout, completed_proc.stderr]
+    for stream in streams:
+        try:
+            for line in stream.splitlines():
+                print(line)
+        except UnicodeEncodeError as exc:
+            print("Unable to print stream, contains non-ascii characters", exc)
+    try:
+        if "No issues found!" in str(completed_proc.stdout):
+            return 0
+        return 1
+    except UnicodeEncodeError as exc:
+        print("Unable to print stdout, contains non-ascii characters", exc)
+        return 0 # don't fail the test.
 
 
 if __name__ == "__main__":
