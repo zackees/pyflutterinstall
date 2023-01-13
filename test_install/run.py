@@ -35,6 +35,9 @@ def main() -> int:
     rtn = proc.wait()
     print("\n\n\n")
     print_env()
+    if rtn != 0:
+        print(f"pyflutterinstall failed with return code {rtn}")
+        raise RuntimeError("pyflutterinstall failed")
     return rtn
 
 
