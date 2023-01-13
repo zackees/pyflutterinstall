@@ -138,11 +138,14 @@ def install_android_sdk() -> None:
     print(
         f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {INSTALL_DIR}"
     )
+    # sdk\Android\tools\bin\sdkmanager.bat
     path = download(ANDROID_SDK_URL, DOWNLOAD_DIR / os.path.basename(ANDROID_SDK_URL))
     print(f"Unpacking {path} to {INSTALL_DIR}")
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
     cmd_tools_path = ANDROID_SDK / "cmdline-tools" / "tools" / "cmdline-tools" / "bin"
-    sdkmanager_path = cmd_tools_path / "sdkmanager.bat"
+    sdkmanager_path = ANDROID_SDK / "cmdline-tools" / "latest" / "sdkmanager.bat"
+    add_system_path(sdkmanager_path.parent)
+    # sdkmanager_path = cmd_tools_path / "sdkmanager.bat"
     print("About to install Android SDK tools")
     # install latest
     execute(
