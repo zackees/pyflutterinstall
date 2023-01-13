@@ -24,6 +24,8 @@ def print_env() -> None:
 
 def main() -> int:
     """Runs the installation routine."""
+    os.makedirs("install_dir", exist_ok=True)
+    os.chdir("install_dir")
     print_env()
     print("\nstarting pyflutterinstall...")
     env = os.environ.copy()
