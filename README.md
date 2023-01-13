@@ -14,7 +14,7 @@ Usage
 
 This is still beta software. Despite tests passing, only windows is supported.
 
-Build info is located [here](pyflutterinstall/resources.py)
+Build info is located at [pyflutterinstall/pyflutterinstall/resources.py ](pyflutterinstall/resources.py)
 
 # Releases
 
