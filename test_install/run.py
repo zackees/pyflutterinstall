@@ -1,9 +1,14 @@
+"""
+Runs an installation routine.
+"""
+
 import os
 import sys
 import subprocess
 
 
 def print_env() -> None:
+    """Prints the environment variables."""
     env = os.environ.copy()
     print("env:")
     for key in env:
@@ -15,29 +20,32 @@ def print_env() -> None:
     for path in paths:
         print(f"  {path}")
 
-import chardet
 
 def main() -> int:
+    """Runs the installation routine."""
     print_env()
     print("\nstarting pyflutterinstall...")
     env = os.environ.copy()
-    env['OutputEncoding'] = 'utf8'
-    proc = subprocess.Popen(
+    env["OutputEncoding"] = "utf8"
+    proc = subprocess.Popen(  # pylint: disable=consider-using-with
         "pyflutterinstall --skip-confirmation --skip-chrome",
         shell=True,
         env=env,
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True
+    )
+    stdout = proc.stdout
+    assert stdout is not None
+    stderr = proc.stderr
+    assert stderr is not None
     print("STDOUT:")
-    for line in proc.stdout:
+    for line in stdout.readline():
         # Have to use print() in order to get the output to the console in order.
-        enc = chardet.detect(line)
-        line = line.decode(enc, errors='replace')
         print(line, end="")
     print("STDERR:")
-    for line in proc.stderr:
+    for line in stderr.readline():
         # Have to use print() in order to get the output to the console in order.
-        enc = chardet.detect(line)
-        line = line.decode(enc, errors='replace')
         print(line, end="")
     rtn = proc.wait()
     print("\n\n\n")
