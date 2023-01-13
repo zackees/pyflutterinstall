@@ -231,7 +231,7 @@ def main():
         print("This script is only for Windows")
         sys.exit(1)
     global SKIP_CONFIRMATION  # pylint: disable=global-statement
-    SKIP_CONFIRMATION = args.skip_confirmation
+    SKIP_CONFIRMATION = args.skip_confirmation or input("skip confirmation ? (y/n)").lower() == "y"
     print("\nInstalling Flutter SDK and dependencies\n")
     make_dirs()
     if not args.skip_java:
