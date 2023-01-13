@@ -4,10 +4,11 @@ import sys
 
 def print_env() -> None:
     env = os.environ.copy()
+    print("env:")
     for key in env:
         if key.lower() == "path":
             continue
-        print(f"{key}={env[key]}")
+        print(f"  {key}={env[key]}")
     paths = env["PATH"].split(os.pathsep)
     print("paths:")
     for path in paths:

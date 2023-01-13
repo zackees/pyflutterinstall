@@ -2,7 +2,7 @@
 Allows setting environment variables and the path.
 """
 
-# pylint: disable=missing-function-docstring,import-outside-toplevel,invalid-name,unused-argument,protected-access
+# pylint: disable=missing-function-docstring,import-outside-toplevel,invalid-name,unused-argument,protected-access,c-extension-no-member
 
 import sys
 import os
