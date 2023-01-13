@@ -23,7 +23,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: check prerun
-    - run: python test_install/prerun.py
+      run: python test_install/prerun.py
     - name: Set utf-8 Encoding
       run: |
         setx PYTHONIOENCODING "utf-8" && setx PYTHONLEGACYWINDOWSSTDIO "utf-8"
