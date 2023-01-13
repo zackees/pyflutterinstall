@@ -265,15 +265,7 @@ def main():
                 print(line)
         except UnicodeEncodeError as exc:
             print("Unable to print stream, contains non-ascii characters", exc)
-    try:
-        if "No issues found!" in str(completed_proc.stdout):
-            return 0
-        return 0 # don't fail the test.
-    except UnicodeEncodeError as exc:
-        print("Unable to print stdout, contains non-ascii characters", exc)
-        return 0  # don't fail the test.
-
-
+    return 0
 
 if __name__ == "__main__":
     sys.exit(main())
