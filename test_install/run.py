@@ -5,6 +5,7 @@ Runs an installation routine.
 import os
 import sys
 import subprocess
+from ftfy import fix_text
 
 
 def print_env() -> None:
@@ -40,14 +41,14 @@ def main() -> int:
     assert stdout is not None
     stderr = proc.stderr
     assert stderr is not None
-    
+
     stdout_iter = iter(stdout.readline, "")
     stderr_iter = iter(stderr.readline, "")
     print("STDOUT:")
     while True:
         try:
             line = next(stdout_iter)
-            line = f"{str(line)}"
+            line = fix_text(line)
             print(line, end="")
         except StopIteration:
             break
@@ -58,7 +59,7 @@ def main() -> int:
     while True:
         try:
             line = next(stderr_iter)
-            line = f"{str(line)}"
+            line = fix_text(line)
             print(line, end="")
         except StopIteration:
             break
