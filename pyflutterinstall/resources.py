@@ -11,10 +11,10 @@ ANDROID_SDK_URL = (
 CHROME_URL = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
 
 CMDLINE_TOOLS = [
-    "system-images;android-28;default;x86_64",
+    "system-images;android-30;default;x86_64",
     "cmdline-tools;latest",
     "platform-tools",
-    "build-tools;28.0.3",
+    "build-tools;33.0.1",
     "platforms;android-30",
     "emulator",
     "tools",
