@@ -83,7 +83,7 @@ setup(
 
     entry_points={
         "console_scripts": [
-            "pyflutterinstall = pyflutterinstall.run:main",
+            "pyflutterinstall = pyflutterinstall.cli:main",
         ],
     },
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
