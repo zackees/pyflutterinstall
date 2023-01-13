@@ -11,7 +11,7 @@ class PyflutterinstallTester(unittest.TestCase):
 
     def test_platform_executable(self) -> None:
         """Tests the platform executable"""
-        rtn = os.system("python -m pyflutterinstall.cli --help")
+        rtn = os.system("pyflutterinstall --help")
         self.assertEqual(rtn, 0)
 
 
