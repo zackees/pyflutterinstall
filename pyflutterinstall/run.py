@@ -200,7 +200,7 @@ def main():
         install_chrome()
     print("\nDone installing Flutter SDK and dependencies\n")
     cp: subprocess.CompletedProcess = subprocess.run(  # pylint: disable=invalid-name,subprocess-run-check
-        "flutter doctor", shell=True, text=True, capture_output=True
+        "flutter doctor -v", shell=True, text=True, capture_output=True
     )
     print(cp.stdout)
     print(cp.stderr)
@@ -210,4 +210,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
