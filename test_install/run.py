@@ -29,12 +29,12 @@ def main() -> int:
     print("STDOUT:")
     for line in proc.stdout:
         # Have to use print() in order to get the output to the console in order.
-        line = line.decode('utf8', errors='replace')
+        line = line.decode('utf-8', errors='replace')
         print(line, end="")
     print("STDERR:")
     for line in proc.stderr:
         # Have to use print() in order to get the output to the console in order.
-        line = line.decode('utf8', errors='replace')
+        line = line.decode('utf-8', errors='replace')
         print(line, end="")
     rtn = proc.wait()
     print("\n\n\n")
