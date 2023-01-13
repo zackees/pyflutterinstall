@@ -40,11 +40,12 @@ def main() -> int:
     stderr = proc.stderr
     assert stderr is not None
     print("STDOUT:")
-    for line in stdout.readline():
+    
+    for line in iter(proc.stdout.readline, ''):
         # Have to use print() in order to get the output to the console in order.
         print(line, end="")
     print("STDERR:")
-    for line in stderr.readline():
+    for line in iter(proc.stderr.readline, ''):
         # Have to use print() in order to get the output to the console in order.
         print(line, end="")
     rtn = proc.wait()
