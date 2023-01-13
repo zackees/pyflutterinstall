@@ -149,6 +149,7 @@ def install_android_sdk() -> None:
     execute(
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --update',
         send_confirmation="y\n",
+        ignore_errors=True,
     )
     tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
     for tool in tools_to_install:
