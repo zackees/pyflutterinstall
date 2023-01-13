@@ -24,7 +24,6 @@ import sys
 from pathlib import Path
 import shutil
 import subprocess
-import traceback
 from download import download  # type: ignore
 
 from pyflutterinstall.resources import (
@@ -64,8 +63,10 @@ def make_dirs() -> None:
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def execute(command, cwd=None, send_confirmation=None) -> None:
+def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> int:
+    print("####################################")
     print(f"Executing\n  {command}")
+    print("####################################")
     if cwd:
         print(f"  CWD={cwd}")
     if not SKIP_CONFIRMATION or not send_confirmation:
@@ -80,7 +81,8 @@ def execute(command, cwd=None, send_confirmation=None) -> None:
             text=True,
         )
         rtn = proc.wait()
-        assert rtn == 0, f"Command {command} failed with return code {rtn}"
+        if not ignore_errors:
+            RuntimeError(f"Command {command} failed with return code {rtn}")
         return rtn
     print(f"  Sending confirmation: {send_confirmation}")
     proc = subprocess.Popen(
@@ -96,14 +98,19 @@ def execute(command, cwd=None, send_confirmation=None) -> None:
     )
     proc.communicate(input=send_confirmation)
     rtn = proc.returncode
-    if rtn != 0:
-
-        traceback.print_exc()
+    if rtn != 0 and not ignore_errors:
         RuntimeError(f"Command {command} failed with return code {rtn}")
+    return rtn
+
+
+def make_title(title: str) -> None:
+    print("\n\n###########################################")
+    print(f"################# {title} #################")
+    print("###########################################\n\n")
 
 
 def install_java_sdk() -> None:
-    print("\n################# Installing Java SDK #################")
+    make_title("Installing Java SDK")
     print(f"Install Java SDK from {JAVA_SDK_URL} to {INSTALL_DIR}")
     java_sdk_zip_file = Path(
         download(JAVA_SDK_URL, DOWNLOAD_DIR / os.path.basename(JAVA_SDK_URL))
@@ -119,7 +126,7 @@ def install_java_sdk() -> None:
 
 
 def install_android_sdk() -> None:
-    print("\n################# Installing Android SDK #################")
+    make_title("Installing Android SDK")
     print(
         f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {INSTALL_DIR}"
     )
@@ -155,7 +162,7 @@ def install_android_sdk() -> None:
 
 
 def install_flutter() -> None:
-    print("\n################# Installing Flutter #################")
+    make_title("Installing Flutter")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
         execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"')
@@ -220,15 +227,13 @@ def main():
     if not args.skip_chrome:
         install_chrome()
     print("\nDone installing Flutter SDK and dependencies\n")
-    completed_proc: subprocess.CompletedProcess = (  # type: ignore
-        subprocess.run(
-            "flutter doctor -v",
-            shell=True,
-            text=True,
-            capture_output=True,
-            universal_newlines=True,
-            encoding="utf-8",
-        )
+    completed_proc: subprocess.CompletedProcess = subprocess.run(  # type: ignore
+        "flutter doctor -v",
+        shell=True,
+        text=True,
+        capture_output=True,
+        universal_newlines=True,
+        encoding="utf-8",
     )
     print(completed_proc.stdout)
     print(completed_proc.stderr)
