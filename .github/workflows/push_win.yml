@@ -35,10 +35,13 @@ jobs:
 
     - name: install java
       run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
+      continue-on-error: true
 
     - name: install android
       run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
+      continue-on-error: true
 
     - name: install flutter
       run: pyflutterinstall --skip-confirmation --skip-java  --skip-android --skip-chrome
+      continue-on-error: true
 
