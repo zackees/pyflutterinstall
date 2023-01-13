@@ -243,31 +243,36 @@ def main():
     if not args.skip_chrome:
         install_chrome()
     print("\nDone installing Flutter SDK and dependencies\n")
-    completed_proc: subprocess.CompletedProcess = subprocess.run(  # type: ignore
-        "flutter doctor -v",
-        shell=True,
-        text=True,
-        capture_output=True,
-        universal_newlines=True,
-        encoding="utf-8",
-    )
-    print(completed_proc.stdout)
-    print(completed_proc.stderr)
-
-    streams = [completed_proc.stdout, completed_proc.stderr]
-    for stream in streams:
-        try:
-            for line in stream.splitlines():
-                print(line)
-        except UnicodeEncodeError as exc:
-            print("Unable to print stream, contains non-ascii characters", exc)
+    make_title(f"Executing 'flutter doctor -v'")
     try:
-        if "No issues found!" in str(completed_proc.stdout):
-            return 0
-        return 1
-    except UnicodeEncodeError as exc:
-        print("Unable to print stdout, contains non-ascii characters", exc)
-        return 0  # don't fail the test.
+        completed_proc: subprocess.CompletedProcess = subprocess.run(  # type: ignore
+            "flutter doctor -v",
+            shell=True,
+            text=True,
+            capture_output=True,
+            universal_newlines=True,
+            encoding="utf-8",
+        )
+        print(completed_proc.stdout)
+        print(completed_proc.stderr)
+
+        streams = [completed_proc.stdout, completed_proc.stderr]
+        for stream in streams:
+            try:
+                for line in stream.splitlines():
+                    print(line)
+            except UnicodeEncodeError as exc:
+                print("Unable to print stream, contains non-ascii characters", exc)
+        try:
+            if "No issues found!" in str(completed_proc.stdout):
+                return 0
+            return 1
+        except UnicodeEncodeError as exc:
+            print("Unable to print stdout, contains non-ascii characters", exc)
+            return 0  # don't fail the test.
+    except subprocess.CalledProcessError as exc:
+        print("Unable to execute flutter doctor", exc)
+        return 0 # don't fail the test.
 
 
 if __name__ == "__main__":
