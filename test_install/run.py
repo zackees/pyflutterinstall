@@ -38,6 +38,8 @@ def main() -> int:
         stderr=subprocess.PIPE,
         universal_newlines=True,
         encoding="utf-8",
+        # large 1 MB buffer size to avoid blocking
+        bufsize=1024 * 1024,
     )
     stdout = proc.stdout
     assert stdout is not None
