@@ -62,13 +62,13 @@ def make_dirs() -> None:
     INSTALL_DIR.mkdir(parents=True, exist_ok=True)
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
     env = os.environ
-    env[ANDROID_SDK] = str(ANDROID_SDK)
-    env[JAVA_DIR] = str(JAVA_DIR)
+    env[str(ANDROID_SDK)] = str(ANDROID_SDK)
+    env[str(JAVA_DIR)] = str(JAVA_DIR)
     # add to path
     # ${FLUTTER_TARGET}/bin
     # add to path
-    env["PATH"] = f"{FLUTTER_TARGET}/bin{os.pathsep()}{env['PATH']}"
-    env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep()}{env['PATH']}"
+    env["PATH"] = f"{FLUTTER_TARGET}/bin{os.pathsep}{env['PATH']}"
+    env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
 
 
 def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> int:
@@ -188,7 +188,9 @@ def install_flutter() -> None:
         send_confirmation="y\n",
         ignore_errors=True,
     )
-    execute("flutter doctor --android-licenses", send_confirmation="y\n", ignore_errors=True)
+    execute(
+        "flutter doctor --android-licenses", send_confirmation="y\n", ignore_errors=True
+    )
     print("Flutter installed.\n")
 
 
@@ -265,7 +267,7 @@ def main():
         return 1
     except UnicodeEncodeError as exc:
         print("Unable to print stdout, contains non-ascii characters", exc)
-        return 0 # don't fail the test.
+        return 0  # don't fail the test.
 
 
 if __name__ == "__main__":
