@@ -61,6 +61,14 @@ def make_dirs() -> None:
 
     INSTALL_DIR.mkdir(parents=True, exist_ok=True)
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    env = os.environ
+    env[ANDROID_SDK] = ANDROID_SDK
+    env[JAVA_DIR] = JAVA_DIR
+    # add to path
+    # ${FLUTTER_TARGET}/bin
+    # add to path
+    env["PATH"] = f"{FLUTTER_TARGET}/bin{os.pathsep()}{env['PATH']}"
+    env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep()}{env['PATH']}"
 
 
 def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> int:
