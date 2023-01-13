@@ -67,10 +67,14 @@ def execute(command, cwd=None, send_confirmation=None) -> int:
     if cwd:
         print(f"  CWD={cwd}")
     if not SKIP_CONFIRMATION or not send_confirmation:
-        return subprocess.check_call(command, cwd=cwd, shell=True)
+        # return subprocess.check_call(command, cwd=cwd, shell=True, universal_newlines=True)
+        proc = subprocess.Popen(command, cwd=cwd, shell=True, universal_newlines=True, encoding="utf-8")
+        rtn = proc.wait()
+        assert rtn == 0, f"Command {command} failed with return code {rtn}"
+        return rtn
     print(f"  Sending confirmation: {send_confirmation}")
     proc = subprocess.Popen(
-        command, cwd=cwd, shell=True, stdin=subprocess.PIPE, universal_newlines=True
+        command, cwd=cwd, shell=True, stdin=subprocess.PIPE, universal_newlines=True, encoding="utf-8"
     )
     proc.communicate(input=send_confirmation)
     rtn = proc.returncode
