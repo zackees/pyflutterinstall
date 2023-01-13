@@ -255,9 +255,6 @@ def main():
         universal_newlines=True,
         encoding="utf-8",
     )
-    print(completed_proc.stdout)
-    print(completed_proc.stderr)
-
     streams = [completed_proc.stdout, completed_proc.stderr]
     for stream in streams:
         try:
