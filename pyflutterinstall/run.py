@@ -49,6 +49,7 @@ DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
 ANDROID_SDK = INSTALL_DIR / "Android"
 FLUTTER_TARGET = ANDROID_SDK / "flutter"
 JAVA_DIR = ANDROID_SDK / "java"
+SKIP_CONFIRMATION = False
 
 
 def make_dirs() -> None:
@@ -61,19 +62,28 @@ def make_dirs() -> None:
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def execute(command, cwd=None):
+def execute(command, cwd=None, send_confirmation=None):
     print(f"Executing\n  {command}")
     if cwd:
         print(f"  CWD={cwd}")
-    subprocess.check_call(command, cwd=cwd, shell=True)
+    if not SKIP_CONFIRMATION or not send_confirmation:
+        return subprocess.check_call(command, cwd=cwd, shell=True)
+    else:
+        print(f"  Sending confirmation: {send_confirmation}")
+        proc = subprocess.Popen(
+            command, cwd=cwd, shell=True, stdin=subprocess.PIPE, universal_newlines=True
+        )
+        proc.communicate(input=send_confirmation)
+        rtn = proc.returncode
+        assert rtn == 0, f"Command {command} failed with return code {rtn}"
 
 
 def install_java_sdk() -> None:
+    print("\n################# Installing Java SDK #################")
     print(f"Install Java SDK from {JAVA_SDK_URL} to {INSTALL_DIR}")
     java_sdk_zip_file = Path(
         download(JAVA_SDK_URL, DOWNLOAD_DIR / os.path.basename(JAVA_SDK_URL))
     )
-
     print(f"Unpacking {java_sdk_zip_file} to {JAVA_DIR}")
     shutil.unpack_archive(java_sdk_zip_file, JAVA_DIR)
     base_java_dir = JAVA_DIR / os.listdir(JAVA_DIR)[0]
@@ -85,6 +95,7 @@ def install_java_sdk() -> None:
 
 
 def install_android_sdk() -> None:
+    print("\n################# Installing Android SDK #################")
     print(
         f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {INSTALL_DIR}"
     )
@@ -94,13 +105,13 @@ def install_android_sdk() -> None:
     cmd_tools_path = ANDROID_SDK / "cmdline-tools" / "tools" / "cmdline-tools" / "bin"
     sdkmanager_path = cmd_tools_path / "sdkmanager.bat"
     # install latest
-    execute(f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install "platform-tools"')
+    execute(f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install "platform-tools"', send_confirmation="y\n")
     add_system_path(cmd_tools_path)
     set_env_var("ANDROID_SDK_ROOT", ANDROID_SDK)
     set_env_var("ANDROID_HOME", ANDROID_SDK)
     # update tools
     print(f"Updating Android SDK with {sdkmanager_path}")
-    execute(f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --update')
+    execute(f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --update', send_confirmation="y\n")
     tools_to_install = [
         "system-images;android-28;default;x86_64",
         "cmdline-tools;latest",
@@ -111,14 +122,13 @@ def install_android_sdk() -> None:
         "tools",
     ]
     tools_to_install = [f'"{tool}"' for tool in tools_to_install]
-    tools_list_str = " ".join(tools_to_install)
-    # sdkmanager --install "cmdline-tools;latest"
-    execute(f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install {tools_list_str}')
-    execute(f'{sdkmanager_path} --licenses --sdk_root="{ANDROID_SDK}"')
+    for tool in tools_to_install:
+        execute(f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install {tool}', send_confirmation="y\n")
+    execute(f'{sdkmanager_path} --licenses --sdk_root="{ANDROID_SDK}"', send_confirmation="y\ny\ny\ny\ny\ny\n")
 
 
 def install_flutter() -> None:
-
+    print("\n################# Installing Flutter #################")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
         execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"')
@@ -126,12 +136,13 @@ def install_flutter() -> None:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
     # Add flutter to path
     add_system_path(FLUTTER_TARGET / "bin")
-    execute(f'flutter config --android-sdk "{ANDROID_SDK}"')
-    execute("flutter doctor --android-licenses")
+    execute(f'flutter config --android-sdk "{ANDROID_SDK}"', send_confirmation='y\n')
+    execute("flutter doctor --android-licenses", send_confirmation="y\n")
     print("Flutter installed.\n")
 
 
 def install_chrome() -> None:
+    print("\n################# Installing Chrome #################")
     # Install chrome for windows
     stdout = subprocess.check_output("flutter doctor", shell=True, text=True)
     if "Cannot find Chrome" in stdout:
@@ -140,22 +151,23 @@ def install_chrome() -> None:
         path = download(CHROME_URL, DOWNLOAD_DIR / os.path.basename(CHROME_URL))
         print(f"Downloaded chrome at {path}")
         # install it
-        execute(f'"{path}"')
+        os.system(f'"{path}"')
 
 
 def main():
-
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
+    parser.add_argument("--skip-confirmation", action="store_true", help="Skip confirmation", default=False)
     parser.add_argument("--skip-java", action="store_true", help="Skip Java SDK")
     parser.add_argument("--skip-android", action="store_true", help="Skip Android SDK")
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
     args = parser.parse_args()
-
-    # check for win32
+    # Check if windows comes after argparse to enable --help
     if sys.platform != "win32":
         print("This script is only for Windows")
         sys.exit(1)
+    global SKIP_CONFIRMATION
+    SKIP_CONFIRMATION = args.skip_confirmation
     print("\nInstalling Flutter SDK and dependencies\n")
     make_dirs()
     if not args.skip_java:
