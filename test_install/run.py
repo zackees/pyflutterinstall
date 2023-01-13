@@ -1,6 +1,6 @@
-
 import os
 import sys
+
 
 def print_env() -> None:
     env = os.environ.copy()
@@ -21,6 +21,7 @@ def main() -> int:
     print("\n\n\n")
     print_env()
     return rtn
+
 
 if __name__ == "__main__":
     sys.exit(main())
