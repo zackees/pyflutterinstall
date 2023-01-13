@@ -31,6 +31,7 @@ from pyflutterinstall.resources import (
     FLUTTER_GIT_DOWNLOAD,
     ANDROID_SDK_URL,
     CHROME_URL,
+    CMDLINE_TOOLS,
 )
 
 from pyflutterinstall.envset import add_system_path, set_env_var
@@ -68,13 +69,20 @@ def execute(command, cwd=None, send_confirmation=None) -> int:
         print(f"  CWD={cwd}")
     if not SKIP_CONFIRMATION or not send_confirmation:
         # return subprocess.check_call(command, cwd=cwd, shell=True, universal_newlines=True)
-        proc = subprocess.Popen(command, cwd=cwd, shell=True, universal_newlines=True, encoding="utf-8")
+        proc = subprocess.Popen(
+            command, cwd=cwd, shell=True, universal_newlines=True, encoding="utf-8"
+        )
         rtn = proc.wait()
         assert rtn == 0, f"Command {command} failed with return code {rtn}"
         return rtn
     print(f"  Sending confirmation: {send_confirmation}")
     proc = subprocess.Popen(
-        command, cwd=cwd, shell=True, stdin=subprocess.PIPE, universal_newlines=True, encoding="utf-8"
+        command,
+        cwd=cwd,
+        shell=True,
+        stdin=subprocess.PIPE,
+        universal_newlines=True,
+        encoding="utf-8",
     )
     proc.communicate(input=send_confirmation)
     rtn = proc.returncode
@@ -122,16 +130,7 @@ def install_android_sdk() -> None:
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --update',
         send_confirmation="y\n",
     )
-    tools_to_install = [
-        "system-images;android-28;default;x86_64",
-        "cmdline-tools;latest",
-        "platform-tools",
-        "build-tools;28.0.3",
-        "platforms;android-30",
-        "emulator",
-        "tools",
-    ]
-    tools_to_install = [f'"{tool}"' for tool in tools_to_install]
+    tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
     for tool in tools_to_install:
         execute(
             f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install {tool}',
@@ -203,12 +202,14 @@ def main():
     if not args.skip_chrome:
         install_chrome()
     print("\nDone installing Flutter SDK and dependencies\n")
-    cp: subprocess.CompletedProcess = subprocess.run(  # pylint: disable=invalid-name,subprocess-run-check
-        "flutter doctor -v", shell=True, text=True, capture_output=True
+    completed_proc: subprocess.CompletedProcess = (
+        subprocess.run(  # pylint: disable=invalid-name,subprocess-run-check
+            "flutter doctor -v", shell=True, text=True, capture_output=True
+        )
     )
-    print(cp.stdout)
-    print(cp.stderr)
-    if "No issues found!" not in cp.stdout:
+    print(completed_proc.stdout)
+    print(completed_proc.stderr)
+    if "No issues found!" not in completed_proc.stdout:
         return 0
     return 1
 

@@ -33,19 +33,19 @@ def main() -> int:
         env=env,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        universal_newlines=True
+        universal_newlines=True,
     )
     stdout = proc.stdout
     assert stdout is not None
     stderr = proc.stderr
     assert stderr is not None
     print("STDOUT:")
-    
-    for line in iter(proc.stdout.readline, ''):
+
+    for line in iter(stdout.readline, ""):
         # Have to use print() in order to get the output to the console in order.
         print(line, end="")
     print("STDERR:")
-    for line in iter(proc.stderr.readline, ''):
+    for line in iter(stderr.readline, ""):
         # Have to use print() in order to get the output to the console in order.
         print(line, end="")
     rtn = proc.wait()

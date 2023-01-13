@@ -9,3 +9,13 @@ ANDROID_SDK_URL = (
 )
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CHROME_URL = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
+
+CMDLINE_TOOLS = [
+    "system-images;android-28;default;x86_64",
+    "cmdline-tools;latest",
+    "platform-tools",
+    "build-tools;28.0.3",
+    "platforms;android-30",
+    "emulator",
+    "tools",
+]
