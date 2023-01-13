@@ -6,6 +6,12 @@
 
 Installs the dependencies for pyflutter.
 
+Usage
+```bash
+> pip install pyflutterinstall
+> pyflutterinstall
+```
+
 This is still beta software. Despite tests passing, only windows is supported.
 
 # Releases
