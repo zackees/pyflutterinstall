@@ -32,5 +32,13 @@ jobs:
         pip install -e '.[test]'
     - name: Run tests
       run: pytest tests
-    - name: Run Install Test
-      run: cd test_install && python run.py
+
+    - name: install java
+    - run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
+
+    - name: install android
+    - run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
+
+    - name: install flutter
+    - run: pyflutterinstall --skip-confirmation --skip-java  --skip-android --skip-chrome
+
