@@ -12,11 +12,11 @@ TOOLS = [
 
 
 def main() -> int:
-    """Checks that the environment is correct."""
+    """Checks the environment and other tools are correct before run is invoked."""
     print("Checking environment")
     errors = []
     for tool in TOOLS:
-        if which(tool) is None:
+        if which(tool):
             errors.append(f"  {tool} not installed")
     if errors:
         error_str = "\n".join(errors)
