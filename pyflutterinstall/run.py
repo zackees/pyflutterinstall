@@ -24,6 +24,7 @@ import sys
 from pathlib import Path
 import shutil
 import subprocess
+import traceback
 from download import download  # type: ignore
 
 from pyflutterinstall.resources import (
@@ -63,7 +64,7 @@ def make_dirs() -> None:
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def execute(command, cwd=None, send_confirmation=None) -> int:
+def execute(command, cwd=None, send_confirmation=None) -> None:
     print(f"Executing\n  {command}")
     if cwd:
         print(f"  CWD={cwd}")
@@ -95,8 +96,10 @@ def execute(command, cwd=None, send_confirmation=None) -> int:
     )
     proc.communicate(input=send_confirmation)
     rtn = proc.returncode
-    assert rtn == 0, f"Command {command} failed with return code {rtn}"
-    return rtn
+    if rtn != 0:
+
+        traceback.print_exc()
+        RuntimeError(f"Command {command} failed with return code {rtn}")
 
 
 def install_java_sdk() -> None:
