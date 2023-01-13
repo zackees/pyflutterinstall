@@ -34,6 +34,7 @@ def main() -> int:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True,
+        encoding="utf-8",
     )
     stdout = proc.stdout
     assert stdout is not None
