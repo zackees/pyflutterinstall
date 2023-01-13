@@ -139,6 +139,7 @@ def install_android_sdk() -> None:
     execute(
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install "platform-tools"',
         send_confirmation="y\n",
+        ignore_errors=True,
     )
     add_system_path(cmd_tools_path)
     set_env_var("ANDROID_SDK_ROOT", ANDROID_SDK)
