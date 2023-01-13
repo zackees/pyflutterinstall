@@ -204,7 +204,9 @@ def main():
     print("\nDone installing Flutter SDK and dependencies\n")
     completed_proc: subprocess.CompletedProcess = (
         subprocess.run(  # pylint: disable=invalid-name,subprocess-run-check
-            "flutter doctor -v", shell=True, text=True, capture_output=True
+            "flutter doctor -v", shell=True, text=True, capture_output=True,
+            universal_newlines=True,
+            encoding="utf-8",
         )
     )
     print(completed_proc.stdout)
