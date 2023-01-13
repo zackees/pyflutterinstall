@@ -170,7 +170,7 @@ def install_flutter() -> None:
     make_title("Installing Flutter")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
-        execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"')
+        execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"', ignore_errors=True)
     else:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
     # Add flutter to path
@@ -178,8 +178,9 @@ def install_flutter() -> None:
     execute(
         f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
         send_confirmation="y\n",
+        ignore_errors=True,
     )
-    execute("flutter doctor --android-licenses", send_confirmation="y\n")
+    execute("flutter doctor --android-licenses", send_confirmation="y\n", ignore_errors=True)
     print("Flutter installed.\n")
 
 
