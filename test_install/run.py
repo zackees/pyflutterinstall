@@ -25,15 +25,16 @@ def main() -> int:
         "pyflutterinstall --skip-confirmation --skip-chrome",
         shell=True,
         env=env,
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        encoding="utf-8")
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     print("STDOUT:")
     for line in proc.stdout:
         # Have to use print() in order to get the output to the console in order.
+        line = line.decode('utf8', errors='replace')
         print(line, end="")
     print("STDERR:")
     for line in proc.stderr:
         # Have to use print() in order to get the output to the console in order.
+        line = line.decode('utf8', errors='replace')
         print(line, end="")
     rtn = proc.wait()
     print("\n\n\n")
