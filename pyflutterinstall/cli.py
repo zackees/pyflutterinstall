@@ -135,6 +135,7 @@ def install_android_sdk() -> None:
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
     cmd_tools_path = ANDROID_SDK / "cmdline-tools" / "tools" / "cmdline-tools" / "bin"
     sdkmanager_path = cmd_tools_path / "sdkmanager.bat"
+    print("About to install Android SDK tools")
     # install latest
     execute(
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install "platform-tools"',
