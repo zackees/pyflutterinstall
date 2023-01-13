@@ -34,7 +34,7 @@ from pyflutterinstall.resources import (
     CMDLINE_TOOLS,
 )
 
-from pyflutterinstall.envset import add_system_path, set_env_var
+from pyflutterinstall.envset_win32 import add_system_path, set_env_var
 
 
 assert (
@@ -243,7 +243,7 @@ def main():
     if not args.skip_chrome:
         install_chrome()
     print("\nDone installing Flutter SDK and dependencies\n")
-    make_title(f"Executing 'flutter doctor -v'")
+    make_title("Executing 'flutter doctor -v'")
     if not shutil.which("flutter"):
         print("Flutter not found in path")
         sys.exit(0)
@@ -263,6 +263,7 @@ def main():
         except UnicodeEncodeError as exc:
             print("Unable to print stream, contains non-ascii characters", exc)
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
