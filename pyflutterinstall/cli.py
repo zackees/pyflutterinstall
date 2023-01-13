@@ -142,10 +142,8 @@ def install_android_sdk() -> None:
     path = download(ANDROID_SDK_URL, DOWNLOAD_DIR / os.path.basename(ANDROID_SDK_URL))
     print(f"Unpacking {path} to {INSTALL_DIR}")
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
-    cmd_tools_path = ANDROID_SDK / "cmdline-tools" / "tools" / "cmdline-tools" / "bin"
     sdkmanager_path = ANDROID_SDK / "cmdline-tools" / "latest" / "sdkmanager.bat"
     add_system_path(sdkmanager_path.parent)
-    # sdkmanager_path = cmd_tools_path / "sdkmanager.bat"
     print("About to install Android SDK tools")
     # install latest
     execute(
@@ -153,7 +151,6 @@ def install_android_sdk() -> None:
         send_confirmation="y\n",
         ignore_errors=True,
     )
-    add_system_path(cmd_tools_path)
     set_env_var("ANDROID_SDK_ROOT", ANDROID_SDK)
     set_env_var("ANDROID_HOME", ANDROID_SDK)
     # update tools
