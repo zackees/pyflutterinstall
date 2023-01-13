@@ -70,7 +70,8 @@ def execute(command, cwd=None, send_confirmation=None) -> int:
     if not SKIP_CONFIRMATION or not send_confirmation:
         # return subprocess.check_call(command, cwd=cwd, shell=True, universal_newlines=True)
         proc = subprocess.Popen(
-            command, cwd=cwd, shell=True, universal_newlines=True, encoding="utf-8"
+            command, cwd=cwd, shell=True, universal_newlines=True, encoding="utf-8",
+            text=True,
         )
         rtn = proc.wait()
         assert rtn == 0, f"Command {command} failed with return code {rtn}"
@@ -83,6 +84,7 @@ def execute(command, cwd=None, send_confirmation=None) -> int:
         stdin=subprocess.PIPE,
         universal_newlines=True,
         encoding="utf-8",
+        text=True,
     )
     proc.communicate(input=send_confirmation)
     rtn = proc.returncode
@@ -138,7 +140,7 @@ def install_android_sdk() -> None:
         )
     execute(
         f'{sdkmanager_path} --licenses --sdk_root="{ANDROID_SDK}"',
-        send_confirmation="y\ny\ny\ny\ny\ny\n",
+        send_confirmation="y\ny\ny\ny\ny\ny\ny\ny\ny\n",
     )
 
 
@@ -162,7 +164,7 @@ def install_flutter() -> None:
 def install_chrome() -> None:
     print("\n################# Installing Chrome #################")
     # Install chrome for windows
-    stdout = subprocess.check_output("flutter doctor", shell=True, text=True)
+    stdout = subprocess.check_output("flutter doctor", shell=True, text=True, encoding="utf-8", universal_newlines=True)
     if "Cannot find Chrome" in stdout:
         print("Chrome not found, installing")
         print(f"Install Chrome from {CHROME_URL} to {INSTALL_DIR}")
@@ -204,7 +206,10 @@ def main():
     print("\nDone installing Flutter SDK and dependencies\n")
     completed_proc: subprocess.CompletedProcess = (
         subprocess.run(  # pylint: disable=invalid-name,subprocess-run-check
-            "flutter doctor -v", shell=True, text=True, capture_output=True,
+            "flutter doctor -v",
+            shell=True,
+            text=True,
+            capture_output=True,
             universal_newlines=True,
             encoding="utf-8",
         )
