@@ -47,7 +47,7 @@ def main() -> int:
     while True:
         try:
             line = next(stdout_iter)
-            print(line, end="")
+            print(str(line), end="")
         except StopIteration:
             break
         except UnicodeDecodeError:
@@ -57,7 +57,7 @@ def main() -> int:
     while True:
         try:
             line = next(stderr_iter)
-            print(line, end="")
+            print(str(line), end="")
         except StopIteration:
             break
         except UnicodeDecodeError:
