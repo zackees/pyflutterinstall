@@ -62,8 +62,8 @@ def make_dirs() -> None:
     INSTALL_DIR.mkdir(parents=True, exist_ok=True)
     DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
     env = os.environ
-    env[ANDROID_SDK] = ANDROID_SDK
-    env[JAVA_DIR] = JAVA_DIR
+    env[ANDROID_SDK] = str(ANDROID_SDK)
+    env[JAVA_DIR] = str(JAVA_DIR)
     # add to path
     # ${FLUTTER_TARGET}/bin
     # add to path
