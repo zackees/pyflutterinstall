@@ -10,7 +10,7 @@ from shutil import which
 
 from colorama import just_fix_windows_console  # type: ignore
 
-from pyflutterinstall.mywin32 import get_env_var
+from pyflutterinstall.setenv_win32 import get_env_var
 
 
 def update_env(names: list[str]) -> None:

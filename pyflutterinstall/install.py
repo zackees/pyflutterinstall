@@ -28,7 +28,7 @@ from pyflutterinstall.util import (
     make_title,
 )
 
-from pyflutterinstall.envset_win32 import add_system_path, set_env_var
+from pyflutterinstall.setenv import add_env_path, set_env_var
 
 
 assert (
@@ -48,7 +48,7 @@ def install_java_sdk() -> None:
     print(base_java_dir)
     java_bin_dir = base_java_dir / "bin"
     print(java_bin_dir)
-    add_system_path(java_bin_dir)
+    add_env_path(java_bin_dir)
     set_env_var("JAVA_HOME", str(base_java_dir))
     print("Java SDK installed.\n")
 
@@ -101,7 +101,7 @@ def install_android_sdk() -> None:
         send_confirmation="y\ny\ny\ny\ny\ny\ny\nn\n",
         ignore_errors=True,
     )
-    add_system_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
+    add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
 
 
 def install_flutter() -> None:
@@ -112,7 +112,7 @@ def install_flutter() -> None:
     else:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
     # Add flutter to path
-    add_system_path(FLUTTER_TARGET / "bin")
+    add_env_path(FLUTTER_TARGET / "bin")
     execute(
         f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
         send_confirmation="y\n",
@@ -143,4 +143,6 @@ def install_chrome() -> None:
             # install it
             os.system(f'"{path}"')
     except subprocess.CalledProcessError as exc:
-        print(f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}")
+        print(
+            f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}"
+        )
