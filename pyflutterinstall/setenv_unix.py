@@ -16,6 +16,10 @@ def get_path_file() -> str:
     global TARGET_FILE  # pylint: disable=global-statement
     if TARGET_FILE is not None:
         return TARGET_FILE
+    # if github runner
+    if os.getenv("GITHUB_WORKFLOW"):
+        TARGET_FILE = "/etc/profile"
+        return TARGET_FILE
     # Return the first file that has export PATH
     for file in SOURCE_FILES:
         if os.path.isfile(file):
