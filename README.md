@@ -2,6 +2,8 @@
 
 [![Win_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml)
 
+[![Win_FullInstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win_fullinstall.yml)
+
 Installs all dependencies for pyflutter on Windows.
 
 Future platforms:
