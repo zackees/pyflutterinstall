@@ -13,7 +13,7 @@ import re
 
 
 _DEFAULT_PRINT = print
-_WINDOWS_PATH_PATTERN = re.compile(r"    PATH    (?P<type>.+)    (?P<value>.+)*")
+_REGISTERLY_VALUE_PATTERN = re.compile(r"    .+    (?P<type>.+)    (?P<value>.+)*")
 
 
 def _print(message):
@@ -42,7 +42,7 @@ def get_env_var(name: str) -> Optional[str]:
     )
     if completed_process.returncode == 0:
         stdout = _try_decode(completed_process.stdout)
-        match = _WINDOWS_PATH_PATTERN.search(stdout)
+        match = _REGISTERLY_VALUE_PATTERN.search(stdout)
         if match:
             current_path = match.group("value")
             if current_path:
@@ -59,3 +59,11 @@ def get_env_path() -> str:
     path = get_env_var("PATH")
     assert path is not None, "PATH was None, which was unexpected."
     return path
+
+
+def main():
+    print(get_env_var("ANDROID_HOME"))
+
+
+if __name__ == "__main__":
+    main()
