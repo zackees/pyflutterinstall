@@ -57,7 +57,7 @@ def main() -> int:
 
     if not which("flutter"):
         print("Flutter not found in path")
-        expected_dir = r"pyflutterinstall\FlutterSDK\Android\flutter\bin"
+        expected_dir = r"FlutterSDK\Android"
         dir_list = subprocess.run(  # pylint: disable=subprocess-run-check
             "dir /b /s", shell=True, capture_output=True, text=True
         )
