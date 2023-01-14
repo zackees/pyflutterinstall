@@ -127,17 +127,20 @@ def install_flutter() -> None:
 def install_chrome() -> None:
     print("\n################# Installing Chrome #################")
     # Install chrome for windows
-    stdout = subprocess.check_output(
-        "flutter doctor",
-        shell=True,
-        text=True,
-        encoding="utf-8",
-        universal_newlines=True,
-    )
-    if "Cannot find Chrome" in stdout:
-        print("Chrome not found, installing")
-        print(f"Install Chrome from {CHROME_URL} to {INSTALL_DIR}")
-        path = download(CHROME_URL, DOWNLOAD_DIR / os.path.basename(CHROME_URL))
-        print(f"Downloaded chrome at {path}")
-        # install it
-        os.system(f'"{path}"')
+    try:
+        stdout = subprocess.check_output(
+            "flutter doctor",
+            shell=True,
+            text=True,
+            encoding="utf-8",
+            universal_newlines=True,
+        )
+        if "Cannot find Chrome" in stdout:
+            print("Chrome not found, installing")
+            print(f"Install Chrome from {CHROME_URL} to {INSTALL_DIR}")
+            path = download(CHROME_URL, DOWNLOAD_DIR / os.path.basename(CHROME_URL))
+            print(f"Downloaded chrome at {path}")
+            # install it
+            os.system(f'"{path}"')
+    except subprocess.CalledProcessError as exc:
+        print(f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}")
