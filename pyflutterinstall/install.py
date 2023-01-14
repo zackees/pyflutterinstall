@@ -89,7 +89,7 @@ def install_android_sdk() -> None:
         execute(
             f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install {tool}',
             send_confirmation="y\n",
-            ignore_errors=True,
+            ignore_errors=False,
         )
     execute(
         f'{sdkmanager_path} --licenses --sdk_root="{ANDROID_SDK}"',
