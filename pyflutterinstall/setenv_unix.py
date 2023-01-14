@@ -10,15 +10,13 @@ from typing import Union
 SOURCE_FILES = ["~/.bash_profile", "~/.bashrc", "~/.bash_login", "~/.profile"]
 TARGET_FILE = None
 
+IS_GITHUB_RUNNER = os.getenv("GITHUB_WORKFLOW")
+
 
 def get_path_file() -> str:
     """Returns the file that has export PATH."""
     global TARGET_FILE  # pylint: disable=global-statement
     if TARGET_FILE is not None:
-        return TARGET_FILE
-    # if github runner
-    if os.getenv("GITHUB_WORKFLOW"):
-        TARGET_FILE = "/etc/profile"
         return TARGET_FILE
     # Return the first file that has export PATH
     for file in SOURCE_FILES:
@@ -35,6 +33,8 @@ def set_env_var(name: str, value: str) -> None:
     """Sets an environment variable."""
     os.environ[name] = value
     os.system(f"export {name}={value}")
+    if IS_GITHUB_RUNNER:
+        return
     bash_profile = get_path_file()
     with open(bash_profile, encoding="utf-8", mode="r") as file:
         lines = file.readlines()
@@ -59,6 +59,8 @@ def add_env_path(path: Union[str, Path]) -> None:
         paths.insert(0, path)
         os.environ["PATH"] = ":".join(paths)
     os.system(f"export PATH={os.environ['PATH']}")
+    if IS_GITHUB_RUNNER:
+        return
     bash_profile = get_path_file()
     with open(bash_profile, encoding="utf-8", mode="r") as file:
         lines = file.readlines()
