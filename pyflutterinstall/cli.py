@@ -213,6 +213,9 @@ def main():
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
     args = parser.parse_args()
+    any_skipped = any(
+        [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
+    )
     # Check if windows comes after argparse to enable --help
     if sys.platform != "win32":
         print("This script is only for Windows")
@@ -232,9 +235,10 @@ def main():
         ask_if_interactive(interactive, "flutter", install_flutter)
     if not args.skip_chrome:
         ask_if_interactive(interactive, "chrome", install_chrome)
-    print("\nDone installing Flutter SDK and dependencies\n")
     if not args.skip_flutter:
         postinstall_run_flutter_doctor()
+    if not any_skipped:
+        print("\nDone installing Flutter SDK and dependencies\n")
     return 0
 
 
