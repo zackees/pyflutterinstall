@@ -40,7 +40,8 @@ def add_system_path(new_path: Path):
     if str(new_path) in old_path:
         print(f"{new_path} already in PATH")
         return
-    set_env_var("PATH", f"{str(new_path)};{old_path}", verbose=False)
+    sep = os.path.pathsep
+    set_env_var("PATH", f"{str(new_path)}{sep}{old_path}", verbose=False)
 
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):

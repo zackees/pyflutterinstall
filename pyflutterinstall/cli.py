@@ -225,6 +225,8 @@ def main():
         postinstall_run_flutter_doctor()
     if not any_skipped:
         print("\nDone installing Flutter SDK and dependencies\n")
+    if sys.platform == "win32":
+        print("Please restart your terminal to apply the changes")
     return 0
 
 
