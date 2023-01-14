@@ -47,13 +47,15 @@ def make_dirs() -> None:
 
 def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> int:
     """Execute a command"""
+    interactive = not SKIP_CONFIRMATION or not send_confirmation
     print("####################################")
     print(f"Executing\n  {command}")
+    if not interactive:
+        print(f"Sending confirmation: {send_confirmation}")
     print("####################################")
     if cwd:
         print(f"  CWD={cwd}")
-    interactive = not SKIP_CONFIRMATION or not send_confirmation
-    print("****Interactive: ", interactive)
+
     if interactive:
         # return subprocess.check_call(command, cwd=cwd, shell=True, universal_newlines=True)
         proc = subprocess.Popen(
