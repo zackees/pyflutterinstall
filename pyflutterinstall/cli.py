@@ -24,7 +24,9 @@ import sys
 from pathlib import Path
 import shutil
 import subprocess
+from typing import Callable
 from download import download  # type: ignore
+
 
 from pyflutterinstall.resources import (
     JAVA_SDK_URL,
@@ -53,8 +55,6 @@ assert (
     shutil.which("git") is not None
 ), "Git is not installed, please install, add it to the path then continue."
 
-DELETE_PREVIOUS_INSTALL = True
-
 
 def install_java_sdk() -> None:
     make_title("Installing Java SDK")
@@ -82,7 +82,14 @@ def install_android_sdk() -> None:
     path = download(ANDROID_SDK_URL, DOWNLOAD_DIR / os.path.basename(ANDROID_SDK_URL))
     print(f"Unpacking {path} to {INSTALL_DIR}")
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
-    sdkmanager_path = ANDROID_SDK / "cmdline-tools" / "tools" / "cmdline-tools" / "bin" / "sdkmanager.bat"
+    sdkmanager_path = (
+        ANDROID_SDK
+        / "cmdline-tools"
+        / "tools"
+        / "cmdline-tools"
+        / "bin"
+        / "sdkmanager.bat"
+    )
     # add_system_path(sdkmanager_path.parent)
     if not os.path.exists(sdkmanager_path):
         raise FileNotFoundError(f"Could not find {sdkmanager_path}")
@@ -154,14 +161,16 @@ def install_chrome() -> None:
         # install it
         os.system(f'"{path}"')
 
-from typing import Callable
 
-def ask_if_interactive(is_interactive: bool, callback_name: str, callback: Callable) -> None:
+def ask_if_interactive(
+    is_interactive: bool, callback_name: str, callback: Callable
+) -> None:
     if is_interactive:
         if input(f"install {callback_name} (y/n)? ") == "y":
             callback()
     else:
         callback()
+
 
 def main():
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
@@ -180,7 +189,9 @@ def main():
     if sys.platform != "win32":
         print("This script is only for Windows")
         sys.exit(1)
-    skip_confirmation = args.skip_confirmation or input("skip confirmation? (y/n): ").lower() == "y"
+    skip_confirmation = (
+        args.skip_confirmation or input("skip confirmation? (y/n): ").lower() == "y"
+    )
     interactive = not skip_confirmation
     set_global_skip_confirmation(skip_confirmation)
     print("\nInstalling Flutter SDK and dependencies\n")
