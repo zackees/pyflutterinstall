@@ -4,6 +4,8 @@ Adds setenv for unix.
 
 
 import os
+from pathlib import Path
+from typing import Union
 
 SOURCE_FILES = ["~/.bash_profile", "~/.bashrc", "~/.bash_login", "~/.profile"]
 TARGET_FILE = None
@@ -44,9 +46,10 @@ def set_env_var(name: str, value: str) -> None:
             file.write(f"export {name}={value}\n")
 
 
-def add_env_path(path: str) -> None:
+def add_env_path(path: Union[str, Path]) -> None:
     """Adds a path to the PATH environment variable."""
     # export and add to os.environ
+    path = str(path)
     paths = os.environ["PATH"].split(":")
     if path not in paths:
         paths.insert(0, path)
