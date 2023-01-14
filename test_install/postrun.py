@@ -21,6 +21,9 @@ def update_env(names: list[str]) -> None:
             os.environ.update({name: value})
         else:
             print(f"Warning: {name} not found")
+            cmd = f"reg query HKCU\\Environment /v {name}"
+            print(f"Searching reg environment to it (dbg) with {cmd}")
+            os.system(f"reg query HKCU\\Environment /v {name}")
 
 
 def main() -> int:
