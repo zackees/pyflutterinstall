@@ -177,21 +177,27 @@ def postinstall_run_flutter_doctor() -> None:
     if not shutil.which("flutter"):
         print("Flutter not found in path")
         sys.exit(0)
-    completed_proc: subprocess.CompletedProcess = subprocess.run(  # type: ignore
+    proc = subprocess.Popen(
         "flutter doctor -v",
         shell=True,
         text=True,
-        capture_output=True,
+        stdout=subprocess.PIPE,
         universal_newlines=True,
         encoding="utf-8",
     )
-    streams = [completed_proc.stdout, completed_proc.stderr]
-    for stream in streams:
-        try:
-            for line in stream.splitlines():
-                print(line)
-        except UnicodeEncodeError as exc:
-            print("Unable to print stream, contains non-ascii characters", exc)
+    # Hack around bad chars being sent and raising an exception.
+    stdout = proc.stdout
+    assert stdout, "invalid stdout"
+    # make an interator
+    stdout_iter = iter(stdout.readline, "")
+    try:
+        for line in stdout_iter:
+            try:
+                print(line, end="")
+            except UnicodeEncodeError as uce:
+                print(f"Error: {uce}")
+    except Exception as err:  # pylint: disable=broad-except
+        print(f"Error: {err}")
 
 
 def main():
