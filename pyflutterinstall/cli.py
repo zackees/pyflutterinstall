@@ -26,6 +26,7 @@ import shutil
 import subprocess
 from typing import Callable
 from download import download  # type: ignore
+from colorama import just_fix_windows_console  # type: ignore
 
 
 from pyflutterinstall.resources import (
@@ -38,8 +39,7 @@ from pyflutterinstall.resources import (
     DOWNLOAD_DIR,
     ANDROID_SDK,
     FLUTTER_TARGET,
-    JAVA_DIR,
-    IS_GITHUB_RUNNER
+    JAVA_DIR
 )
 
 from pyflutterinstall.util import (
@@ -174,35 +174,16 @@ def ask_if_interactive(
 
 
 def postinstall_run_flutter_doctor() -> None:
-    cmd = "flutter doctor -v --no-color" if IS_GITHUB_RUNNER else "flutter doctor -v"
+    cmd = "flutter doctor -v"
     make_title(f"Executing '{cmd}'")
     if not shutil.which("flutter"):
         print("Flutter not found in path")
-        sys.exit(0)
-    proc = subprocess.Popen(
-        cmd,
-        shell=True,
-        text=True,
-        stdout=subprocess.PIPE,
-        universal_newlines=True,
-        encoding="utf-8",
-    )
-    # Hack around bad chars being sent and raising an exception.
-    stdout = proc.stdout
-    assert stdout, "invalid stdout"
-    # make an interator
-    stdout_iter = iter(stdout.readline, "")
-    try:
-        for line in stdout_iter:
-            try:
-                print(line, end="")
-            except UnicodeEncodeError as uce:
-                print(f"Error: {uce}")
-    except Exception as err:  # pylint: disable=broad-except
-        print(f"Error: {err}")
+        return
+    subprocess.call(cmd, shell=True, text=True, universal_newlines=True)
 
 
 def main():
+    just_fix_windows_console()  # Fixes color breakages
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
     parser.add_argument(
         "--skip-confirmation",
