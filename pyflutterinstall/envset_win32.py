@@ -24,7 +24,6 @@ def add_system_path(new_path: Path):
 
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
-    assert var_name.lower() != "path", "Use add_system_path instead"
     var_name = str(var_name)
     var_value = str(var_value)
     if verbose:
