@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 from typing import Union
 
-from pyflutterinstall.mywin32 import set_env_var_cmd
+from pyflutterinstall.mywin32 import set_env_var_cmd, get_env_path
 
 
 def set_env_powershell(var_name: str, var_value: str):
@@ -38,17 +38,35 @@ def broadcast_changes():
             print("result: %s, %s, from SendMessageTimeout" % (bool(res1), res2))
 
 
+def parse_paths(path_str: str) -> list[str]:
+    if sys.platform == "win32":
+        path_str = path_str.replace("/", "\\")
+    else:
+        path_str = path_str.replace("\\", "/")
+    paths = path_str.split(os.path.pathsep)
+
+    def strip_trailing_slash(path: str) -> str:
+        """Strips trailing slash."""
+        if path.endswith("\\") or path.endswith("/"):
+            return path[:-1]
+        return path
+
+    paths = [strip_trailing_slash(path) for path in paths]
+    return paths
+
+
 def add_system_path(new_path: Union[Path, str]):
     new_path = str(new_path)
     if sys.platform == "win32":
         new_path = new_path.replace("/", "\\")
     print(f"&&& Adding {new_path} to Windows PATH")
-    old_path = os.environ["PATH"]
-    if new_path in old_path:
+    prev_paths = parse_paths(get_env_path())
+    if new_path in prev_paths:
         print(f"{new_path} already in PATH")
         return
     sep = os.path.pathsep
-    set_env_var("PATH", f"{str(new_path)}{sep}{old_path}", verbose=False)
+    prev_path_str = sep.join(prev_paths)
+    set_env_var("PATH", f"{str(new_path)}{sep}{prev_path_str}", verbose=False)
 
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
