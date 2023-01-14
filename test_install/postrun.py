@@ -45,6 +45,15 @@ def main() -> int:
     for path in os.environ["PATH"].split(os.pathsep):
         print(f"  {path}")
 
+    needle = os.path.join('cmdline-tools', 'latest', 'bin')
+    found = False
+    for path in os.environ["PATH"].split(os.pathsep):
+        if needle in path:
+            found = True
+            break
+    if not found:
+        raise RuntimeError("Android tools not found in PATH")
+
     if not which("flutter"):
         raise RuntimeError("Flutter not installed, are the paths ok?")
     os.system("flutter doctor -v")

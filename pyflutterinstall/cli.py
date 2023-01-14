@@ -122,6 +122,7 @@ def install_android_sdk() -> None:
         send_confirmation="y\ny\ny\ny\ny\ny\ny\nn\n",
         ignore_errors=True,
     )
+    add_system_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
 
 
 def install_flutter() -> None:
