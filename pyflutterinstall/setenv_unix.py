@@ -27,6 +27,8 @@ def get_path_file() -> str:
 
 def set_env_var(name: str, value: str) -> None:
     """Sets an environment variable."""
+    os.environ[name] = value
+    os.system(f"export {name}={value}")
     bash_profile = get_path_file()
     with open(bash_profile, encoding="utf-8", mode="r") as file:
         lines = file.readlines()
@@ -44,6 +46,12 @@ def set_env_var(name: str, value: str) -> None:
 
 def add_env_path(path: str) -> None:
     """Adds a path to the PATH environment variable."""
+    # export and add to os.environ
+    paths = os.environ["PATH"].split(":")
+    if path not in paths:
+        paths.insert(0, path)
+        os.environ["PATH"] = ":".join(paths)
+    os.system(f"export PATH={os.environ['PATH']}")
     bash_profile = get_path_file()
     with open(bash_profile, encoding="utf-8", mode="r") as file:
         lines = file.readlines()

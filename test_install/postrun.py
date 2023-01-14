@@ -56,8 +56,10 @@ def main() -> int:
 
     if not which("flutter"):
         print("Flutter not found in path")
-        print("paths in Android/flutter/bin is",
-            os.listdir(r"D:\a\pyflutterinstall\pyflutterinstall\FlutterSDK\Android\flutter\bin"))
+        expected_dir = (
+            r"D:\a\pyflutterinstall\pyflutterinstall\FlutterSDK\Android\flutter\bin"
+        )
+        print("paths in Android/flutter/bin is", os.listdir(expected_dir))
         raise RuntimeError("Flutter not installed, are the paths ok?")
     os.system("flutter doctor -v")
     return 0
