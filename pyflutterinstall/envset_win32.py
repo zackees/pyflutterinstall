@@ -2,8 +2,9 @@
 Allows setting environment variables and the path.
 """
 
-# pylint: disable=missing-function-docstring,import-outside-toplevel,invalid-name,unused-argument,protected-access,c-extension-no-member
+# pylint: disable=missing-function-docstring,import-outside-toplevel,invalid-name,unused-argument,protected-access,c-extension-no-member,consider-using-f-string
 
+import sys
 import os
 from pathlib import Path
 from typing import Union
@@ -12,6 +13,25 @@ from typing import Union
 def gen_powershell_script_set_env(var_name: str, var_value: str):
     cmd = f"""[Environment]::SetEnvironmentVariable('{var_name}', '{var_value}','User');"""
     return cmd
+
+
+def broadcast_changes():
+    print("Broadcasting changes")
+    os.system("refreshenv")
+    if sys.platform == "win32":
+        # os.system("setx /M PATH %PATH%")
+        import win32gui  # type: ignore
+
+        HWND_BROADCAST = 0xFFFF
+        WM_SETTINGCHANGE = 0x001A
+        SMTO_ABORTIFHUNG = 0x0002
+        sParam = "Environment"
+
+        res1, res2 = win32gui.SendMessageTimeout(
+            HWND_BROADCAST, WM_SETTINGCHANGE, 0, sParam, SMTO_ABORTIFHUNG, 10000
+        )
+        if not res1:
+            print("result: %s, %s, from SendMessageTimeout" % (bool(res1), res2))
 
 
 def add_system_path(new_path: Path):

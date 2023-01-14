@@ -40,13 +40,13 @@ jobs:
       run: pytest tests
 
     - name: install java
-      run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
+      run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome && test_install/refreshwin.cmd
 
     - name: install android
-      run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
+      run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome && test_install/refreshwin.cmd
 
     - name: install flutter
-      run: pyflutterinstall --skip-confirmation --skip-java  --skip-android --skip-chrome
+      run: pyflutterinstall --skip-confirmation --skip-java  --skip-android --skip-chrome && test_install/refreshwin.cmd
 
     - name: post install check
       run: python test_install/postrun.py
