@@ -6,7 +6,7 @@ Resources for pyflutterinstall
 
 import sys
 
-FLUTTER_GIT_DOWNLOAD = "git clone https://github.com/flutter/flutter.git -b stable"
+FLUTTER_GIT_DOWNLOAD = "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CMDLINE_TOOLS = [
     "system-images;android-30;default;x86_64",
