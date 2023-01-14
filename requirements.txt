@@ -1,4 +1,2 @@
 download
-windows-path-adder;platform_system=="Windows"
-pywin32;platform_system=="Windows"
 colorama
