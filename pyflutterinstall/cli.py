@@ -32,6 +32,18 @@ from pyflutterinstall.resources import (
     ANDROID_SDK_URL,
     CHROME_URL,
     CMDLINE_TOOLS,
+    INSTALL_DIR,
+    DOWNLOAD_DIR,
+    ANDROID_SDK,
+    FLUTTER_TARGET,
+    JAVA_DIR,
+)
+
+from pyflutterinstall.util import (
+    execute,
+    make_title,
+    make_dirs,
+    set_global_skip_confirmation,
 )
 
 from pyflutterinstall.envset_win32 import add_system_path, set_env_var
@@ -42,79 +54,6 @@ assert (
 ), "Git is not installed, please install, add it to the path then continue."
 
 DELETE_PREVIOUS_INSTALL = True
-
-PROJECT_ROOT = Path(os.getcwd())
-INSTALL_DIR = PROJECT_ROOT / "sdk"
-DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
-
-ANDROID_SDK = INSTALL_DIR / "Android"
-FLUTTER_TARGET = ANDROID_SDK / "flutter"
-JAVA_DIR = ANDROID_SDK / "java"
-SKIP_CONFIRMATION = False
-
-
-def make_dirs() -> None:
-    os.makedirs(INSTALL_DIR, exist_ok=True)
-    os.makedirs(DOWNLOAD_DIR, exist_ok=True)
-    os.makedirs(ANDROID_SDK, exist_ok=True)
-    os.makedirs(JAVA_DIR, exist_ok=True)
-
-    INSTALL_DIR.mkdir(parents=True, exist_ok=True)
-    DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
-    env = os.environ
-    env[str(ANDROID_SDK)] = str(ANDROID_SDK)
-    env[str(JAVA_DIR)] = str(JAVA_DIR)
-    # add to path
-    # ${FLUTTER_TARGET}/bin
-    # add to path
-    env["PATH"] = f"{FLUTTER_TARGET}/bin{os.pathsep}{env['PATH']}"
-    env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
-
-
-def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> int:
-    print("####################################")
-    print(f"Executing\n  {command}")
-    print("####################################")
-    if cwd:
-        print(f"  CWD={cwd}")
-    if not SKIP_CONFIRMATION or not send_confirmation:
-        # return subprocess.check_call(command, cwd=cwd, shell=True, universal_newlines=True)
-        proc = subprocess.Popen(
-            command,
-            cwd=cwd,
-            shell=True,
-            universal_newlines=True,
-            encoding="utf-8",
-            bufsize=1024 * 1024,
-            text=True,
-        )
-        rtn = proc.wait()
-        if not ignore_errors:
-            RuntimeError(f"Command {command} failed with return code {rtn}")
-        return rtn
-    print(f"  Sending confirmation: {send_confirmation}")
-    proc = subprocess.Popen(
-        command,
-        cwd=cwd,
-        shell=True,
-        stdin=subprocess.PIPE,
-        universal_newlines=True,
-        encoding="utf-8",
-        # 1MB buffer
-        bufsize=1024 * 1024,
-        text=True,
-    )
-    proc.communicate(input=send_confirmation)
-    rtn = proc.returncode
-    if rtn != 0 and not ignore_errors:
-        RuntimeError(f"Command {command} failed with return code {rtn}")
-    return rtn
-
-
-def make_title(title: str) -> None:
-    print("\n\n###########################################")
-    print(f"################# {title} #################")
-    print("###########################################\n\n")
 
 
 def install_java_sdk() -> None:
@@ -230,8 +169,9 @@ def main():
     if sys.platform != "win32":
         print("This script is only for Windows")
         sys.exit(1)
-    global SKIP_CONFIRMATION  # pylint: disable=global-statement
-    SKIP_CONFIRMATION = args.skip_confirmation or input("skip confirmation ? (y/n)").lower() == "y"
+    set_global_skip_confirmation(
+        args.skip_confirmation or input("skip confirmation ? (y/n)").lower() == "y"
+    )
     print("\nInstalling Flutter SDK and dependencies\n")
     make_dirs()
     if not args.skip_java:
