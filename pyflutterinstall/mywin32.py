@@ -56,7 +56,6 @@ def get_env_var(name: str) -> Optional[str]:
 
 
 def set_env_var_cmd(name: str, value: str) -> None:
-    print(f"Setting {name} to {value}")
     _command(
         [
             "reg",

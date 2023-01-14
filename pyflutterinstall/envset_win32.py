@@ -42,7 +42,7 @@ def add_system_path(new_path: Union[Path, str]):
     new_path = str(new_path)
     if sys.platform == "win32":
         new_path = new_path.replace("/", "\\")
-    print(f"Adding {new_path} to Windows PATH")
+    print(f"&&& Adding {new_path} to Windows PATH")
     old_path = os.environ["PATH"]
     if new_path in old_path:
         print(f"{new_path} already in PATH")
@@ -55,6 +55,6 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     var_name = str(var_name)
     var_value = str(var_value)
     if verbose:
-        print(f"Setting {var_name} to {var_value}")
+        print(f"$$$ Setting {var_name} to {var_value}")
     set_env_var_cmd(var_name, var_value)
     os.environ[var_name] = var_value
