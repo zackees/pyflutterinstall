@@ -41,10 +41,6 @@ from pyflutterinstall.install import (
     install_chrome,
 )
 
-assert (
-    shutil.which("git") is not None
-), "Git is not installed, please install, add it to the path then continue."
-
 
 def ask_if_interactive(
     is_interactive: bool, callback_name: str, callback: Callable
@@ -79,6 +75,9 @@ def main():
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
     args = parser.parse_args()
+    assert (
+        shutil.which("git") is not None
+    ), "Git is not installed, please install, add it to the path then continue."
     any_skipped = any(
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
     )

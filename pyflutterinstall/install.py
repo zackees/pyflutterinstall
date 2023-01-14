@@ -31,11 +31,6 @@ from pyflutterinstall.util import (
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
 
-assert (
-    shutil.which("git") is not None
-), "Git is not installed, please install, add it to the path then continue."
-
-
 def install_java_sdk() -> None:
     make_title("Installing Java SDK")
     print(f"Install Java SDK from {JAVA_SDK_URL} to {INSTALL_DIR}")
