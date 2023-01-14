@@ -7,12 +7,16 @@ Pre run script
 import os
 import sys
 from shutil import which
+import win32api
+
 from colorama import just_fix_windows_console  # type: ignore
 
 
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
     just_fix_windows_console()  # Fixes color breakages
+    current_path = win32api.GetEnvironmentVariable("PATH")
+    os.environ.update({"PATH": current_path})
     # Print out the current environment
     print("Environment:")
     for key, value in os.environ.items():
