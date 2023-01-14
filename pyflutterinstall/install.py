@@ -111,10 +111,10 @@ def install_flutter() -> None:
     execute(
         f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
         send_confirmation="y\n",
-        ignore_errors=True,
+        ignore_errors=False,
     )
     execute(
-        "flutter doctor --android-licenses", send_confirmation="y\n", ignore_errors=True
+        "flutter doctor --android-licenses", send_confirmation="y\n", ignore_errors=False
     )
     print("Flutter installed.\n")
 
