@@ -55,4 +55,5 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     cmd = gen_powershell_script_set_env(var_name, var_value)
     cmd = 'powershell.exe -Command "& {' + cmd + '}"'
     os.system(cmd)
+    os.system(f"setx {var_name} {var_value}")  # Experiment, does this fix the issue?
     os.environ[var_name] = var_value
