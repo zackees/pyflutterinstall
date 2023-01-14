@@ -6,9 +6,9 @@ Pre run script
 
 import os
 import sys
+from shutil import which
 from colorama import just_fix_windows_console  # type: ignore
 
-from shutil import which
 
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
@@ -23,7 +23,7 @@ def main() -> int:
     print("PATH:")
     for path in os.environ["PATH"].split(os.pathsep):
         print(f"  {path}")
-    
+
     if not which("flutter"):
         raise RuntimeError("Flutter not installed, are the paths ok?")
     os.system("flutter doctor -v")

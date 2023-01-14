@@ -4,36 +4,32 @@ Allows setting environment variables and the path.
 
 # pylint: disable=missing-function-docstring,import-outside-toplevel,invalid-name,unused-argument,protected-access,c-extension-no-member
 
-import sys
 import os
 from pathlib import Path
+from typing import Union
 
 
-def gen_powershell_script(path: Path):
-    old_path = os.environ["PATH"]
-    new_path = f"{str(path)};{old_path}"
-    cmd = f"""[Environment]::SetEnvironmentVariable('PATH', '{new_path}','User');"""
+def gen_powershell_script_set_env(var_name: str, var_value: str):
+    cmd = f"""[Environment]::SetEnvironmentVariable('{var_name}', '{var_value}','User');"""
     return cmd
 
 
 def add_system_path(new_path: Path):
-    if sys.platform == "win32":
-        print(f"Adding {new_path} to Windows PATH")
-        cmd = gen_powershell_script(new_path)
-        cmd = 'powershell.exe -Command "& {' + cmd + '}"'
-        os.system(cmd)
-        os.environ["PATH"] += os.pathsep + str(new_path)
-    else:
-        raise OSError(f"Unsupported platform: {sys.platform}")
+    print(f"Adding {new_path} to Windows PATH")
+    old_path = os.environ["PATH"]
+    if str(new_path) in old_path:
+        print(f"{new_path} already in PATH")
+        return
+    set_env_var("PATH", f"{str(new_path)};{old_path}", verbose=False)
 
 
-def set_env_var(var_name, var_value):
+def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     assert var_name.lower() != "path", "Use add_system_path instead"
     var_name = str(var_name)
     var_value = str(var_value)
-    print(f"Setting {var_name} to {var_value}")
-    if sys.platform == "win32":
-        os.system(f'setx {var_name} "{var_value}"')
-        os.environ[var_name] = var_value
-    else:
-        raise OSError(f"Unsupported platform: {sys.platform}")
+    if verbose:
+        print(f"Setting {var_name} to {var_value}")
+    cmd = gen_powershell_script_set_env(var_name, var_value)
+    cmd = 'powershell.exe -Command "& {' + cmd + '}"'
+    os.system(cmd)
+    os.environ[var_name] = var_value

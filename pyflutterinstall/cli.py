@@ -70,7 +70,7 @@ def install_java_sdk() -> None:
     java_bin_dir = base_java_dir / "bin"
     print(java_bin_dir)
     add_system_path(java_bin_dir)
-    set_env_var("JAVA_HOME", base_java_dir)
+    set_env_var("JAVA_HOME", str(base_java_dir))
     print("Java SDK installed.\n")
 
 
