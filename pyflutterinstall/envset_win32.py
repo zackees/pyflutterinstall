@@ -34,10 +34,13 @@ def broadcast_changes():
             print("result: %s, %s, from SendMessageTimeout" % (bool(res1), res2))
 
 
-def add_system_path(new_path: Path):
+def add_system_path(new_path: Union[Path, str]):
+    new_path = str(new_path)
+    if sys.platform == "win32":
+        new_path = new_path.replace("/", "\\")
     print(f"Adding {new_path} to Windows PATH")
     old_path = os.environ["PATH"]
-    if str(new_path) in old_path:
+    if new_path in old_path:
         print(f"{new_path} already in PATH")
         return
     sep = os.path.pathsep
