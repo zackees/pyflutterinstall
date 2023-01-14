@@ -55,6 +55,24 @@ def get_env_var(name: str) -> Optional[str]:
     return current_path
 
 
+def set_env_var_cmd(name: str, value: str) -> None:
+    print(f"Setting {name} to {value}")
+    _command(
+        [
+            "reg",
+            "add",
+            "HKCU\\Environment",
+            "/t",
+            "REG_SZ",
+            "/v",
+            name,
+            "/d",
+            value,
+            "/f",
+        ]
+    )
+
+
 def get_env_path() -> str:
     path = get_env_var("PATH")
     assert path is not None, "PATH was None, which was unexpected."
@@ -62,7 +80,9 @@ def get_env_path() -> str:
 
 
 def main():
-    print(get_env_var("ANDROID_HOME"))
+    set_env_var_cmd("FOO", "BAR")
+    print(get_env_var("FOO"))
+    # print(get_env_var("ANDROID_HOME"))
 
 
 if __name__ == "__main__":

@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 from typing import Union
 
+from pyflutterinstall.mywin32 import set_env_var_cmd
+
 
 def set_env_powershell(var_name: str, var_value: str):
     print(f"$$$ Generating a set env script for {var_name} to {var_value}")
@@ -54,5 +56,5 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     var_value = str(var_value)
     if verbose:
         print(f"Setting {var_name} to {var_value}")
-    set_env_powershell(var_name, var_value)
+    set_env_var_cmd(var_name, var_value)
     os.environ[var_name] = var_value
