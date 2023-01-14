@@ -51,7 +51,8 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
     print("####################################")
     print(f"Executing\n  {command}")
     if not interactive:
-        print(f"Sending confirmation: {send_confirmation}")
+        conf_str = send_confirmation.replace("\n", "\\n")
+        print(f"Sending confirmation: {conf_str}")
     print("####################################")
     if cwd:
         print(f"  CWD={cwd}")
@@ -71,7 +72,6 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
         if not ignore_errors:
             RuntimeError(f"Command {command} failed with return code {rtn}")
         return rtn
-    print(f"  Sending confirmation: {send_confirmation}")
     proc = subprocess.Popen(
         command,
         cwd=cwd,
