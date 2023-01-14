@@ -108,7 +108,7 @@ def install_flutter() -> None:
     make_title("Installing Flutter")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
-        execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"', ignore_errors=True)
+        execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"', ignore_errors=False)
     else:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
     # Add flutter to path
