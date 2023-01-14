@@ -2,6 +2,10 @@
 set -e
 # cd to self bash script directory
 cd $( dirname ${BASH_SOURCE[0]})
+
+echo Fixing code style with black
+black pyflutterinstall tests test_install
+
 echo Running flake8
 flake8 pyflutterinstall tests test_install
 echo Running pylint
