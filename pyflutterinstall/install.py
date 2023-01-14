@@ -114,7 +114,9 @@ def install_flutter() -> None:
         ignore_errors=False,
     )
     execute(
-        "flutter doctor --android-licenses", send_confirmation="y\n", ignore_errors=False
+        "flutter doctor --android-licenses",
+        send_confirmation="y\n",
+        ignore_errors=False,
     )
     print("Flutter installed.\n")
 
