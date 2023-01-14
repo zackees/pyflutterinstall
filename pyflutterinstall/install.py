@@ -73,7 +73,7 @@ def install_android_sdk() -> None:
     execute(
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install "platform-tools"',
         send_confirmation="y\n",
-        ignore_errors=True,
+        ignore_errors=False,
     )
     set_env_var("ANDROID_SDK_ROOT", ANDROID_SDK)
     set_env_var("ANDROID_HOME", ANDROID_SDK)
@@ -82,7 +82,7 @@ def install_android_sdk() -> None:
     execute(
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --update',
         send_confirmation="y\n",
-        ignore_errors=True,
+        ignore_errors=False,
     )
     tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
     for tool in tools_to_install:
