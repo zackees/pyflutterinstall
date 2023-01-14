@@ -57,12 +57,21 @@ def main() -> int:
 
     if not which("flutter"):
         print("Flutter not found in path")
-        expected_dir = (
-            r"pyflutterinstall\FlutterSDK\Android\flutter\bin"
+        expected_dir = r"pyflutterinstall\FlutterSDK\Android\flutter\bin"
+        dir_list = subprocess.run(  # pylint: disable=subprocess-run-check
+            "dir /b /s", shell=True, capture_output=True, text=True
         )
-        dir_list = subprocess.run("dir /b /s", shell=True, capture_output=True, text=True)
-        files = os.listdir(expected_dir) if os.path.exists(expected_dir) else "DOES NOT EXIST"
-        print("paths in Android/flutter/bin is", files, "\nThe dir list is", dir_list.stdout)
+        files = (
+            os.listdir(expected_dir)
+            if os.path.exists(expected_dir)
+            else "DOES NOT EXIST"
+        )
+        print(
+            "paths in Android/flutter/bin is",
+            files,
+            "\nThe dir list is",
+            dir_list.stdout,
+        )
         raise RuntimeError("Flutter not installed, are the paths ok?")
     os.system("flutter doctor -v")
     return 0
