@@ -52,7 +52,7 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
     print(f"Executing\n  {command}")
     if not interactive:
         conf_str = send_confirmation.replace("\n", "\\n")
-        print(f"Sending confirmation: {conf_str}")
+        print(f'Sending confirmation: "{conf_str}"')
     print("####################################")
     if cwd:
         print(f"  CWD={cwd}")
