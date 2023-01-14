@@ -10,9 +10,11 @@ from pathlib import Path
 from typing import Union
 
 
-def gen_powershell_script_set_env(var_name: str, var_value: str):
+def set_env_powershell(var_name: str, var_value: str):
+    print(f"$$$ Generating a set env script for {var_name} to {var_value}")
     cmd = f"""[Environment]::SetEnvironmentVariable('{var_name}', '{var_value}','User');"""
-    return cmd
+    cmd = 'powershell.exe -Command "& {' + cmd + '}"'
+    os.system(cmd)
 
 
 def broadcast_changes():
@@ -52,7 +54,5 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     var_value = str(var_value)
     if verbose:
         print(f"Setting {var_name} to {var_value}")
-    cmd = gen_powershell_script_set_env(var_name, var_value)
-    cmd = 'powershell.exe -Command "& {' + cmd + '}"'
-    os.system(cmd)
+    set_env_powershell(var_name, var_value)
     os.environ[var_name] = var_value
