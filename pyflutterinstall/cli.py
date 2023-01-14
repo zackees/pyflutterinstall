@@ -199,10 +199,6 @@ def main():
     any_skipped = any(
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
     )
-    # Check if windows comes after argparse to enable --help
-    if sys.platform != "win32":
-        print("This script is only for Windows")
-        sys.exit(1)
     print(
         f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}"
     )
