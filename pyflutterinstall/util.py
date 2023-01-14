@@ -23,6 +23,7 @@ def set_global_skip_confirmation(val: bool) -> None:
     """Set the global skip confirmation flag"""
     global SKIP_CONFIRMATION
     SKIP_CONFIRMATION = val
+    print(f"**** Setting SKIP_CONFIRMATION to {SKIP_CONFIRMATION} ****")
 
 
 def make_dirs() -> None:
@@ -51,7 +52,9 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
     print("####################################")
     if cwd:
         print(f"  CWD={cwd}")
-    if not SKIP_CONFIRMATION or not send_confirmation:
+    interactive = not SKIP_CONFIRMATION or not send_confirmation
+    print("****Interactive: ", interactive)
+    if interactive:
         # return subprocess.check_call(command, cwd=cwd, shell=True, universal_newlines=True)
         proc = subprocess.Popen(
             command,
@@ -87,6 +90,7 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
 
 def make_title(title: str) -> None:
     """Make a title"""
+    title = f" {title} "
     print("\n\n###########################################")
-    print(f"################# {title} #################")
+    print(f"{title.center(43, '#')}")
     print("###########################################\n\n")

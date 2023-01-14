@@ -169,9 +169,8 @@ def main():
     if sys.platform != "win32":
         print("This script is only for Windows")
         sys.exit(1)
-    set_global_skip_confirmation(
-        args.skip_confirmation or input("skip confirmation ? (y/n)").lower() == "y"
-    )
+    skip_confirmation = args.skip_confirmation or input("skip confirmation? (y/n): ").lower() == "y"
+    set_global_skip_confirmation(skip_confirmation)
     print("\nInstalling Flutter SDK and dependencies\n")
     make_dirs()
     if not args.skip_java:
