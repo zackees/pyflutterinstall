@@ -55,6 +55,9 @@ def main() -> int:
         raise RuntimeError(f'Android tools "{needle} not found in PATH')
 
     if not which("flutter"):
+        print("Flutter not found in path")
+        print("paths in Android/flutter/bin is",
+            os.listdir(r"D:\a\pyflutterinstall\pyflutterinstall\FlutterSDK\Android\flutter\bin"))
         raise RuntimeError("Flutter not installed, are the paths ok?")
     os.system("flutter doctor -v")
     return 0
