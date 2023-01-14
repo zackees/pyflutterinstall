@@ -74,8 +74,10 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
         return rtn
     # Use stdin to point to a stream buffer around the confirmation string
     # use textbuffer.
-    stdin_string_stream = SpooledTemporaryFile()
-    stdin_string_stream.write(send_confirmation)
+    stdin_string_stream = None
+    if send_confirmation is not None:
+        stdin_string_stream = SpooledTemporaryFile()
+        stdin_string_stream.write(send_confirmation.encode("utf-8"))
     proc = subprocess.Popen(
         command,
         cwd=cwd,
