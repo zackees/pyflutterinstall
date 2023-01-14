@@ -39,7 +39,7 @@ from pyflutterinstall.resources import (
     DOWNLOAD_DIR,
     ANDROID_SDK,
     FLUTTER_TARGET,
-    JAVA_DIR
+    JAVA_DIR,
 )
 
 from pyflutterinstall.util import (
@@ -203,7 +203,9 @@ def main():
     if sys.platform != "win32":
         print("This script is only for Windows")
         sys.exit(1)
-    print(f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}")
+    print(
+        f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}"
+    )
     skip_confirmation = (
         args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
     )
