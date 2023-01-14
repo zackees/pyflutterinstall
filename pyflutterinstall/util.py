@@ -6,7 +6,7 @@ Shared utility functions
 
 import os
 import subprocess
-
+from tempfile import SpooledTemporaryFile
 
 from pyflutterinstall.resources import (
     INSTALL_DIR,
@@ -72,18 +72,29 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
         if not ignore_errors:
             RuntimeError(f"Command {command} failed with return code {rtn}")
         return rtn
+    # Use stdin to point to a stream buffer around the confirmation string
+    # use textbuffer.
+    stdin_string_stream = SpooledTemporaryFile()
+    stdin_string_stream.write(send_confirmation)
     proc = subprocess.Popen(
         command,
         cwd=cwd,
         shell=True,
-        stdin=subprocess.PIPE,
+        stdin=stdin_string_stream,
+        stdout=subprocess.PIPE,
         universal_newlines=True,
         encoding="utf-8",
-        # 1MB buffer
-        bufsize=1024 * 1024,
+        # 5 MB buffer
+        bufsize=1024 * 1024 * 5,
         text=True,
     )
-    proc.communicate(input=send_confirmation)
+    assert proc.stdout is not None
+    # create an iterator for the input stream
+    for line in iter(proc.stdout.readline, ""):
+        try:
+            print(line, end="")
+        except UnicodeEncodeError as exc:
+            print("UnicodeEncodeError:", exc)
     rtn = proc.returncode
     if rtn != 0 and not ignore_errors:
         RuntimeError(f"Command {command} failed with return code {rtn}")
