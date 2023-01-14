@@ -39,6 +39,7 @@ from pyflutterinstall.resources import (
     ANDROID_SDK,
     FLUTTER_TARGET,
     JAVA_DIR,
+    IS_GITHUB_RUNNER
 )
 
 from pyflutterinstall.util import (
@@ -173,12 +174,13 @@ def ask_if_interactive(
 
 
 def postinstall_run_flutter_doctor() -> None:
-    make_title("Executing 'flutter doctor -v'")
+    cmd = "flutter doctor -v --no-color" if IS_GITHUB_RUNNER else "flutter doctor -v"
+    make_title(f"Executing '{cmd}'")
     if not shutil.which("flutter"):
         print("Flutter not found in path")
         sys.exit(0)
     proc = subprocess.Popen(
-        "flutter doctor -v",
+        cmd,
         shell=True,
         text=True,
         stdout=subprocess.PIPE,
