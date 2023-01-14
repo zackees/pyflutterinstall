@@ -172,6 +172,28 @@ def ask_if_interactive(
         callback()
 
 
+def postinstall_run_flutter_doctor() -> None:
+    make_title("Executing 'flutter doctor -v'")
+    if not shutil.which("flutter"):
+        print("Flutter not found in path")
+        sys.exit(0)
+    completed_proc: subprocess.CompletedProcess = subprocess.run(  # type: ignore
+        "flutter doctor -v",
+        shell=True,
+        text=True,
+        capture_output=True,
+        universal_newlines=True,
+        encoding="utf-8",
+    )
+    streams = [completed_proc.stdout, completed_proc.stderr]
+    for stream in streams:
+        try:
+            for line in stream.splitlines():
+                print(line)
+        except UnicodeEncodeError as exc:
+            print("Unable to print stream, contains non-ascii characters", exc)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
     parser.add_argument(
@@ -205,25 +227,8 @@ def main():
     if not args.skip_chrome:
         ask_if_interactive(interactive, "chrome", install_chrome)
     print("\nDone installing Flutter SDK and dependencies\n")
-    make_title("Executing 'flutter doctor -v'")
-    if not shutil.which("flutter"):
-        print("Flutter not found in path")
-        sys.exit(0)
-    completed_proc: subprocess.CompletedProcess = subprocess.run(  # type: ignore
-        "flutter doctor -v",
-        shell=True,
-        text=True,
-        capture_output=True,
-        universal_newlines=True,
-        encoding="utf-8",
-    )
-    streams = [completed_proc.stdout, completed_proc.stderr]
-    for stream in streams:
-        try:
-            for line in stream.splitlines():
-                print(line)
-        except UnicodeEncodeError as exc:
-            print("Unable to print stream, contains non-ascii characters", exc)
+    if not args.skip_flutter:
+        postinstall_run_flutter_doctor()
     return 0
 
 
