@@ -83,6 +83,8 @@ def install_android_sdk() -> None:
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
     sdkmanager_path = ANDROID_SDK / "cmdline-tools" / "latest" / "sdkmanager.bat"
     add_system_path(sdkmanager_path.parent)
+    if shutil.which("sdkmanager") is None:
+        raise RuntimeError("sdkmanager not found in path")
     print("About to install Android SDK tools")
     # install latest
     execute(
