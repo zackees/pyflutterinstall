@@ -40,7 +40,7 @@ jobs:
       run: pytest tests
 
     - name: install all
-      run: pyflutterinstall --skip-confirmation
+      run: pyflutterinstall --skip-confirmation --skip-chrome
 
     - name: post install check
       run: python test_install/postrun.py
