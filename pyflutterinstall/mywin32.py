@@ -56,7 +56,7 @@ def get_env_var(name: str) -> Optional[str]:
 
 
 def set_env_var_cmd(name: str, value: str) -> None:
-    _command(
+    completed_proc: subprocess.CompletedProcess = _command(
         [
             "reg",
             "add",
@@ -70,6 +70,10 @@ def set_env_var_cmd(name: str, value: str) -> None:
             "/f",
         ]
     )
+    if completed_proc.returncode != 0:
+        _print(f"Error happened while setting {name}={value}")
+        _print(_try_decode(completed_proc.stdout))
+    assert value in get_env_var(name), f"Failed to set {name}={value}"  # type: ignore
 
 
 def get_env_path() -> str:
