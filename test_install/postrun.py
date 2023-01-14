@@ -17,7 +17,10 @@ def update_env(names: list[str]) -> None:
     """Updates the environment with the given name."""
     for name in names:
         value = get_env_var(name)
-        os.environ.update({name: value})
+        if value:
+            os.environ.update({name: value})
+        else:
+            print(f"Warning: {name} not found")
 
 
 def main() -> int:

@@ -7,7 +7,7 @@ Dummy
 # pylint: disable=all
 
 
-from typing import List
+from typing import List, Optional
 import subprocess
 import re
 
@@ -35,7 +35,7 @@ def _try_decode(
     return "Error happened"
 
 
-def get_env_var(name: str) -> str:
+def get_env_var(name: str) -> Optional[str]:
     current_path = None
     completed_process = _command(
         ["reg", "query", "HKCU\\Environment", "/v", name], capture_output=True
@@ -52,8 +52,10 @@ def get_env_var(name: str) -> str:
         _print("environment variable PATH does not exist.")
         _print(_try_decode(completed_process.stderr))
         raise OSError("environment variable PATH does not exist.")
-    return str(current_path)
+    return current_path
 
 
 def get_env_path() -> str:
-    return get_env_var("PATH")
+    path = get_env_var("PATH")
+    assert path is not None, "PATH was None, which was unexpected."
+    return path
