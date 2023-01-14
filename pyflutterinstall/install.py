@@ -118,6 +118,11 @@ def install_flutter() -> None:
         send_confirmation="y\n",
         ignore_errors=False,
     )
+    if shutil.which("flutter") is None:
+        print("!!!!!!!!!!!!! COULD NOT FIND FLUTTER AFTER INSTALL !!!!!!!!!!!!!!!")
+        if not os.path.exists(FLUTTER_TARGET):
+            print(f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER DOES NOT EXIST !!!!!!!!!!!!!!!")
+        raise FileNotFoundError("Could not find flutter in path")
     print("Flutter installed.\n")
 
 
