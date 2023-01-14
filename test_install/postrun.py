@@ -59,7 +59,7 @@ def main() -> int:
         print("Flutter not found in path")
         expected_dir = r"FlutterSDK\Android"
         dir_list = subprocess.run(  # pylint: disable=subprocess-run-check
-            "dir /b /s", shell=True, capture_output=True, text=True
+            "dir /b /s", shell=True, capture_output=True, text=True, cwd=expected_dir
         )
         files = (
             os.listdir(expected_dir)
@@ -67,7 +67,7 @@ def main() -> int:
             else "DOES NOT EXIST"
         )
         print(
-            "paths in Android/flutter/bin is",
+            f"paths in {expected_dir} is",
             files,
             "\nThe dir list is",
             dir_list.stdout,
