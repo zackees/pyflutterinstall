@@ -69,6 +69,7 @@ def install_java_sdk() -> None:
     java_bin_dir = base_java_dir / "bin"
     print(java_bin_dir)
     add_system_path(java_bin_dir)
+    set_env_var("JAVA_HOME", base_java_dir)
     print("Java SDK installed.\n")
 
 
@@ -81,10 +82,10 @@ def install_android_sdk() -> None:
     path = download(ANDROID_SDK_URL, DOWNLOAD_DIR / os.path.basename(ANDROID_SDK_URL))
     print(f"Unpacking {path} to {INSTALL_DIR}")
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
-    sdkmanager_path = ANDROID_SDK / "cmdline-tools" / "latest" / "sdkmanager.bat"
-    add_system_path(sdkmanager_path.parent)
-    if shutil.which("sdkmanager") is None:
-        raise RuntimeError("sdkmanager not found in path")
+    sdkmanager_path = ANDROID_SDK / "cmdline-tools" / "tools" / "cmdline-tools" / "bin" / "sdkmanager.bat"
+    # add_system_path(sdkmanager_path.parent)
+    if not os.path.exists(sdkmanager_path):
+        raise FileNotFoundError(f"Could not find {sdkmanager_path}")
     print("About to install Android SDK tools")
     # install latest
     execute(
@@ -153,6 +154,14 @@ def install_chrome() -> None:
         # install it
         os.system(f'"{path}"')
 
+from typing import Callable
+
+def ask_if_interactive(is_interactive: bool, callback_name: str, callback: Callable) -> None:
+    if is_interactive:
+        if input(f"install {callback_name} (y/n)? ") == "y":
+            callback()
+    else:
+        callback()
 
 def main():
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
@@ -172,17 +181,18 @@ def main():
         print("This script is only for Windows")
         sys.exit(1)
     skip_confirmation = args.skip_confirmation or input("skip confirmation? (y/n): ").lower() == "y"
+    interactive = not skip_confirmation
     set_global_skip_confirmation(skip_confirmation)
     print("\nInstalling Flutter SDK and dependencies\n")
     make_dirs()
     if not args.skip_java:
-        install_java_sdk()
+        ask_if_interactive(interactive, "java_sdk", install_java_sdk)
     if not args.skip_android:
-        install_android_sdk()
+        ask_if_interactive(interactive, "android_sdk", install_android_sdk)
     if not args.skip_flutter:
-        install_flutter()
+        ask_if_interactive(interactive, "flutter", install_flutter)
     if not args.skip_chrome:
-        install_chrome()
+        ask_if_interactive(interactive, "chrome", install_chrome)
     print("\nDone installing Flutter SDK and dependencies\n")
     make_title("Executing 'flutter doctor -v'")
     if not shutil.which("flutter"):
