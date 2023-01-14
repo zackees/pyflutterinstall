@@ -7,6 +7,7 @@ Pre run script
 import os
 import sys
 from shutil import which
+import subprocess
 
 from colorama import just_fix_windows_console  # type: ignore
 
@@ -59,8 +60,9 @@ def main() -> int:
         expected_dir = (
             r"pyflutterinstall\FlutterSDK\Android\flutter\bin"
         )
+        dir_list = subprocess.run("dir /b /s", shell=True, capture_output=True, text=True)
         files = os.listdir(expected_dir) if os.path.exists(expected_dir) else "DOES NOT EXIST"
-        print("paths in Android/flutter/bin is", files)
+        print("paths in Android/flutter/bin is", files, "\nThe dir list is", dir_list.stdout)
         raise RuntimeError("Flutter not installed, are the paths ok?")
     os.system("flutter doctor -v")
     return 0
