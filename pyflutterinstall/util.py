@@ -9,7 +9,7 @@ import subprocess
 import signal
 from contextlib import contextmanager
 from threading import Thread, Event
-from tempfile import SpooledTemporaryFile
+from tempfile import SpooledTemporaryFile, TemporaryFile
 from pyflutterinstall.resources import (
     INSTALL_DIR,
     DOWNLOAD_DIR,
@@ -114,30 +114,37 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
         if send_confirmation is not None:
             stdin_string_stream = SpooledTemporaryFile()
             stdin_string_stream.write(send_confirmation.encode("utf-8"))
-        proc = subprocess.Popen(
-            command,
-            cwd=cwd,
-            shell=True,
-            stdin=stdin_string_stream,
-            stdout=subprocess.PIPE,
-            universal_newlines=True,
-            encoding="utf-8",
-            # 5 MB buffer
-            bufsize=1024 * 1024 * 5,
-            text=True,
-        )
-        stdout_stream = proc.stdout
-        assert stdout_stream is not None
-        # create an iterator for the input stream
-        for line in iter(stdout_stream.readline, ""):
-            try:
-                print(line, end="")
-            except UnicodeEncodeError as exc:
-                print("UnicodeEncodeError:", exc)
-        rtn = proc.returncode
-        if rtn != 0 and not ignore_errors:
-            RuntimeError(f"Command {command} failed with return code {rtn}")
-        return rtn
+
+        # temporary buffer for stderr
+        with TemporaryFile() as stderr_stream:
+            proc = subprocess.Popen(
+                command,
+                cwd=cwd,
+                shell=True,
+                stdin=stdin_string_stream,
+                stderr=stderr_stream,
+                stdout=subprocess.PIPE,
+                universal_newlines=True,
+                encoding="utf-8",
+                # 5 MB buffer
+                bufsize=1024 * 1024 * 5,
+                text=True,
+            )
+            stdout_stream = proc.stdout
+            assert stdout_stream is not None
+            # create an iterator for the input stream
+            for line in iter(stdout_stream.readline, ""):
+                try:
+                    print(line, end="")
+                except UnicodeEncodeError as exc:
+                    print("UnicodeEncodeError:", exc)
+            stderr_text = stderr_stream.read()
+            rtn = proc.returncode
+            if rtn != 0 and not ignore_errors:
+                print("stderr:")
+                print(stderr_text)
+                RuntimeError(f"Command {command} failed with return code {rtn}")
+            return rtn
 
 
 def make_title(title: str) -> None:
