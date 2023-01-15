@@ -84,6 +84,7 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
         shell=True,
         stdin=stdin_string_stream,
         stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
         universal_newlines=True,
         encoding="utf-8",
         # 5 MB buffer
