@@ -7,6 +7,7 @@ Shared utility functions
 import os
 import subprocess
 import signal
+import time
 from contextlib import contextmanager
 from threading import Thread, Event
 from tempfile import SpooledTemporaryFile, TemporaryFile
@@ -61,7 +62,8 @@ class WatchDogTimer(Thread):
     def run(self):
         self.event.wait(self.timeout)
         if not self.cancelled:
-            print(f"Timeout reached while executing {self.name} killing process.")
+            print(f"\n\nTimeout reached while executing {self.name} killing process.")
+            time.sleep(10)
             os.kill(os.getpid(), signal.SIGTERM)
 
     def cancel(self):
@@ -93,7 +95,7 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
     if cwd:
         print(f"  CWD={cwd}")
 
-    with watch_dog_timer(name=command, timeout=60 * 10):
+    with watch_dog_timer(name=command, timeout=60 * 30):
         if interactive:
             proc = subprocess.Popen(
                 command,
