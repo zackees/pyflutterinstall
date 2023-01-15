@@ -54,21 +54,18 @@ class WatchDogTimer(Thread):
     def __init__(self, name: str, timeout: int):
         Thread.__init__(self, daemon=True)
         self.timeout = timeout
-        self.cancelled = False
         self.event = Event()
         self.name = name
         self.start()
 
     def run(self):
-        self.event.wait(self.timeout)
-        if not self.cancelled:
+        if not self.event.wait(self.timeout):
             print(f"\n\nTimeout reached while executing {self.name} killing process.")
             time.sleep(10)
             os.kill(os.getpid(), signal.SIGTERM)
 
     def cancel(self):
         """Cancel the timer"""
-        self.cancelled = True
         self.event.set()
 
 
