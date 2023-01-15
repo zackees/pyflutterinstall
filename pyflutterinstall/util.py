@@ -6,8 +6,10 @@ Shared utility functions
 
 import os
 import subprocess
+import signal
+from contextlib import contextmanager
+from threading import Thread, Event
 from tempfile import SpooledTemporaryFile
-
 from pyflutterinstall.resources import (
     INSTALL_DIR,
     DOWNLOAD_DIR,
@@ -45,6 +47,40 @@ def make_dirs() -> None:
     env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
 
 
+class WatchDogTimer(Thread):
+    """Watch dog timer, kills process on hang."""
+
+    def __init__(self, name: str, timeout: int):
+        Thread.__init__(self, daemon=True)
+        self.timeout = timeout
+        self.cancelled = False
+        self.event = Event()
+        self.name = name
+        self.start()
+
+    def run(self):
+        self.event.wait(self.timeout)
+        if not self.cancelled:
+            print(f"Timeout reached while executing {self.name} killing process.")
+            os.kill(os.getpid(), signal.SIGTERM)
+
+    def cancel(self):
+        """Cancel the timer"""
+        self.cancelled = True
+        self.event.set()
+
+
+@contextmanager
+def watch_dog_timer(name: str, timeout: int):
+    """Watch dog timer"""
+    wdt = WatchDogTimer(name=name, timeout=timeout)
+    try:
+        yield wdt
+    finally:
+        wdt.cancel()
+        wdt.join()
+
+
 def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> int:
     """Execute a command"""
     interactive = not SKIP_CONFIRMATION or not send_confirmation
@@ -57,51 +93,51 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
     if cwd:
         print(f"  CWD={cwd}")
 
-    if interactive:
-        # return subprocess.check_call(command, cwd=cwd, shell=True, universal_newlines=True)
+    with watch_dog_timer(name=command, timeout=60 * 10):
+        if interactive:
+            proc = subprocess.Popen(
+                command,
+                cwd=cwd,
+                shell=True,
+                universal_newlines=True,
+                encoding="utf-8",
+                bufsize=1024 * 1024,
+                text=True,
+            )
+            rtn = proc.wait()
+            if not ignore_errors:
+                RuntimeError(f"Command {command} failed with return code {rtn}")
+            return rtn
+        # Use stdin to point to a stream buffer around the confirmation string
+        # use textbuffer.
+        stdin_string_stream = None
+        if send_confirmation is not None:
+            stdin_string_stream = SpooledTemporaryFile()
+            stdin_string_stream.write(send_confirmation.encode("utf-8"))
         proc = subprocess.Popen(
             command,
             cwd=cwd,
             shell=True,
+            stdin=stdin_string_stream,
+            stdout=subprocess.PIPE,
             universal_newlines=True,
             encoding="utf-8",
-            bufsize=1024 * 1024,
+            # 5 MB buffer
+            bufsize=1024 * 1024 * 5,
             text=True,
         )
-        rtn = proc.wait()
-        if not ignore_errors:
+        stdout_stream = proc.stdout
+        assert stdout_stream is not None
+        # create an iterator for the input stream
+        for line in iter(stdout_stream.readline, ""):
+            try:
+                print(line, end="")
+            except UnicodeEncodeError as exc:
+                print("UnicodeEncodeError:", exc)
+        rtn = proc.returncode
+        if rtn != 0 and not ignore_errors:
             RuntimeError(f"Command {command} failed with return code {rtn}")
         return rtn
-    # Use stdin to point to a stream buffer around the confirmation string
-    # use textbuffer.
-    stdin_string_stream = None
-    if send_confirmation is not None:
-        stdin_string_stream = SpooledTemporaryFile()
-        stdin_string_stream.write(send_confirmation.encode("utf-8"))
-    stdout_stream = SpooledTemporaryFile()
-    proc = subprocess.Popen(
-        command,
-        cwd=cwd,
-        shell=True,
-        stdin=stdin_string_stream,
-        stdout=stdout_stream,
-        stderr=stdout_stream,
-        universal_newlines=True,
-        encoding="utf-8",
-        # 5 MB buffer
-        bufsize=1024 * 1024 * 5,
-        text=True,
-    )
-    # create an iterator for the input stream
-    for line in iter(stdout_stream.readline, ""):
-        try:
-            print(line, end="")
-        except UnicodeEncodeError as exc:
-            print("UnicodeEncodeError:", exc)
-    rtn = proc.returncode
-    if rtn != 0 and not ignore_errors:
-        RuntimeError(f"Command {command} failed with return code {rtn}")
-    return rtn
 
 
 def make_title(title: str) -> None:
