@@ -78,22 +78,22 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
     if send_confirmation is not None:
         stdin_string_stream = SpooledTemporaryFile()
         stdin_string_stream.write(send_confirmation.encode("utf-8"))
+    stdout_stream = SpooledTemporaryFile()
     proc = subprocess.Popen(
         command,
         cwd=cwd,
         shell=True,
         stdin=stdin_string_stream,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
+        stdout=stdout_stream,
+        stderr=stdout_stream,
         universal_newlines=True,
         encoding="utf-8",
         # 5 MB buffer
         bufsize=1024 * 1024 * 5,
         text=True,
     )
-    assert proc.stdout is not None
     # create an iterator for the input stream
-    for line in iter(proc.stdout.readline, ""):
+    for line in iter(stdout_stream.readline, ""):
         try:
             print(line, end="")
         except UnicodeEncodeError as exc:

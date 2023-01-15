@@ -2,7 +2,7 @@
 Contains the install functions for the various components
 """
 
-# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check
+# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long
 
 import os
 from pathlib import Path
@@ -107,7 +107,9 @@ def install_flutter() -> None:
     else:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
     if not os.path.exists(FLUTTER_TARGET):
-        print(f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER DOES NOT EXIST !!!!!!!!!!!!!!!")
+        print(
+            f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER DOES NOT EXIST !!!!!!!!!!!!!!!"
+        )
         raise FileNotFoundError(f"Could not find {FLUTTER_TARGET} in path")
     # Add flutter to path
     add_env_path(FLUTTER_TARGET / "bin")
