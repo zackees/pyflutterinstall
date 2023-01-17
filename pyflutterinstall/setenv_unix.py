@@ -29,8 +29,9 @@ def get_path_file() -> str:
     raise FileNotFoundError("No file found that has export PATH")
 
 
-def set_env_var(name: str, value: str) -> None:
+def set_env_var(name: str, value: Union[str, Path]) -> None:
     """Sets an environment variable."""
+    value = str(value)
     os.environ[name] = value
     os.system(f"export {name}={value}")
     if IS_GITHUB_RUNNER:
