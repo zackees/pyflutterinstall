@@ -130,6 +130,7 @@ def add_env_path(new_path: Union[Path, str]):
 
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
+    old_path = os.environ["PATH"].copy()
     var_name = str(var_name)
     var_value = str(var_value)
     if verbose:
@@ -141,6 +142,7 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     os.environ[var_name] = var_value
     if shutil.which("git") is None:
         print(f"git not found in PATH after setting {var_name}={var_value}")
+        print(f"previous PATH: {old_path}")
         sys.exit(1)
 
 
