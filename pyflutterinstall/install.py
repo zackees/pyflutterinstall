@@ -60,13 +60,14 @@ def install_android_sdk() -> None:
     path = download(ANDROID_SDK_URL, DOWNLOAD_DIR / os.path.basename(ANDROID_SDK_URL))
     print(f"Unpacking {path} to {INSTALL_DIR}")
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
+    sdkmanager_name = "sdkmanager.bat" if os.name == "nt" else "sdkmanager"
     sdkmanager_path = (
         ANDROID_SDK
         / "cmdline-tools"
         / "tools"
         / "cmdline-tools"
         / "bin"
-        / "sdkmanager.bat"
+        / sdkmanager_name
     )
     # add_system_path(sdkmanager_path.parent)
     if not os.path.exists(sdkmanager_path):
