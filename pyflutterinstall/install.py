@@ -5,6 +5,7 @@ Contains the install functions for the various components
 # pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long
 
 import os
+import sys
 from pathlib import Path
 import shutil
 import subprocess
@@ -44,8 +45,13 @@ def install_java_sdk() -> None:
     shutil.unpack_archive(java_sdk_zip_file, JAVA_DIR)
     base_java_dir = JAVA_DIR / os.listdir(JAVA_DIR)[0]
     print(base_java_dir)
-    java_bin_dir = base_java_dir / "bin"
+    if sys.platform == "darwin":
+        java_bin_dir = base_java_dir / "Contents" / "Home" / "bin"
+    else:
+        java_bin_dir = base_java_dir / "bin"
+    # check that java is in the path
     print(java_bin_dir)
+    assert "java" in os.listdir(java_bin_dir), "java not found in java bin dir"
     add_env_path(java_bin_dir)
     set_env_var("JAVA_HOME", str(base_java_dir))
     print("Java SDK installed.\n")
@@ -72,6 +78,7 @@ def install_android_sdk() -> None:
     # add_system_path(sdkmanager_path.parent)
     if not os.path.exists(sdkmanager_path):
         raise FileNotFoundError(f"Could not find {sdkmanager_path}")
+    os.chmod(sdkmanager_path, 0o755)
     print("About to install Android SDK tools")
     # install latest
     execute(
