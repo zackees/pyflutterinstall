@@ -109,7 +109,6 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
             return rtn
         with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
             stdin_string_stream.write(send_confirmation)
-            stdin_string_stream.seek(0)
             # temporary buffer for stderr
             with TemporaryFile() as stderr_stream:
                 proc = subprocess.Popen(
