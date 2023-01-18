@@ -4,6 +4,7 @@ Adds setenv for unix.
 
 
 import os
+import sys
 from pathlib import Path
 from typing import Union
 
@@ -11,6 +12,9 @@ SOURCE_FILES = ["~/.bash_profile", "~/.bashrc", "~/.bash_login", "~/.profile"]
 TARGET_FILE = None
 
 IS_GITHUB_RUNNER = os.getenv("GITHUB_WORKFLOW")
+
+# normalize paths so that ~ is expanded
+SOURCE_FILES = [os.path.expanduser(file) for file in SOURCE_FILES]
 
 
 def get_path_file() -> str:
@@ -26,6 +30,9 @@ def get_path_file() -> str:
                     if line.startswith("export PATH="):
                         TARGET_FILE = file
                         return TARGET_FILE
+    if sys.platform == "darwin":
+        # For my mac environment I'm using bash_aliases
+        return "~/.bash_aliases"
     raise FileNotFoundError("No file found that has export PATH")
 
 
