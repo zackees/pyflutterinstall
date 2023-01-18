@@ -130,7 +130,7 @@ def add_env_path(new_path: Union[Path, str]):
 
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
-    old_path = os.environ["PATH"].copy()
+    old_path = os.environ["PATH"]
     var_name = str(var_name)
     var_value = str(var_value)
     if verbose:
