@@ -37,6 +37,9 @@ def install_java_sdk() -> None:
     java_sdk_zip_file = Path(
         download(JAVA_SDK_URL, DOWNLOAD_DIR / os.path.basename(JAVA_SDK_URL))
     )
+    if os.path.exists(JAVA_DIR):
+        print(f"Removing existing Java SDK at {JAVA_DIR}")
+        shutil.rmtree(JAVA_DIR)
     print(f"Unpacking {java_sdk_zip_file} to {JAVA_DIR}")
     shutil.unpack_archive(java_sdk_zip_file, JAVA_DIR)
     base_java_dir = JAVA_DIR / os.listdir(JAVA_DIR)[0]

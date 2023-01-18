@@ -66,7 +66,9 @@ def add_env_path(path: Union[str, Path]) -> None:
     if path not in paths:
         paths.insert(0, path)
         os.environ["PATH"] = ":".join(paths)
-    os.system(f"export PATH={os.environ['PATH']}")
+    #path_str = os.environ["PATH"]
+    #print(path_str)
+    #os.system(f"export PATH={os.environ['PATH']}")
     if IS_GITHUB_RUNNER:
         return
     bash_profile = get_path_file()
