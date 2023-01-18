@@ -101,6 +101,8 @@ def install_android_sdk() -> None:
 
 def install_flutter() -> None:
     make_title("Installing Flutter")
+    if shutil.which("git") is None:
+        raise FileNotFoundError("'git' not found in path")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
         execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"', ignore_errors=False)
