@@ -6,11 +6,9 @@ Dummy
 
 import subprocess
 import re
-import sys
 import os
 from typing import Optional, Union
 from pathlib import Path
-import shutil
 
 
 _DEFAULT_PRINT = print
@@ -76,7 +74,7 @@ def set_env_var_cmd(name: str, value: str) -> None:
     assert value in get_env_var(name), f"Failed to set {name}={value}"  # type: ignore
 
 
-def get_env_path() -> str:
+def get_reg_env_path() -> str:
     path = get_env_var("PATH")
     assert path is not None, "PATH was None, which was unexpected."
     return path
@@ -85,20 +83,18 @@ def get_env_path() -> str:
 def broadcast_changes():
     print("Broadcasting changes")
     os.system("refreshenv")
-    if sys.platform == "win32":
-        # os.system("setx /M PATH %PATH%")
-        import win32gui  # type: ignore
+    import win32gui  # type: ignore
 
-        HWND_BROADCAST = 0xFFFF
-        WM_SETTINGCHANGE = 0x001A
-        SMTO_ABORTIFHUNG = 0x0002
-        sParam = "Environment"
+    HWND_BROADCAST = 0xFFFF
+    WM_SETTINGCHANGE = 0x001A
+    SMTO_ABORTIFHUNG = 0x0002
+    sParam = "Environment"
 
-        res1, res2 = win32gui.SendMessageTimeout(
-            HWND_BROADCAST, WM_SETTINGCHANGE, 0, sParam, SMTO_ABORTIFHUNG, 10000
-        )
-        if not res1:
-            print("result: %s, %s, from SendMessageTimeout" % (bool(res1), res2))
+    res1, res2 = win32gui.SendMessageTimeout(
+        HWND_BROADCAST, WM_SETTINGCHANGE, 0, sParam, SMTO_ABORTIFHUNG, 10000
+    )
+    if not res1:
+        print("result: %s, %s, from SendMessageTimeout" % (bool(res1), res2))
 
 
 def parse_paths(path_str: str) -> list[str]:
@@ -117,36 +113,30 @@ def parse_paths(path_str: str) -> list[str]:
 
 def add_env_path(new_path: Union[Path, str]):
     new_path = str(new_path)
-    if sys.platform == "win32":
-        new_path = new_path.replace("/", "\\")
+    new_path = new_path.replace("/", "\\")
     print(f"&&& Adding {new_path} to Windows PATH")
-    prev_paths = parse_paths(get_env_path())
+    prev_paths = parse_paths(get_reg_env_path())
     # if github runner, then also get the os.environ["PATH"]
-    if "GITHUB_WORKSPACE" in os.environ:
-        prev_paths.extend(parse_paths(os.environ["PATH"]))
+    #if "GITHUB_WORKSPACE" in os.environ:
+    #    prev_paths.extend(parse_paths(os.environ["PATH"]))
     if new_path in prev_paths:
         print(f"{new_path} already in PATH")
         return
     sep = os.path.pathsep
     prev_path_str = sep.join(prev_paths)
-    set_env_var("PATH", f"{str(new_path)}{sep}{prev_path_str}", verbose=False)
+    #set_env_var("PATH", f"{str(new_path)}{sep}{prev_path_str}", verbose=False)
+    new_path_str = f"{str(new_path)}{sep}{prev_path_str}"
+    set_env_var_cmd("PATH", new_path_str)
+    os.environ["PATH"] = new_path + sep + os.environ["PATH"]
 
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
-    old_path = os.environ["PATH"]
     var_name = str(var_name)
     var_value = str(var_value)
     if verbose:
         print(f"$$$ Setting {var_name} to {var_value}")
-    if shutil.which("git") is None:
-        print(f"git not found in PATH before setting {var_name}={var_value}")
-        sys.exit(1)
     set_env_var_cmd(var_name, var_value)
     os.environ[var_name] = var_value
-    if shutil.which("git") is None:
-        print(f"git not found in PATH after setting {var_name}={var_value}")
-        print(f"previous PATH: {old_path}")
-        sys.exit(1)
 
 
 def main():
