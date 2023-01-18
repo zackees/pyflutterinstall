@@ -132,9 +132,13 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                         print(line, end="")
                     except UnicodeEncodeError as exc:
                         print("UnicodeEncodeError:", exc)
+                stderr_stream.seek(0)
                 stderr_text = stderr_stream.read()
                 rtn = proc.returncode
                 if rtn != 0 and not ignore_errors:
+                    if len(stderr_text) > 0:
+                        print("stderr:")
+                        print(stderr_text)
                     print("stderr:")
                     print(stderr_text)
                     RuntimeError(f"Command {command} failed with return code {rtn}")
