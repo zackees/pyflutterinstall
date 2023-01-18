@@ -112,7 +112,12 @@ def install_flutter() -> None:
         print(
             f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER DOES NOT EXIST !!!!!!!!!!!!!!!"
         )
-        raise FileNotFoundError(f"Could not find {FLUTTER_TARGET} in path")
+        path = os.environ["PATH"]
+        error_msg = f"Could not find {FLUTTER_TARGET} in path"
+        error_msg += "\npath = \n"
+        for path in path.split(os.pathsep):
+            error_msg += f"  {path}\n"
+        raise FileNotFoundError(error_msg)
     # Add flutter to path
     add_env_path(FLUTTER_TARGET / "bin")
     execute(
