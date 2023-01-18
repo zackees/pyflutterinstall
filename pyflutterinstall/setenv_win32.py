@@ -117,14 +117,14 @@ def add_env_path(new_path: Union[Path, str]):
     print(f"&&& Adding {new_path} to Windows PATH")
     prev_paths = parse_paths(get_reg_env_path())
     # if github runner, then also get the os.environ["PATH"]
-    #if "GITHUB_WORKSPACE" in os.environ:
+    # if "GITHUB_WORKSPACE" in os.environ:
     #    prev_paths.extend(parse_paths(os.environ["PATH"]))
     if new_path in prev_paths:
         print(f"{new_path} already in PATH")
         return
     sep = os.path.pathsep
     prev_path_str = sep.join(prev_paths)
-    #set_env_var("PATH", f"{str(new_path)}{sep}{prev_path_str}", verbose=False)
+    # set_env_var("PATH", f"{str(new_path)}{sep}{prev_path_str}", verbose=False)
     new_path_str = f"{str(new_path)}{sep}{prev_path_str}"
     set_env_var_cmd("PATH", new_path_str)
     os.environ["PATH"] = new_path + sep + os.environ["PATH"]
