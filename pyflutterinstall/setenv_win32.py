@@ -10,6 +10,7 @@ import sys
 import os
 from typing import Optional, Union
 from pathlib import Path
+import shutil
 
 
 _DEFAULT_PRINT = print
@@ -133,8 +134,14 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     var_value = str(var_value)
     if verbose:
         print(f"$$$ Setting {var_name} to {var_value}")
+    if shutil.which("git") is None:
+        print(f"git not found in PATH before setting {var_name}={var_value}")
+        sys.exit(1)
     set_env_var_cmd(var_name, var_value)
     os.environ[var_name] = var_value
+    if shutil.which("git") is None:
+        print(f"git not found in PATH after setting {var_name}={var_value}")
+        sys.exit(1)
 
 
 def main():

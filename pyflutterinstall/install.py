@@ -104,7 +104,7 @@ def install_flutter() -> None:
     if shutil.which("git") is None:
         error_msg = "'git' not found in path"
         error_msg += "\npath = \n"
-        for path in os.environ["PATH"].split(os.pathsep):
+        for path in os.environ["PATH"].split(os.path.pathsep):
             error_msg += f"  {path}\n"
         raise FileNotFoundError(error_msg)
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
