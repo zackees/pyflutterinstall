@@ -22,14 +22,12 @@ import argparse
 import os
 import sys
 import shutil
-import subprocess
 from typing import Callable
 
 
 from pyflutterinstall.resources import INSTALL_DIR
 
 from pyflutterinstall.util import (
-    make_title,
     make_dirs,
     set_global_skip_confirmation,
 )
@@ -39,26 +37,16 @@ from pyflutterinstall.install import (
     install_android_sdk,
     install_flutter,
     install_chrome,
+    postinstall_run_flutter_doctor,
 )
 
 
-def ask_if_interactive(
-    is_interactive: bool, callback_name: str, callback: Callable
-) -> None:
+def ask_if_interactive(is_interactive: bool, callback_name: str, callback: Callable) -> None:
     if is_interactive:
         if input(f"install {callback_name} (y/n)? ") == "y":
             callback()
     else:
         callback()
-
-
-def postinstall_run_flutter_doctor() -> None:
-    cmd = "flutter doctor -v"
-    make_title(f"Executing '{cmd}'")
-    if not shutil.which("flutter"):
-        print("Flutter not found in path")
-        return
-    subprocess.call(cmd, shell=True, text=True, universal_newlines=True)
 
 
 def main():
@@ -77,15 +65,9 @@ def main():
     assert (
         shutil.which("git") is not None
     ), "Git is not installed, please install, add it to the path then continue."
-    any_skipped = any(
-        [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
-    )
-    print(
-        f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}"
-    )
-    skip_confirmation = (
-        args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
-    )
+    any_skipped = any([args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome])
+    print(f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}")
+    skip_confirmation = args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
     interactive = not skip_confirmation
     set_global_skip_confirmation(skip_confirmation)
     print("\nInstalling Flutter SDK and dependencies\n")

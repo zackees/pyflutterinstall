@@ -161,3 +161,12 @@ def install_chrome() -> None:
             os.system(f'"{path}"')
     except subprocess.CalledProcessError as exc:
         print(f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}")
+
+
+def postinstall_run_flutter_doctor() -> None:
+    cmd = "flutter doctor -v"
+    make_title(f"Executing '{cmd}'")
+    if not shutil.which("flutter"):
+        print("Flutter not found in path")
+        return
+    subprocess.call(cmd, shell=True, text=True, universal_newlines=True)
