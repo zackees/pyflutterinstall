@@ -26,9 +26,9 @@ def init_dotenv() -> None:
     if flutter_paths is not None:
         paths = flutter_paths.split(os.pathsep)
         if paths:
-            for path in paths:
-                print(f"*** Adding {path} to sys.path")
-                sys.path.insert(0, path)
+            os_env_paths = os.environ.get("PATH", "").split(os.pathsep)
+            paths = paths + os_env_paths
+            os.environ["PATH"] = os.pathsep.join(paths)
 
 
 init_dotenv()
