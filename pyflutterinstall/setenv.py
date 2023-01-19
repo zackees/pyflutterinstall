@@ -11,8 +11,25 @@ from pathlib import Path
 from dotenv import load_dotenv, set_key, get_key
 
 ENV_FILE = "./.env"
+INITIALIZED = False
 
-load_dotenv(ENV_FILE, override=True)
+
+def init_dotenv() -> None:
+    """Initializes the dotenv environment."""
+    global INITIALIZED  # pylint: disable=global-statement
+    if INITIALIZED:
+        return
+    INITIALIZED = True
+    load_dotenv(ENV_FILE, override=True)
+    flutter_paths = get_key(ENV_FILE, "FLUTTER_PATHS")
+    if flutter_paths is not None:
+        paths = flutter_paths.split(os.pathsep)
+        if paths:
+            for path in paths:
+                sys.path.insert(0, path)
+
+
+init_dotenv()
 
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
