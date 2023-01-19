@@ -11,6 +11,7 @@ import time
 from contextlib import contextmanager
 from threading import Thread, Event
 from tempfile import TemporaryFile
+from colorama import just_fix_windows_console  # type: ignore
 from pyflutterinstall.resources import (
     INSTALL_DIR,
     DOWNLOAD_DIR,
@@ -18,6 +19,9 @@ from pyflutterinstall.resources import (
     FLUTTER_TARGET,
     JAVA_DIR,
 )
+
+just_fix_windows_console()  # Fixes color breakages in win32
+
 
 SKIP_CONFIRMATION = False
 

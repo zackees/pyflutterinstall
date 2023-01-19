@@ -24,7 +24,7 @@ import sys
 import shutil
 import subprocess
 from typing import Callable
-from colorama import just_fix_windows_console  # type: ignore
+
 
 from pyflutterinstall.resources import INSTALL_DIR
 
@@ -62,7 +62,6 @@ def postinstall_run_flutter_doctor() -> None:
 
 
 def main():
-    just_fix_windows_console()  # Fixes color breakages
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
     parser.add_argument(
         "--skip-confirmation",
