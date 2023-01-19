@@ -1,4 +1,4 @@
-name: Win_FullInstall
+name: Win_MacosInstall
 
 on: [push]
 
