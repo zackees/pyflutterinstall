@@ -22,10 +22,12 @@ def init_dotenv() -> None:
     INITIALIZED = True
     load_dotenv(ENV_FILE, override=True)
     flutter_paths = get_key(ENV_FILE, "FLUTTER_PATHS")
+    print(f"*** FLUTTER_PATHS: {flutter_paths}")
     if flutter_paths is not None:
         paths = flutter_paths.split(os.pathsep)
         if paths:
             for path in paths:
+                print(f"*** Adding {path} to sys.path")
                 sys.path.insert(0, path)
 
 

@@ -84,6 +84,7 @@ setup(
     entry_points={
         "console_scripts": [
             "pyflutterinstall = pyflutterinstall.cli:main",
+            "pyflutteractivate = pyflutterinstall.setenv:init_dotenv"
         ],
     },
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
