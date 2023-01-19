@@ -1,4 +1,4 @@
-name: MacOS_Tests
+name: Win_FullInstall
 
 on: [push]
 
@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.10.8]
-        os: [macos-latest]
+        os: [windows-latest]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -22,22 +22,25 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
         restore-keys: |
           ${{ runner.os }}-pip-
+    - uses: actions/cache@v3
+      name: Install Cache
+      with:
+        path: ./.downloads
+        key: install-${{ hashFiles('.downloads') }}
+        restore-keys: install-
+    - name: check prerun
+      run: python test_install/prerun.py
+    - name: Set utf-8 Encoding
+      run: |
+        setx PYTHONIOENCODING "utf-8" && setx PYTHONLEGACYWINDOWSSTDIO "utf-8"
     - name: Install dependencies
       run: |
         pip install -e '.[test]'
     - name: Run tests
       run: pytest tests
 
-    - name: install java
-      run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
-
-    - name: install android
-      run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
-
-    - name: install flutter
-      run: pyflutterinstall --skip-confirmation --skip-java  --skip-android --skip-chrome
+    - name: install all
+      run: pyflutterinstall --skip-confirmation --skip-chrome
 
     - name: post install check
       run: python test_install/postrun.py
-
-
