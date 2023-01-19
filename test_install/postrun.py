@@ -14,7 +14,7 @@ from colorama import just_fix_windows_console  # type: ignore
 from pyflutterinstall.setenv_win32 import get_env_var
 
 
-def update_env(names: list[str]) -> None:
+def update_env_win32(names: list[str]) -> None:
     """Updates the environment with the given name."""
     for name in names:
         value = get_env_var(name)
@@ -34,7 +34,8 @@ def main() -> int:
     # because the previously run subprocesses will have modified the
     # user environment but the parent process will not have seen these
     # so it's necessary to update the environment in this child process.
-    update_env(["PATH", "ANDROID_SDK_ROOT", "ANDROID_HOME", "JAVA_HOME"])
+    if sys.platform == "win32":
+        update_env_win32(["PATH", "ANDROID_SDK_ROOT", "ANDROID_HOME", "JAVA_HOME"])
     # Print out the current environment
     print("Environment:")
     for key, value in os.environ.items():
@@ -61,11 +62,7 @@ def main() -> int:
         dir_list = subprocess.run(  # pylint: disable=subprocess-run-check
             "dir /b /s", shell=True, capture_output=True, text=True, cwd=expected_dir
         )
-        files = (
-            os.listdir(expected_dir)
-            if os.path.exists(expected_dir)
-            else "DOES NOT EXIST"
-        )
+        files = os.listdir(expected_dir) if os.path.exists(expected_dir) else "DOES NOT EXIST"
         print(
             f"paths in {expected_dir} is",
             files,
