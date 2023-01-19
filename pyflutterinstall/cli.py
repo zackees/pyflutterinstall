@@ -23,15 +23,11 @@ import os
 import sys
 import shutil
 from typing import Callable
-
-
 from pyflutterinstall.resources import INSTALL_DIR
-
 from pyflutterinstall.util import (
     make_dirs,
     set_global_skip_confirmation,
 )
-
 from pyflutterinstall.install import (
     install_java_sdk,
     install_android_sdk,
