@@ -122,7 +122,6 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                     stdin=stdin_string_stream,
                     stderr=stderr_stream,
                     stdout=subprocess.PIPE,
-                    universal_newlines=True,
                     encoding="utf-8",
                     # 5 MB buffer
                     bufsize=1024 * 1024 * 5,
@@ -130,10 +129,15 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                 )
                 stdout_stream = proc.stdout
                 assert stdout_stream is not None
-                # create an iterator for the input stream
-                for line in iter(stdout_stream.readline, ""):
+
+                def read_one() -> str:
+                    # Needed for flutter install on MacOS, othrwise it hangs.
+                    char = stdout_stream.read(1)  # type: ignore
+                    return char
+
+                for char in iter(read_one, ""):
                     try:
-                        print(line, end="")
+                        print(char, end="")
                     except UnicodeEncodeError as exc:
                         print("UnicodeEncodeError:", exc)
                 stderr_stream.seek(0)
