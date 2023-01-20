@@ -35,7 +35,9 @@ from pyflutterinstall.setenv import add_env_path, set_env_var
 def install_java_sdk() -> None:
     make_title("Installing Java SDK")
     print(f"Install Java SDK from {JAVA_SDK_URL} to {INSTALL_DIR}")
-    java_sdk_zip_file = Path(download(JAVA_SDK_URL, DOWNLOAD_DIR / os.path.basename(JAVA_SDK_URL)))
+    java_sdk_zip_file = Path(
+        download(JAVA_SDK_URL, DOWNLOAD_DIR / os.path.basename(JAVA_SDK_URL))
+    )
     if os.path.exists(JAVA_DIR):
         print(f"Removing existing Java SDK at {JAVA_DIR}")
         shutil.rmtree(JAVA_DIR)
@@ -58,14 +60,21 @@ def install_java_sdk() -> None:
 
 def install_android_sdk() -> None:
     make_title("Installing Android SDK")
-    print(f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {INSTALL_DIR}")
+    print(
+        f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {INSTALL_DIR}"
+    )
     # sdk\Android\tools\bin\sdkmanager.bat
     path = download(ANDROID_SDK_URL, DOWNLOAD_DIR / os.path.basename(ANDROID_SDK_URL))
     print(f"Unpacking {path} to {INSTALL_DIR}")
     shutil.unpack_archive(path, ANDROID_SDK / "cmdline-tools" / "tools")
     sdkmanager_name = "sdkmanager.bat" if os.name == "nt" else "sdkmanager"
     sdkmanager_path = (
-        ANDROID_SDK / "cmdline-tools" / "tools" / "cmdline-tools" / "bin" / sdkmanager_name
+        ANDROID_SDK
+        / "cmdline-tools"
+        / "tools"
+        / "cmdline-tools"
+        / "bin"
+        / sdkmanager_name
     )
     # add_system_path(sdkmanager_path.parent)
     if not os.path.exists(sdkmanager_path):
@@ -160,7 +169,9 @@ def install_chrome() -> None:
             # install it
             os.system(f'"{path}"')
     except subprocess.CalledProcessError as exc:
-        print(f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}")
+        print(
+            f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}"
+        )
 
 
 def postinstall_run_flutter_doctor() -> None:

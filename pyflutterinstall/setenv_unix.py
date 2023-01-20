@@ -19,6 +19,7 @@ SOURCE_FILES = [os.path.expanduser(file) for file in SOURCE_FILES]
 
 
 FLUTTER_ENV = os.path.join(os.getcwd(), "flutter_env.sh")
+assert FLUTTER_ENV is not None
 
 
 def get_path_file() -> str:
@@ -96,6 +97,7 @@ def set_env_var(name: str, value: Union[str, Path]) -> None:
     ensure_hook_installed()
     os.environ[name] = value
     os.system(f"export {name}={value}")
+    assert FLUTTER_ENV is not None
     replace_export(FLUTTER_ENV, f"export {name}=", f"export {name}={value}")
     # write out lines to the .bash_aliases file ensuring that the
     # 'export PATH' line contains a hook back to file_path.
@@ -106,4 +108,5 @@ def add_env_path(path: Union[str, Path]) -> None:
     ensure_hook_installed()
     # export and add to os.environ
     path = str(path)
+    assert FLUTTER_ENV is not None
     add_path_if_not_exist(FLUTTER_ENV, path)

@@ -37,7 +37,9 @@ from pyflutterinstall.install import (
 )
 
 
-def ask_if_interactive(is_interactive: bool, callback_name: str, callback: Callable) -> None:
+def ask_if_interactive(
+    is_interactive: bool, callback_name: str, callback: Callable
+) -> None:
     if is_interactive:
         if input(f"install {callback_name} (y/n)? ") == "y":
             callback()
@@ -61,9 +63,15 @@ def main():
     assert (
         shutil.which("git") is not None
     ), "Git is not installed, please install, add it to the path then continue."
-    any_skipped = any([args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome])
-    print(f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}")
-    skip_confirmation = args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
+    any_skipped = any(
+        [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
+    )
+    print(
+        f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}"
+    )
+    skip_confirmation = (
+        args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
+    )
     interactive = not skip_confirmation
     set_global_skip_confirmation(skip_confirmation)
     print("\nInstalling Flutter SDK and dependencies\n")
