@@ -45,6 +45,7 @@ def install_flutter_sdk() -> None:
         error_msg += "\npath = \n"
         for path in path.split(os.pathsep):
             error_msg += f"  {path}\n"
+        print(error_msg)
         raise FileNotFoundError(error_msg)
     # Add flutter to path
     add_env_path(FLUTTER_TARGET / "bin")
