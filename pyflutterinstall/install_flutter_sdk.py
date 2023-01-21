@@ -34,7 +34,9 @@ def install_flutter_sdk() -> None:
         raise FileNotFoundError(error_msg)
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
-        execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"', ignore_errors=False)
+        cmd = f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"'
+        #execute(f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"', ignore_errors=False)
+        os.system(cmd)
     else:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
     if not os.path.exists(FLUTTER_TARGET):
