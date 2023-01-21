@@ -124,7 +124,7 @@ class StdoutThread(Thread):
 
         for char in iter(read_one, ""):
             try:
-                print(char, end="")
+                # print(char, end="")
                 sys.stdout.write(char)
                 sys.stdout.flush()
             except UnicodeEncodeError as exc:
