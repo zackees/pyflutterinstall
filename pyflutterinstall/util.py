@@ -125,7 +125,7 @@ def execute(
             cwd=cwd,
             shell=True,
             stdin=stdin_string_stream,
-            stderr=subprocess.STDOUT,
+            stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
             encoding=encoding,
             # 5 MB buffer
@@ -135,9 +135,9 @@ def execute(
         stdout_stream = proc.stdout
         stderr_stream = proc.stderr
         assert stdout_stream is not None
-        #assert stderr_stream is not None
+        assert stderr_stream is not None
         thread_stdout = StdoutThread(stdout_stream=stdout_stream)
-        #thread_stderr = StderrThread(stderr_stream=stderr_stream)
+        thread_stderr = StderrThread(stderr_stream=stderr_stream)
 
         try:
             rtn = proc.wait(timeout=timeout)
@@ -148,15 +148,14 @@ def execute(
             print("Thread is still alive, killing it.")
             stdout_stream.close()
             thread_stdout.join(timeout=10.0)
-        #thread_stderr.join(timeout=10.0)
-        #if thread_stderr.is_alive():
-        #    print("Thread is still alive, killing it.")
-        #    stderr_stream.write(None)
-        #    stderr_stream.close()
-        #    thread_stderr.join(timeout=10.0)
+        thread_stderr.join(timeout=10.0)
+        if thread_stderr.is_alive():
+            print("Thread is still alive, killing it.")
+            stderr_stream.close()
+            thread_stderr.join(timeout=10.0)
         if rtn != 0 and not ignore_errors:
-            #if thread_stderr.stderr_text:
-            #    print(f"stderr:\n{thread_stderr.stderr_text}")
+            if thread_stderr.stderr_text:
+                print(f"stderr:\n{thread_stderr.stderr_text}")
             print(f"Command {command} failed with return code {rtn}")
         return rtn
 
