@@ -24,32 +24,28 @@ CMDLINE_TOOLS = [
     "system-images;android-27;google_apis_playstore;x86",
 ]
 
-if sys.platform == "win32":
-    JAVA_SDK_URL = (
-        "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
-    )
-    ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"
+def get_platform_java_sdk() -> str:
+    """Gets the java platform specific url"""
+    if sys.platform == "win32":
+        return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
+    if sys.platform == "darwin":
+        if platform.machine() == "x86_64":
+            return "https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz"
+        return "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
+    # TODO: use linux specific java sdk
+    return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
 
+if sys.platform == "win32":
+    ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"
     CHROME_URL = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
 elif sys.platform == "darwin":
-    if platform.machine() == "x86_64":
-        JAVA_SDK_URL = (
-            "https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz"
-        )
-    else:
-        JAVA_SDK_URL = (
-            "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
-        )
     ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip"
     CHROME_URL = "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
 else:
-    JAVA_SDK_URL = (
-        "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
-    )
     ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"
     CHROME_URL = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
 
-
+JAVA_SDK_URL = get_platform_java_sdk()
 PROJECT_ROOT = Path(os.getcwd())
 INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
 ENV_FILE = PROJECT_ROOT / ".env"
