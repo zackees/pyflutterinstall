@@ -175,10 +175,12 @@ def execute(
             thread_stdout = StdoutThread(stdout_stream=stdout_stream)
             thread_stderr = StderrThread(stderr_stream=stderr_stream)
             while True:
-                rtn = proc.wait(60 * 4)
-                if rtn is not None:
+                try:
+                    rtn = proc.wait(60 * 4)
                     break
-                print(f"Waiting for process {command} to finish...")
+                except subprocess.TimeoutExpired:
+                    print(f"Waiting for process {command} to finish...")
+                    continue
             thread_stdout.join(timeout=10.0)
             if thread_stdout.is_alive():
                 print("Thread is still alive, killing it.")
