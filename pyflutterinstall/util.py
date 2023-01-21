@@ -2,7 +2,9 @@
 Shared utility functions
 """
 
-# pylint: disable=consider-using-with,global-statement,too-many-arguments,too-many-locals,fixme
+# pylint: disable=consider-using-with,global-statement,too-many-arguments,too-many-locals,fixme,too-many-statements
+# flake8: noqa
+
 
 import os
 import subprocess
@@ -126,6 +128,7 @@ def execute(
             stderr_stream = proc.stderr
             assert stdout_stream is not None
             assert stderr_stream is not None
+            stderr_text = ""
 
             def run_stdout_thread():
                 def read_one() -> str:
@@ -138,10 +141,9 @@ def execute(
                         print(char, end="")
                     except UnicodeEncodeError as exc:
                         print("UnicodeEncodeError:", exc)
-            
-            stderr_text = ""
 
             def run_stderr_thread():
+
                 def read_one() -> str:
                     # Needed for flutter install on MacOS, othrwise it hangs.
                     char = stdout_stream.read(1)  # type: ignore
