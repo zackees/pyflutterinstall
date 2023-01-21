@@ -8,6 +8,7 @@ Shared utility functions
 import os
 import subprocess
 import signal
+import sys
 import time
 from threading import Thread, Event
 from contextlib import contextmanager
@@ -124,6 +125,8 @@ class StdoutThread(Thread):
         for char in iter(read_one, ""):
             try:
                 print(char, end="")
+                sys.stdout.write(char)
+                sys.stdout.flush()
             except UnicodeEncodeError as exc:
                 print("UnicodeEncodeError:", exc)
 
