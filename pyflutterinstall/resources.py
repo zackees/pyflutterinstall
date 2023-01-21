@@ -2,7 +2,7 @@
 Resources for pyflutterinstall
 """
 
-# pylint: disable=line-too-long
+# pylint: disable=line-too-long,fixme
 
 import os
 import sys
@@ -24,16 +24,22 @@ CMDLINE_TOOLS = [
     "system-images;android-27;google_apis_playstore;x86",
 ]
 
+
 def get_platform_java_sdk() -> str:
     """Gets the java platform specific url"""
     if sys.platform == "win32":
         return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
     if sys.platform == "darwin":
         if platform.machine() == "x86_64":
-            return "https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz"
-        return "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
+            return (
+                "https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz"
+            )
+        return (
+            "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
+        )
     # TODO: use linux specific java sdk
     return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
+
 
 if sys.platform == "win32":
     ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"

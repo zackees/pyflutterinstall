@@ -53,3 +53,8 @@ def add_env_path(new_path: Union[Path, str]):
         env_path = new_path
     set_key(ENV_FILE, "FLUTTER_PATHS", env_path)
     setenvironment.add_env_path(new_path)
+
+
+def get_env_path() -> str:
+    """Gets the PATH environment variable."""
+    return setenvironment.get_env_var("PATH")

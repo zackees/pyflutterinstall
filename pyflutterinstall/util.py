@@ -2,7 +2,7 @@
 Shared utility functions
 """
 
-# pylint: disable=consider-using-with,global-statement
+# pylint: disable=consider-using-with,global-statement,too-many-arguments,too-many-locals,fixme
 
 import os
 import subprocess
