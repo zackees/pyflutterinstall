@@ -39,7 +39,6 @@ def install_flutter_sdk() -> None:
         #os.system(cmd)
     else:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
-    return
     if not os.path.exists(FLUTTER_TARGET):
         print(
             f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER !!!!!!!!!!!!!!!"
@@ -51,6 +50,7 @@ def install_flutter_sdk() -> None:
             error_msg += f"  {path}\n"
         print(error_msg)
         raise FileNotFoundError(error_msg)
+    return
     # Add flutter to path
     add_env_path(FLUTTER_TARGET / "bin")
     execute(
