@@ -140,7 +140,7 @@ def install_flutter() -> None:
         f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
         send_confirmation="y\n",
         ignore_errors=False,
-        encoding="cp1252" if sys.platform == "win32" else "utf-8",
+        encoding="iso-8859-1" if sys.platform == "win32" else "utf-8",
     )
     execute(
         "flutter doctor --android-licenses",

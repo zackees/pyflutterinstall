@@ -119,7 +119,7 @@ def execute(
                     encoding=encoding,
                     # 5 MB buffer
                     bufsize=1024 * 1024 * 5,
-                    universal_newlines=encoding == "utf-8",
+                    universal_newlines=True,
                 )
                 stdout_stream = proc.stdout
                 assert stdout_stream is not None
