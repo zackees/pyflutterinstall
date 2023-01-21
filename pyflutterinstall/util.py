@@ -147,7 +147,10 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                 if rtn != 0 and not ignore_errors:
                     if stderr_text:
                         print("stderr:")
-                        print(stderr_text)
+                        print(f'"{stderr_text}"')
+                        chars = [ord(c) for c in stderr_text]
+                        print("chars:", chars)
+
                     print("stderr:")
                     print(stderr_text)
                     RuntimeError(f"Command {command} failed with return code {rtn}")
