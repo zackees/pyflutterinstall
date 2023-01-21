@@ -7,6 +7,7 @@ Resources for pyflutterinstall
 import os
 import sys
 from pathlib import Path
+import platform
 
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
@@ -31,9 +32,14 @@ if sys.platform == "win32":
 
     CHROME_URL = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
 elif sys.platform == "darwin":
-    JAVA_SDK_URL = (
-        "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
-    )
+    if platform.machine() == "x86_64":
+        JAVA_SDK_URL = (
+            "https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz"
+        )
+    else:
+        JAVA_SDK_URL = (
+            "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
+        )
     ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip"
     CHROME_URL = "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
 else:
