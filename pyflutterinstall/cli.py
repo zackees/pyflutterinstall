@@ -44,6 +44,7 @@ def ask_if_interactive(
     else:
         callback()
 
+
 def check_preqs() -> None:
     if shutil.which("git") is None:
         print("Git is not installed, please install, add it to the path then continue.")

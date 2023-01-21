@@ -7,11 +7,8 @@ Shared utility functions
 
 import os
 import subprocess
-import signal
 import sys
-import time
-from threading import Thread, Event
-from contextlib import contextmanager
+from threading import Thread
 from tempfile import TemporaryFile
 from colorama import just_fix_windows_console  # type: ignore
 from pyflutterinstall.resources import (
@@ -52,38 +49,6 @@ def make_dirs() -> None:
     # add to path
     env["PATH"] = f"{FLUTTER_TARGET}/bin{os.pathsep}{env['PATH']}"
     env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
-
-
-class WatchDogTimer(Thread):
-    """Watch dog timer, kills process on hang."""
-
-    def __init__(self, name: str, timeout: int):
-        Thread.__init__(self, daemon=True)
-        self.timeout = timeout
-        self.event = Event()
-        self.name = name
-        self.start()
-
-    def run(self):
-        if not self.event.wait(self.timeout):
-            print(f"\n\nTimeout reached while executing {self.name} killing process.")
-            time.sleep(10)
-            os.kill(os.getpid(), signal.SIGTERM)
-
-    def cancel(self):
-        """Cancel the timer"""
-        self.event.set()
-
-
-@contextmanager
-def watch_dog_timer(name: str, timeout: int):
-    """Watch dog timer"""
-    wdt = WatchDogTimer(name=name, timeout=timeout)
-    try:
-        yield wdt
-    finally:
-        wdt.cancel()
-        wdt.join()
 
 
 class StderrThread(Thread):
@@ -150,54 +115,51 @@ def execute(
     if cwd:
         print(f"  CWD={cwd}")
 
-    with watch_dog_timer(name=command, timeout=timeout):
-        with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
-            if send_confirmation:
-                stdin_string_stream.write(send_confirmation)
-            # temporary buffer for stderr
+    with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
+        if send_confirmation:
+            stdin_string_stream.write(send_confirmation)
+        # temporary buffer for stderr
 
-            proc = subprocess.Popen(
-                command,
-                cwd=cwd,
-                shell=True,
-                stdin=stdin_string_stream,
-                stderr=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                encoding=encoding,
-                # 5 MB buffer
-                bufsize=1024 * 1024 * 5,
-                universal_newlines=True,
-            )
-            stdout_stream = proc.stdout
-            stderr_stream = proc.stderr
-            assert stdout_stream is not None
-            assert stderr_stream is not None
-            thread_stdout = StdoutThread(stdout_stream=stdout_stream)
-            thread_stderr = StderrThread(stderr_stream=stderr_stream)
-            while True:
-                try:
-                    rtn = proc.wait(60 * 4)
-                    break
-                except subprocess.TimeoutExpired:
-                    print(f"Waiting for process {command} to finish...")
-                    continue
+        proc = subprocess.Popen(
+            command,
+            cwd=cwd,
+            shell=True,
+            stdin=stdin_string_stream,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            encoding=encoding,
+            # 5 MB buffer
+            bufsize=1024 * 1024 * 5,
+            universal_newlines=True,
+        )
+        stdout_stream = proc.stdout
+        stderr_stream = proc.stderr
+        assert stdout_stream is not None
+        assert stderr_stream is not None
+        thread_stdout = StdoutThread(stdout_stream=stdout_stream)
+        thread_stderr = StderrThread(stderr_stream=stderr_stream)
+
+        try:
+            rtn = proc.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            print(f"Command {command} timed out after {timeout} seconds.")
+        thread_stdout.join(timeout=10.0)
+        if thread_stdout.is_alive():
+            print("Thread is still alive, killing it.")
+            stdout_stream.write(None)
+            stdout_stream.close()
             thread_stdout.join(timeout=10.0)
-            if thread_stdout.is_alive():
-                print("Thread is still alive, killing it.")
-                stdout_stream.write(None)
-                stdout_stream.close()
-                thread_stdout.join(timeout=10.0)
+        thread_stderr.join(timeout=10.0)
+        if thread_stderr.is_alive():
+            print("Thread is still alive, killing it.")
+            stderr_stream.write(None)
+            stderr_stream.close()
             thread_stderr.join(timeout=10.0)
-            if thread_stderr.is_alive():
-                print("Thread is still alive, killing it.")
-                stderr_stream.write(None)
-                stderr_stream.close()
-                thread_stderr.join(timeout=10.0)
-            if rtn != 0 and not ignore_errors:
-                if thread_stderr.stderr_text:
-                    print(f"stderr:\n{thread_stderr.stderr_text}")
-                RuntimeError(f"Command {command} failed with return code {rtn}")
-            return rtn
+        if rtn != 0 and not ignore_errors:
+            if thread_stderr.stderr_text:
+                print(f"stderr:\n{thread_stderr.stderr_text}")
+            print(f"Command {command} failed with return code {rtn}")
+        return rtn
 
 
 def make_title(title: str) -> None:
