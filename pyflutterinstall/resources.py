@@ -28,25 +28,30 @@ CMDLINE_TOOLS = [
 def get_platform_java_sdk() -> str:
     """Gets the java platform specific url"""
     if sys.platform == "win32":
-        return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
-    if sys.platform == "darwin":
-        if platform.machine() == "x86_64":
-            return (
-                "https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz"
-            )
-        return (
-            "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
-        )
-    return "https://download.oracle.com/java/19/latest/jdk-19_linux-x64_bin.tar.gz"
+        os_name = "windows"
+    elif sys.platform == "darwin":
+        os_name = "macos"
+    else:
+        os_name = "linux"
+    if platform.machine() == "x86_64":
+        arch = "x64"
+    else:
+        arch = "aarch64"
+    return (
+        f"https://download.oracle.com/java/19/latest/jdk-19_{os_name}-{arch}_bin.tar.gz"
+    )
 
 
 def get_android_sdk_url() -> str:
     """Gets the android platform specific url"""
+    version = "9123335"
     if sys.platform == "win32":
-        return "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"
-    if sys.platform == "darwin":
-        return "https://dl.google.com/android/repository/commandlinetools-mac-9123335_latest.zip"
-    return "https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip"
+        os_name = "win"
+    elif sys.platform == "darwin":
+        os_name = "mac"
+    else:
+        os_name = "linux"
+    return f"https://dl.google.com/android/repository/commandlinetools-{os_name}-{version}_latest.zip"
 
 
 def get_chrome_url() -> str:
