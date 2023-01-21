@@ -58,3 +58,8 @@ def add_env_path(new_path: Union[Path, str]):
 def get_env_path() -> str:
     """Gets the PATH environment variable."""
     return setenvironment.get_env_var("PATH")
+
+
+def get_env_var(var_name: str) -> str:
+    """Gets an environment variable."""
+    return setenvironment.get_env_var(var_name)

@@ -11,7 +11,7 @@ import subprocess
 
 from colorama import just_fix_windows_console  # type: ignore
 
-from pyflutterinstall.setenv_win32 import get_env_var
+from pyflutterinstall.setenv import get_env_var
 from pyflutterinstall.setenv import init_dotenv
 
 init_dotenv()
