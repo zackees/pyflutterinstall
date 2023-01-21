@@ -44,6 +44,17 @@ def ask_if_interactive(
     else:
         callback()
 
+def check_preqs() -> None:
+    if shutil.which("git") is None:
+        print("Git is not installed, please install, add it to the path then continue.")
+        sys.exit(1)
+    if sys.platform == "linux":
+        if shutil.which("ninja") is None:
+            print(
+                "Ninja is not installed, please install, add it to the path then continue."
+            )
+            sys.exit(1)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
@@ -58,9 +69,7 @@ def main():
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
     args = parser.parse_args()
-    assert (
-        shutil.which("git") is not None
-    ), "Git is not installed, please install, add it to the path then continue."
+    check_preqs()
     any_skipped = any(
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
     )
