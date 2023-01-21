@@ -37,8 +37,7 @@ def get_platform_java_sdk() -> str:
         return (
             "https://download.oracle.com/java/19/latest/jdk-19_macos-aarch64_bin.tar.gz"
         )
-    # TODO: use linux specific java sdk
-    return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
+    return "https://download.oracle.com/java/19/latest/jdk-19_linux-x64_bin.tar.gz"
 
 
 def get_android_sdk_url() -> str:
