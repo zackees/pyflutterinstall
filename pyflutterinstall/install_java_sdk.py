@@ -51,7 +51,7 @@ def install_java_sdk() -> None:
         set_env_var("JAVA_HOME", str(base_java_dir))
     found_java_path = shutil.which("java")
     assert found_java_path is not None, "No java path found"
-    assert str(java_bin_dir) in found_java_path, "java installed not in expected path"
+    assert str(java_bin_dir) in found_java_path, f"java installed not in expected path, instead it's {found_java_path}"
     java_version = subprocess.check_output(
         "java -version", shell=True, universal_newlines=True, stderr=subprocess.STDOUT
     )
