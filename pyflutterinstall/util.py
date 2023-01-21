@@ -142,10 +142,10 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                     except UnicodeEncodeError as exc:
                         print("UnicodeEncodeError:", exc)
                 stderr_stream.seek(0)
-                stderr_text = stderr_stream.read().decode("utf-8")
+                stderr_text = stderr_stream.read().decode("utf-8").strip()
                 rtn = proc.returncode
                 if rtn != 0 and not ignore_errors:
-                    if len(stderr_text) > 0:
+                    if stderr_text:
                         print("stderr:")
                         print(stderr_text)
                     print("stderr:")
