@@ -19,6 +19,7 @@ from pyflutterinstall.util import (
     make_title,
 )
 
+from pyflutterinstall.util import set_global_skip_confirmation
 from pyflutterinstall.setenv import add_env_path
 
 
@@ -61,3 +62,8 @@ def install_flutter_sdk() -> None:
     )
 
     print("Flutter installed.\n")
+
+
+if __name__ == "__main__":
+    set_global_skip_confirmation(True)
+    install_flutter_sdk()

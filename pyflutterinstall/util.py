@@ -136,6 +136,7 @@ def execute(
                             print(char, end="")
                         except UnicodeEncodeError as exc:
                             print("UnicodeEncodeError:", exc)
+
                 thread = threading.Thread(target=run_stdout_thread, daemon=True)
                 thread.start()
                 proc.wait()
