@@ -29,6 +29,7 @@ def install_flutter_sdk() -> None:
         error_msg += "\npath = \n"
         for path in os.environ["PATH"].split(os.path.pathsep):
             error_msg += f"  {path}\n"
+        print(error_msg)
         raise FileNotFoundError(error_msg)
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
