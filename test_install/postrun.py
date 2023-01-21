@@ -2,7 +2,7 @@
 Pre run script
 """
 
-# pylint: disable=R0801
+# pylint: disable=R0801,invalid-name
 
 import os
 import sys
@@ -50,6 +50,13 @@ def main() -> int:
     for path in os.environ["PATH"].split(os.pathsep):
         print(f"  {path}")
 
+    if sys.platform != "win32":
+        print("Printing ~/.bashrc file")
+        bashrc = os.path.expanduser("~/.bashrc")
+        assert os.path.exists(bashrc)
+        with open(bashrc, encoding="utf-8", mode="r") as f:
+            print(f.read())
+
     needle = os.path.join("cmdline-tools", "latest", "bin")
     found = False
     for path in os.environ["PATH"].split(os.pathsep):
@@ -59,6 +66,7 @@ def main() -> int:
     if not found:
         raise RuntimeError(f'Android tools "{needle} not found in PATH')
 
+    print("Checking if Flutter is in path")
     if not which("flutter"):
         print("Flutter not found in path")
         expected_dir = r"FlutterSDK\Android"
