@@ -109,51 +109,74 @@ def execute(
             if send_confirmation:
                 stdin_string_stream.write(send_confirmation)
             # temporary buffer for stderr
-            with TemporaryFile() as stderr_stream:
-                proc = subprocess.Popen(
-                    command,
-                    cwd=cwd,
-                    shell=True,
-                    stdin=stdin_string_stream,
-                    stderr=stderr_stream,
-                    stdout=subprocess.PIPE,
-                    encoding=encoding,
-                    # 5 MB buffer
-                    bufsize=1024 * 1024 * 5,
-                    universal_newlines=True,
-                )
-                stdout_stream = proc.stdout
-                assert stdout_stream is not None
 
-                def run_stdout_thread():
-                    def read_one() -> str:
-                        # Needed for flutter install on MacOS, othrwise it hangs.
-                        char = stdout_stream.read(1)  # type: ignore
-                        return char
+            proc = subprocess.Popen(
+                command,
+                cwd=cwd,
+                shell=True,
+                stdin=stdin_string_stream,
+                stderr=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                encoding=encoding,
+                # 5 MB buffer
+                bufsize=1024 * 1024 * 5,
+                universal_newlines=True,
+            )
+            stdout_stream = proc.stdout
+            stderr_stream = proc.stderr
+            assert stdout_stream is not None
+            assert stderr_stream is not None
 
-                    for char in iter(read_one, ""):
-                        try:
-                            print(char, end="")
-                        except UnicodeEncodeError as exc:
-                            print("UnicodeEncodeError:", exc)
+            def run_stdout_thread():
+                def read_one() -> str:
+                    # Needed for flutter install on MacOS, othrwise it hangs.
+                    char = stdout_stream.read(1)  # type: ignore
+                    return char
 
-                thread = threading.Thread(target=run_stdout_thread, daemon=True)
-                thread.start()
-                proc.wait()
-                thread.join(timeout=10.0)
-                if thread.is_alive():
-                    print("Thread is still alive, killing it.")
-                    stdout_stream.write(None)
-                    stdout_stream.close()
-                    thread.join(timeout=10.0)
-                stderr_stream.seek(0)
-                stderr_text = stderr_stream.read().decode("utf-8").strip()
-                rtn = proc.returncode
-                if rtn != 0 and not ignore_errors:
-                    if stderr_text:
-                        print(f"stderr:\n{stderr_text}")
-                    RuntimeError(f"Command {command} failed with return code {rtn}")
-                return rtn
+                for char in iter(read_one, ""):
+                    try:
+                        print(char, end="")
+                    except UnicodeEncodeError as exc:
+                        print("UnicodeEncodeError:", exc)
+            
+            stderr_text = ""
+
+            def run_stderr_thread():
+                def read_one() -> str:
+                    # Needed for flutter install on MacOS, othrwise it hangs.
+                    char = stdout_stream.read(1)  # type: ignore
+                    return char
+
+                for char in iter(read_one, ""):
+                    try:
+                        stderr_text += char
+                    except UnicodeEncodeError as exc:
+                        print("UnicodeEncodeError:", exc)
+
+            thread_stdout = threading.Thread(target=run_stdout_thread, daemon=True)
+            thread_stdout.start()
+            thread_stderr = threading.Thread(target=run_stderr_thread, daemon=True)
+            thread_stderr.start()
+            proc.wait()
+            thread_stdout.join(timeout=10.0)
+            if thread_stdout.is_alive():
+                print("Thread is still alive, killing it.")
+                stdout_stream.write(None)
+                stdout_stream.close()
+                thread_stdout.join(timeout=10.0)
+
+            thread_stderr.join(timeout=10.0)
+            if thread_stderr.is_alive():
+                print("Thread is still alive, killing it.")
+                stderr_stream.write(None)
+                stderr_stream.close()
+                thread_stderr.join(timeout=10.0)
+            rtn = proc.returncode
+            if rtn != 0 and not ignore_errors:
+                if stderr_text:
+                    print(f"stderr:\n{stderr_text}")
+                RuntimeError(f"Command {command} failed with return code {rtn}")
+            return rtn
 
 
 def make_title(title: str) -> None:
