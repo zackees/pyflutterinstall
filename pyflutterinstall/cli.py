@@ -28,13 +28,11 @@ from pyflutterinstall.util import (
     make_dirs,
     set_global_skip_confirmation,
 )
-from pyflutterinstall.install import (
-    install_java_sdk,
-    install_android_sdk,
-    install_flutter,
-    install_chrome,
-    postinstall_run_flutter_doctor,
-)
+from pyflutterinstall.flutter_doctor import postinstall_run_flutter_doctor
+from pyflutterinstall.install_java_sdk import install_java_sdk
+from pyflutterinstall.install_android_sdk import install_android_sdk
+from pyflutterinstall.install_flutter_sdk import install_flutter_sdk
+from pyflutterinstall.install_chrome import install_chrome
 
 
 def ask_if_interactive(
@@ -81,7 +79,7 @@ def main():
     if not args.skip_android:
         ask_if_interactive(interactive, "android_sdk", install_android_sdk)
     if not args.skip_flutter:
-        ask_if_interactive(interactive, "flutter", install_flutter)
+        ask_if_interactive(interactive, "flutter", install_flutter_sdk)
     if not args.skip_chrome:
         ask_if_interactive(interactive, "chrome", install_chrome)
     if not args.skip_flutter:
