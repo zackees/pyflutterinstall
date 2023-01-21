@@ -3,16 +3,14 @@ Shared utility functions
 """
 
 # pylint: disable=consider-using-with,global-statement,too-many-arguments,too-many-locals,fixme,too-many-statements
-# flake8: noqa
 
 
 import os
 import subprocess
 import signal
 import time
-import threading
-from contextlib import contextmanager
 from threading import Thread, Event
+from contextlib import contextmanager
 from tempfile import TemporaryFile
 from colorama import just_fix_windows_console  # type: ignore
 from pyflutterinstall.resources import (
@@ -87,6 +85,49 @@ def watch_dog_timer(name: str, timeout: int):
         wdt.join()
 
 
+class StderrThread(Thread):
+    """Thread to read stderr"""
+
+    def __init__(self, stderr_stream):
+        super().__init__(daemon=True)
+        self.stderr_stream = stderr_stream
+        self.stderr_text = ""
+        self.start()
+
+    def run(self):
+        def read_one() -> str:
+            # Needed for flutter install on MacOS, othrwise it hangs.
+            char = self.stderr_stream.read(1)  # type: ignore
+            return char
+
+        for char in iter(read_one, ""):
+            try:
+                self.stderr_text += char
+            except UnicodeEncodeError as exc:
+                print("UnicodeEncodeError:", exc)
+
+
+class StdoutThread(Thread):
+    """Thread to read stdout"""
+
+    def __init__(self, stdout_stream):
+        super().__init__(daemon=True)
+        self.stdout_stream = stdout_stream
+        self.start()
+
+    def run(self):
+        def read_one() -> str:
+            # Needed for flutter install on MacOS, othrwise it hangs.
+            char = self.stdout_stream.read(1)  # type: ignore
+            return char
+
+        for char in iter(read_one, ""):
+            try:
+                print(char, end="")
+            except UnicodeEncodeError as exc:
+                print("UnicodeEncodeError:", exc)
+
+
 def execute(
     command,
     cwd=None,
@@ -128,37 +169,8 @@ def execute(
             stderr_stream = proc.stderr
             assert stdout_stream is not None
             assert stderr_stream is not None
-            stderr_text = ""
-
-            def run_stdout_thread():
-                def read_one() -> str:
-                    # Needed for flutter install on MacOS, othrwise it hangs.
-                    char = stdout_stream.read(1)  # type: ignore
-                    return char
-
-                for char in iter(read_one, ""):
-                    try:
-                        print(char, end="")
-                    except UnicodeEncodeError as exc:
-                        print("UnicodeEncodeError:", exc)
-
-            def run_stderr_thread():
-
-                def read_one() -> str:
-                    # Needed for flutter install on MacOS, othrwise it hangs.
-                    char = stdout_stream.read(1)  # type: ignore
-                    return char
-
-                for char in iter(read_one, ""):
-                    try:
-                        stderr_text += char
-                    except UnicodeEncodeError as exc:
-                        print("UnicodeEncodeError:", exc)
-
-            thread_stdout = threading.Thread(target=run_stdout_thread, daemon=True)
-            thread_stdout.start()
-            thread_stderr = threading.Thread(target=run_stderr_thread, daemon=True)
-            thread_stderr.start()
+            thread_stdout = StdoutThread(stdout_stream=stdout_stream)
+            thread_stderr = StderrThread(stderr_stream=stderr_stream)
             proc.wait()
             thread_stdout.join(timeout=10.0)
             if thread_stdout.is_alive():
@@ -166,7 +178,6 @@ def execute(
                 stdout_stream.write(None)
                 stdout_stream.close()
                 thread_stdout.join(timeout=10.0)
-
             thread_stderr.join(timeout=10.0)
             if thread_stderr.is_alive():
                 print("Thread is still alive, killing it.")
@@ -175,8 +186,8 @@ def execute(
                 thread_stderr.join(timeout=10.0)
             rtn = proc.returncode
             if rtn != 0 and not ignore_errors:
-                if stderr_text:
-                    print(f"stderr:\n{stderr_text}")
+                if thread_stderr.stderr_text:
+                    print(f"stderr:\n{thread_stderr.stderr_text}")
                 RuntimeError(f"Command {command} failed with return code {rtn}")
             return rtn
 

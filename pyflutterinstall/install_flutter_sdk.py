@@ -57,11 +57,11 @@ def install_flutter_sdk() -> None:
         ignore_errors=False,
     )
 
-    #execute(
+    # execute(
     #    "flutter doctor --android-licenses",
     #    send_confirmation="y\ny\ny\n",
     #    ignore_errors=False,
-    #)
+    # )
     os.system("echo y | flutter doctor --android-licenses")
     print("Flutter installed.\n")
 
