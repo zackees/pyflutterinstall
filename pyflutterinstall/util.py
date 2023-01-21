@@ -84,7 +84,14 @@ def watch_dog_timer(name: str, timeout: int):
         wdt.join()
 
 
-def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> int:
+def execute(
+    command,
+    cwd=None,
+    send_confirmation=None,
+    ignore_errors=False,
+    timeout=60 * 10,
+    encoding="utf-8",
+) -> int:
     """Execute a command"""
     interactive = not SKIP_CONFIRMATION or not send_confirmation
     print("####################################")
@@ -96,7 +103,7 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
     if cwd:
         print(f"  CWD={cwd}")
 
-    with watch_dog_timer(name=command, timeout=60 * 30):
+    with watch_dog_timer(name=command, timeout=timeout):
         with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
             if send_confirmation:
                 stdin_string_stream.write(send_confirmation)
@@ -109,11 +116,10 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                     stdin=stdin_string_stream,
                     stderr=stderr_stream,
                     stdout=subprocess.PIPE,
-                    encoding="utf-8",
+                    encoding=encoding,
                     # 5 MB buffer
                     bufsize=1024 * 1024 * 5,
-                    text=True,
-                    universal_newlines=True,
+                    universal_newlines=encoding == "utf-8",
                 )
                 stdout_stream = proc.stdout
                 assert stdout_stream is not None
