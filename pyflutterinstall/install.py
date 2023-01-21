@@ -126,7 +126,7 @@ def install_flutter() -> None:
         print(f"Flutter already installed at {FLUTTER_TARGET}")
     if not os.path.exists(FLUTTER_TARGET):
         print(
-            f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER DOES NOT EXIST !!!!!!!!!!!!!!!"
+            f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER !!!!!!!!!!!!!!!"
         )
         path = os.environ["PATH"]
         error_msg = f"Could not find {FLUTTER_TARGET} in path"

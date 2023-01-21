@@ -97,22 +97,9 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
         print(f"  CWD={cwd}")
 
     with watch_dog_timer(name=command, timeout=60 * 30):
-        if interactive:
-            proc = subprocess.Popen(
-                command,
-                cwd=cwd,
-                shell=True,
-                universal_newlines=True,
-                encoding="utf-8",
-                bufsize=1024 * 1024,
-                text=True,
-            )
-            rtn = proc.wait()
-            if not ignore_errors:
-                RuntimeError(f"Command {command} failed with return code {rtn}")
-            return rtn
         with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
-            stdin_string_stream.write(send_confirmation)
+            if send_confirmation:
+                stdin_string_stream.write(send_confirmation)
             # temporary buffer for stderr
             with TemporaryFile() as stderr_stream:
                 proc = subprocess.Popen(
