@@ -41,16 +41,26 @@ def get_platform_java_sdk() -> str:
     return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
 
 
-if sys.platform == "win32":
-    ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"
-    CHROME_URL = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
-elif sys.platform == "darwin":
-    ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip"
-    CHROME_URL = "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
-else:
-    ANDROID_SDK_URL = "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"
-    CHROME_URL = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
+def get_android_sdk_url() -> str:
+    """Gets the android platform specific url"""
+    if sys.platform == "win32":
+        return "https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip"
+    if sys.platform == "darwin":
+        return "https://dl.google.com/android/repository/commandlinetools-mac-9123335_latest.zip"
+    return "https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip"
 
+
+def get_chrome_url() -> str:
+    """Gets the chrome platform specific url"""
+    if sys.platform == "win32":
+        return "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
+    if sys.platform == "darwin":
+        return "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
+    return "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+
+
+CHROME_URL = get_chrome_url()
+ANDROID_SDK_URL = get_android_sdk_url()
 JAVA_SDK_URL = get_platform_java_sdk()
 PROJECT_ROOT = Path(os.getcwd())
 INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
