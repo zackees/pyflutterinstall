@@ -28,9 +28,8 @@ CMDLINE_TOOLS = [
 def get_platform_java_sdk() -> str:
     """Gets the java platform specific url"""
     if sys.platform == "win32":
-        os_name = "windows"
-        suffix = ".zip"
-    elif sys.platform == "darwin":
+        return "https://download.oracle.com/java/19/latest/jdk-19_windows-x64_bin.zip"
+    if sys.platform == "darwin":
         os_name = "macos"
         suffix = ".tar.gz"
     else:
