@@ -25,7 +25,6 @@ from pyflutterinstall.setenv import add_env_path
 
 def install_flutter_sdk() -> None:
     make_title("Installing Flutter")
-    return
     if shutil.which("git") is None:
         error_msg = "'git' not found in path"
         error_msg += "\npath = \n"
@@ -33,6 +32,7 @@ def install_flutter_sdk() -> None:
             error_msg += f"  {path}\n"
         print(error_msg)
         raise FileNotFoundError(error_msg)
+    return
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
     if not FLUTTER_TARGET.exists():
         cmd = f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"'
