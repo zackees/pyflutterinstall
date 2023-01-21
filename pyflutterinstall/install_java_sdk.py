@@ -44,7 +44,7 @@ def install_java_sdk() -> None:
     java_exe = "java.exe" if os.name == "nt" else "java"
     assert java_exe in os.listdir(java_bin_dir), "java not found in java bin dir"
     add_env_path(java_bin_dir)
-    set_env_var("JAVA_HOME", str(base_java_dir))
+    set_env_var("JAVA_HOME", str(java_bin_dir))
     found_java_path = shutil.which("java")
     assert found_java_path is not None, "No java path found"
     assert str(java_bin_dir) in found_java_path, "java installed not in expected path"
