@@ -8,6 +8,7 @@ import os
 import subprocess
 import signal
 import time
+import threading
 from contextlib import contextmanager
 from threading import Thread, Event
 from tempfile import TemporaryFile
@@ -124,16 +125,26 @@ def execute(
                 stdout_stream = proc.stdout
                 assert stdout_stream is not None
 
-                def read_one() -> str:
-                    # Needed for flutter install on MacOS, othrwise it hangs.
-                    char = stdout_stream.read(1)  # type: ignore
-                    return char
+                def run_stdout_thread():
+                    def read_one() -> str:
+                        # Needed for flutter install on MacOS, othrwise it hangs.
+                        char = stdout_stream.read(1)  # type: ignore
+                        return char
 
-                for char in iter(read_one, ""):
-                    try:
-                        print(char, end="")
-                    except UnicodeEncodeError as exc:
-                        print("UnicodeEncodeError:", exc)
+                    for char in iter(read_one, ""):
+                        try:
+                            print(char, end="")
+                        except UnicodeEncodeError as exc:
+                            print("UnicodeEncodeError:", exc)
+                thread = threading.Thread(target=run_stdout_thread, daemon=True)
+                thread.start()
+                proc.wait()
+                thread.join(timeout=10.0)
+                if thread.is_alive():
+                    print("Thread is still alive, killing it.")
+                    stdout_stream.write(None)
+                    stdout_stream.close()
+                    thread.join(timeout=10.0)
                 stderr_stream.seek(0)
                 stderr_text = stderr_stream.read().decode("utf-8").strip()
                 rtn = proc.returncode
