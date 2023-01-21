@@ -53,6 +53,6 @@ def install_java_sdk() -> None:
     assert found_java_path is not None, "No java path found"
     assert str(java_bin_dir) in found_java_path, "java installed not in expected path"
     java_version = subprocess.check_output(
-        "java -version", shell=True, universal_newlines=True
+        "java -version", shell=True, universal_newlines=True, stderr=subprocess.STDOUT
     )
     print(f"Java SDK installed: {java_version}\n")
