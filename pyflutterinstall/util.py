@@ -146,7 +146,6 @@ def execute(
         thread_stdout.join(timeout=10.0)
         if thread_stdout.is_alive():
             print("Thread is still alive, killing it.")
-            stdout_stream.write(None)
             stdout_stream.close()
             thread_stdout.join(timeout=10.0)
         #thread_stderr.join(timeout=10.0)
