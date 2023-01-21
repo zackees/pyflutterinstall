@@ -22,9 +22,14 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
         restore-keys: |
           ${{ runner.os }}-pip-
+    - name: Install ninja
+      run: apt install ninja-build
+
+    - name: Install gtk
+      run: apt install libgtk-3-dev
+
     - name: Install dependencies
-      run: |
-        pip install -e '.[test]'
+      run: pip install -e '.[test]'
     - name: Run tests
       run: pytest tests
 
