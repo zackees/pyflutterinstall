@@ -73,6 +73,7 @@ def main() -> int:
             dir_list.stdout,
         )
         raise RuntimeError("Flutter not installed, are the paths ok?")
+    subprocess.check_call("java -version", shell=True)
     os.system("flutter doctor -v")
     return 0
 
