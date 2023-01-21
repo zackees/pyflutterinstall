@@ -22,11 +22,15 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
         restore-keys: |
           ${{ runner.os }}-pip-
-    - name: Install dependencies
-      run: |
-        pip install -e '.[test]'
+
     - name: Run tests
       run: pytest tests
+
+    - name: Install dependencies
+      run: pip install -e '.[test]'
+
+    - name: Pre Run Environment state
+      run: python test_install/prerun.py
 
     - name: install java
       run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
