@@ -45,7 +45,7 @@ def install_java_sdk() -> None:
     java_exe = "java.exe" if os.name == "nt" else "java"
     assert java_exe in os.listdir(java_bin_dir), "java not found in java bin dir"
     add_env_path(java_bin_dir)
-    if sys.platform == "darwin":
+    if sys.platform == "darwin" and False:
         set_env_var("JAVA_HOME", str(base_java_dir / "Contents" / "Home"))
     else:
         set_env_var("JAVA_HOME", str(base_java_dir))
