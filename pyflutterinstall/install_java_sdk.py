@@ -8,6 +8,7 @@ import os
 import sys
 from pathlib import Path
 import shutil
+import subprocess
 from download import download  # type: ignore
 
 from pyflutterinstall.resources import (
@@ -51,4 +52,5 @@ def install_java_sdk() -> None:
     found_java_path = shutil.which("java")
     assert found_java_path is not None, "No java path found"
     assert str(java_bin_dir) in found_java_path, "java installed not in expected path"
+    subprocess.run(["java", "-version"], check=True)
     print("Java SDK installed.\n")

@@ -7,7 +7,6 @@ Pre run script
 import os
 import sys
 from shutil import which
-import subprocess
 
 from colorama import just_fix_windows_console  # type: ignore
 
