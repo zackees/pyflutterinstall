@@ -174,7 +174,11 @@ def execute(
             assert stderr_stream is not None
             thread_stdout = StdoutThread(stdout_stream=stdout_stream)
             thread_stderr = StderrThread(stderr_stream=stderr_stream)
-            proc.wait()
+            while True:
+                rtn = proc.wait(60 * 4)
+                if rtn is not None:
+                    break
+                print(f"Waiting for process {command} to finish...")
             thread_stdout.join(timeout=10.0)
             if thread_stdout.is_alive():
                 print("Thread is still alive, killing it.")
@@ -187,7 +191,6 @@ def execute(
                 stderr_stream.write(None)
                 stderr_stream.close()
                 thread_stderr.join(timeout=10.0)
-            rtn = proc.returncode
             if rtn != 0 and not ignore_errors:
                 if thread_stderr.stderr_text:
                     print(f"stderr:\n{thread_stderr.stderr_text}")
