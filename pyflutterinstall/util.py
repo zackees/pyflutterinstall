@@ -126,6 +126,7 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                     # 5 MB buffer
                     bufsize=1024 * 1024 * 5,
                     text=True,
+                    universal_newlines=True,
                 )
                 stdout_stream = proc.stdout
                 assert stdout_stream is not None
@@ -141,7 +142,7 @@ def execute(command, cwd=None, send_confirmation=None, ignore_errors=False) -> i
                     except UnicodeEncodeError as exc:
                         print("UnicodeEncodeError:", exc)
                 stderr_stream.seek(0)
-                stderr_text = stderr_stream.read()
+                stderr_text = stderr_stream.read().decode("utf-8")
                 rtn = proc.returncode
                 if rtn != 0 and not ignore_errors:
                     if len(stderr_text) > 0:
