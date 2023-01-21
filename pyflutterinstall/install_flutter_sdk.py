@@ -50,7 +50,6 @@ def install_flutter_sdk() -> None:
             error_msg += f"  {path}\n"
         print(error_msg)
         raise FileNotFoundError(error_msg)
-    return
     # Add flutter to path
     add_env_path(FLUTTER_TARGET / "bin")
     execute(
@@ -58,6 +57,7 @@ def install_flutter_sdk() -> None:
         send_confirmation="y\n",
         ignore_errors=False,
     )
+    return
     execute(
         "flutter doctor --android-licenses",
         send_confirmation="y\n",
