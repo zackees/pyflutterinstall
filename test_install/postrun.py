@@ -11,8 +11,7 @@ import subprocess
 
 from colorama import just_fix_windows_console  # type: ignore
 
-from pyflutterinstall.setenv import get_env_var
-from pyflutterinstall.setenv import init_dotenv
+from pyflutterinstall.setenv import get_env_var, init_dotenv
 
 init_dotenv()
 
@@ -69,18 +68,7 @@ def main() -> int:
     print("Checking if Flutter is in path")
     if not which("flutter"):
         print("Flutter not found in path")
-        expected_dir = r"FlutterSDK\Android"
-        dir_list = subprocess.run(  # pylint: disable=subprocess-run-check
-            "dir /b /s", shell=True, capture_output=True, text=True, cwd=expected_dir
-        )
-        files = os.listdir(expected_dir) if os.path.exists(expected_dir) else "DOES NOT EXIST"
-        print(
-            f"paths in {expected_dir} is",
-            files,
-            "\nThe dir list is",
-            dir_list.stdout,
-        )
-        raise RuntimeError("Flutter not installed, are the paths ok?")
+        return 1
     rtn = os.system("java -version")
     if rtn != 0:
         print("Java not found in path")
