@@ -8,7 +8,7 @@ Shared utility functions
 import os
 import subprocess
 import sys
-from threading import Thread
+from threading import Thread, Event
 from tempfile import TemporaryFile
 from colorama import just_fix_windows_console  # type: ignore
 from pyflutterinstall.resources import (
@@ -117,8 +117,23 @@ def execute(
         thread_stdout = StreamPumpThread(stream=stdout_stream)
         thread_stderr = StreamPumpThread(stream=stderr_stream)
 
+        event = Event()
+
+        def watchdog():
+            val = event.wait(timeout=timeout)
+            if not val:
+                sys.stdout.write(
+                    f"Command {command} timed out after {timeout} seconds.\n"
+                )
+                sys.stdout.flush()
+                proc.kill()
+                sys.exit(1)
+
+        watchdog_thread = Thread(target=watchdog, daemon=True)
         try:
-            rtn = proc.wait(timeout=timeout)
+            rtn = proc.wait()
+            event.set()
+            watchdog_thread.join()
         except subprocess.TimeoutExpired:
             print(f"Command {command} timed out after {timeout} seconds.")
         thread_stdout.join(timeout=10.0)
