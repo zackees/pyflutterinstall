@@ -130,6 +130,7 @@ def execute(
                 sys.exit(1)
 
         watchdog_thread = Thread(target=watchdog, daemon=True)
+        watchdog_thread.start()
         try:
             rtn = proc.wait()
             event.set()
