@@ -28,6 +28,14 @@ jobs:
         path: ./.downloads
         key: install-${{ hashFiles('.downloads') }}
         restore-keys: install-
+    - name: Install Xcode Deps
+      run: brew install coreutils &&
+           echo "$CERTIFICATES_P12" > cert.txt &&
+           echo "$CERTIFICATES_PROFILE" > profile.txt &&
+           gbase64 -di cert.txt > cert.p12 &&
+           gbase64 -di profile.txt > profile.mobileprovision &&
+           KEYCHAIN_PATH=$RUNNER_TEMP/login.keychain
+
     - name: check prerun
       run: python test_install/prerun.py
     - name: Install dependencies
