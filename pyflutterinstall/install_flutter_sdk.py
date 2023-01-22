@@ -23,7 +23,7 @@ from pyflutterinstall.util import set_global_skip_confirmation
 from pyflutterinstall.setenv import add_env_path
 
 
-def install_flutter_sdk() -> None:
+def install_flutter_sdk() -> int:
     make_title("Installing Flutter")
     if shutil.which("git") is None:
         error_msg = "'git' not found in path"
@@ -63,6 +63,7 @@ def install_flutter_sdk() -> None:
     )
     # os.system("echo y | flutter doctor --android-licenses")
     print("Flutter installed.\n")
+    return 0
 
 
 if __name__ == "__main__":

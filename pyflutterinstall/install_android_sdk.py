@@ -6,6 +6,7 @@ Contains the install functions for the various components
 
 import os
 import shutil
+import sys
 from download import download  # type: ignore
 
 from pyflutterinstall.resources import (
@@ -24,7 +25,7 @@ from pyflutterinstall.util import (
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
 
-def install_android_sdk() -> None:
+def install_android_sdk() -> int:
     make_title("Installing Android SDK")
     print(
         f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {INSTALL_DIR}"
@@ -77,3 +78,13 @@ def install_android_sdk() -> None:
         ignore_errors=False,
     )
     add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
+    return 0
+
+
+def main() -> int:
+    install_android_sdk()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

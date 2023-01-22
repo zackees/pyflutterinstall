@@ -36,13 +36,14 @@ from pyflutterinstall.install_chrome import install_chrome
 
 
 def ask_if_interactive(
-    is_interactive: bool, callback_name: str, callback: Callable
-) -> None:
-    if is_interactive:
-        if input(f"install {callback_name} (y/n)? ") == "y":
-            callback()
-    else:
-        callback()
+    is_interactive: bool, callback_name: str, callback: Callable[[], int]
+) -> int :
+    if not is_interactive:
+        return callback()
+    do_install = input(f"install {callback_name} (y/n)? ") == "y"
+    if not do_install:
+        return 0
+    return callback()
 
 
 def check_preqs() -> None:

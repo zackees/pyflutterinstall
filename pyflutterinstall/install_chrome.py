@@ -19,7 +19,7 @@ from pyflutterinstall.util import (
 )
 
 
-def install_chrome() -> None:
+def install_chrome() -> int:
     make_title("Installing Chrome")
     # Install chrome for windows
     try:
@@ -41,3 +41,4 @@ def install_chrome() -> None:
         print(
             f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}"
         )
+    return 0

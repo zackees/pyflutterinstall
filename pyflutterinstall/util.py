@@ -83,21 +83,25 @@ def execute(
     encoding="utf-8",
 ) -> int:
     """Execute a command"""
-    interactive = not SKIP_CONFIRMATION or not send_confirmation
+    if not SKIP_CONFIRMATION:
+        send_confirmation = None
     print("####################################")
     print(f"Executing\n  {command}")
-    if not interactive:
+    if send_confirmation is not None:
         conf_str = send_confirmation.replace("\n", "\\n")
         print(f'Sending confirmation: "{conf_str}"')
     print("####################################")
     if cwd:
         print(f"  CWD={cwd}")
 
+    if send_confirmation is None:
+        subprocess.run(command, cwd=cwd, shell=True, check=True)
+        return 0
+
     with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
         if send_confirmation:
             stdin_string_stream.write(send_confirmation)
         # temporary buffer for stderr
-
         proc = subprocess.Popen(
             command,
             cwd=cwd,

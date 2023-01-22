@@ -23,7 +23,7 @@ from pyflutterinstall.util import make_title
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
 
-def install_java_sdk() -> None:
+def install_java_sdk() -> int:
     make_title("Installing Java SDK")
     print(f"Install Java SDK from {JAVA_SDK_URL} to {INSTALL_DIR}")
     java_sdk_zip_file = Path(
@@ -58,3 +58,12 @@ def install_java_sdk() -> None:
         "java -version", shell=True, universal_newlines=True, stderr=subprocess.STDOUT
     )
     print(f"Java SDK installed: {java_version}\n")
+    return 0
+
+
+def main() -> int:
+    return install_java_sdk()
+
+
+if __name__ == "__main__":
+    sys.exit(main())
