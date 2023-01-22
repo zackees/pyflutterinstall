@@ -142,3 +142,4 @@ def make_title(title: str) -> None:
     print("\n\n###########################################")
     print(f"{title.center(43, '#')}")
     print("###########################################\n\n")
+    sys.stdout.flush()
