@@ -6,7 +6,7 @@ import os
 import sys
 
 FLUTTER_SDK = "FlutterSDK"
-MAX_DEPTH = 3
+MAX_DEPTH = 4
 
 
 def main() -> int:
