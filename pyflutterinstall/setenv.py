@@ -46,12 +46,15 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
 def add_env_path(new_path: Union[Path, str]):
     """Adds a path to the front of the PATH environment variable."""
     new_path = str(new_path)
-    env_path = get_key(ENV_FILE, "FLUTTER_PATHS")
-    if env_path:
-        env_path = env_path + os.pathsep + new_path
+    env_path = get_key(ENV_FILE, "FLUTTER_PATHS") or ""
+    if new_path not in env_path:
+        if not env_path:
+            env_path = new_path
+        else:
+            env_path = env_path + os.pathsep + new_path
+        set_key(ENV_FILE, "FLUTTER_PATHS", env_path)
     else:
         env_path = new_path
-    set_key(ENV_FILE, "FLUTTER_PATHS", env_path)
     setenvironment.add_env_path(new_path)
 
 
