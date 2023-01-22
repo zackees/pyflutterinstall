@@ -69,9 +69,11 @@ def install_android_sdk() -> None:
             send_confirmation="y\n",
             ignore_errors=False,
         )
+    # send_confirmation = "y\ny\ny\ny\ny\ny\ny\nn\n"
+    send_confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\nn\n"
     execute(
         f'{sdkmanager_path} --licenses --sdk_root="{ANDROID_SDK}"',
-        send_confirmation="y\ny\ny\ny\ny\ny\ny\nn\n",
+        send_confirmation=send_confirmation,
         ignore_errors=False,
     )
     add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
