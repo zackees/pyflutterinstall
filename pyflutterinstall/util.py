@@ -51,40 +51,18 @@ def make_dirs() -> None:
     env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
 
 
-class StderrThread(Thread):
-    """Thread to read stderr"""
-
-    def __init__(self, stderr_stream):
-        super().__init__(daemon=True)
-        self.stderr_stream = stderr_stream
-        self.stderr_text = ""
-        self.start()
-
-    def run(self):
-        def read_one() -> str:
-            # Needed for flutter install on MacOS, othrwise it hangs.
-            char = self.stderr_stream.read(1)  # type: ignore
-            return char
-
-        for char in iter(read_one, ""):
-            try:
-                self.stderr_text += char
-            except UnicodeEncodeError as exc:
-                print("UnicodeEncodeError:", exc)
-
-
-class StdoutThread(Thread):
+class StreamPumpThread(Thread):
     """Thread to read stdout"""
 
-    def __init__(self, stdout_stream):
+    def __init__(self, stream):
         super().__init__(daemon=True)
-        self.stdout_stream = stdout_stream
+        self.stream = stream
         self.start()
 
     def run(self):
         def read_one() -> str:
             # Needed for flutter install on MacOS, othrwise it hangs.
-            char = self.stdout_stream.read(1)  # type: ignore
+            char = self.stream.read(1)  # type: ignore
             return char
 
         for char in iter(read_one, ""):
@@ -136,8 +114,8 @@ def execute(
         stderr_stream = proc.stderr
         assert stdout_stream is not None
         assert stderr_stream is not None
-        thread_stdout = StdoutThread(stdout_stream=stdout_stream)
-        thread_stderr = StderrThread(stderr_stream=stderr_stream)
+        thread_stdout = StreamPumpThread(stream=stdout_stream)
+        thread_stderr = StreamPumpThread(stream=stderr_stream)
 
         try:
             rtn = proc.wait(timeout=timeout)
@@ -154,8 +132,6 @@ def execute(
             stderr_stream.close()
             thread_stderr.join(timeout=10.0)
         if rtn != 0 and not ignore_errors:
-            if thread_stderr.stderr_text:
-                print(f"stderr:\n{thread_stderr.stderr_text}")
             print(f"Command {command} failed with return code {rtn}")
         return rtn
 

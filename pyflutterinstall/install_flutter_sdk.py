@@ -55,13 +55,13 @@ def install_flutter_sdk() -> None:
         f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
         send_confirmation="y\n",
         ignore_errors=False,
-        timeout=60.0*4
+        timeout=60.0 * 4,
     )
     execute(
         "flutter doctor --android-licenses",
         send_confirmation="y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n",
         ignore_errors=False,
-        timeout=60.0*4
+        timeout=60.0 * 4,
     )
     # os.system("echo y | flutter doctor --android-licenses")
     print("Flutter installed.\n")
