@@ -1,5 +1,7 @@
 # pyflutterinstall
 
+Install flutter and all the dependencies for Mac, Windows and Linux.
+
 # Win Tests
 
 [![Win_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml)
@@ -28,11 +30,7 @@ Usage
 > pyflutterinstall
 ```
 
-This is still beta software. Despite tests passing, only windows is supported.
-
-Build info is located at [pyflutterinstall/pyflutterinstall/resources.py ](pyflutterinstall/resources.py)
-
 # Releases
-
-  * 0.2: Automated tests for windows
-  * 0.1: Initial release - windows supported.
+  * 1.0.0: Windows, Mac and Linux now supported and all tests pass.
+  * 0.0.2: Automated tests for windows.
+  * 0.0.1: Initial release - windows supported.

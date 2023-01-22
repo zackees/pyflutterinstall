@@ -15,13 +15,13 @@ FLUTTER_GIT_DOWNLOAD = (
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CMDLINE_TOOLS = [
     "system-images;android-30;default;x86_64",
+    "system-images;android-27;google_apis_playstore;x86",
     "cmdline-tools;latest",
     "platform-tools",
     "build-tools;33.0.1",
     "platforms;android-33",
     "emulator",
     "tools",
-    "system-images;android-27;google_apis_playstore;x86",
 ]
 
 
