@@ -35,3 +35,6 @@ jobs:
 
     - name: install flutter
       run: pyflutterinstall --skip-confirmation --skip-chrome
+
+    - name: Print Flutter SDK Folder
+      run: python test_install/print_flutter_folder.py
