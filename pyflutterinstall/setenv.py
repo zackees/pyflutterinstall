@@ -13,6 +13,16 @@ import setenvironment  # type: ignore
 ENV_FILE = "./.env"
 INITIALIZED = False
 
+def uniquify_paths(paths: list[str]) -> list[str]:
+    """Removes duplicate paths from the given path string."""
+    found = set()
+    result = []
+    for path in paths:
+        if path not in found:
+            result.append(path)
+            found.add(path)
+    return result
+
 
 def init_dotenv() -> None:
     """Initializes the dotenv environment."""
@@ -28,6 +38,7 @@ def init_dotenv() -> None:
         if paths:
             os_env_paths = os.environ.get("PATH", "").split(os.pathsep)
             paths = paths + os_env_paths
+            paths = uniquify_paths(paths)
             os.environ["PATH"] = os.pathsep.join(paths)
 
 
