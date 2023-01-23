@@ -35,7 +35,7 @@ def main() -> int:
     # because the previously run subprocesses will have modified the
     # user environment but the parent process will not have seen these
     # so it's necessary to update the environment in this child process.
-    #if sys.platform == "win32":
+    # if sys.platform == "win32":
     #    update_env_win32(["PATH", "ANDROID_SDK_ROOT", "ANDROID_HOME", "JAVA_HOME"])
     # Print out the current environment
     print("Environment:")
