@@ -37,7 +37,7 @@ from pyflutterinstall.install_chrome import install_chrome
 
 def ask_if_interactive(
     is_interactive: bool, callback_name: str, callback: Callable[[], int]
-) -> int :
+) -> int:
     if not is_interactive:
         return callback()
     do_install = input(f"install {callback_name} (y/n)? ") == "y"

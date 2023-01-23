@@ -10,34 +10,14 @@ from shutil import which
 
 from colorama import just_fix_windows_console  # type: ignore
 
-from pyflutterinstall.setenv import get_env_var, init_dotenv
+from pyflutterinstall.setenv import init_dotenv
 
 init_dotenv()
-
-
-def update_env_win32(names: list[str]) -> None:
-    """Updates the environment with the given name."""
-    for name in names:
-        value = get_env_var(name)
-        if value:
-            os.environ.update({name: value})
-        else:
-            print(f"Warning: {name} not found")
-            cmd = f"reg query HKCU\\Environment /v {name}"
-            print(f"Searching reg environment to it (dbg) with {cmd}")
-            os.system(f"reg query HKCU\\Environment /v {name}")
 
 
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
     just_fix_windows_console()  # Fixes color breakages
-    # Get the environment and slurp them in. Note that this is necessary
-    # because the previously run subprocesses will have modified the
-    # user environment but the parent process will not have seen these
-    # so it's necessary to update the environment in this child process.
-    # if sys.platform == "win32":
-    #    update_env_win32(["PATH", "ANDROID_SDK_ROOT", "ANDROID_HOME", "JAVA_HOME"])
-    # Print out the current environment
     print("Environment:")
     for key, value in os.environ.items():
         # skip path

@@ -13,6 +13,7 @@ import setenvironment  # type: ignore
 ENV_FILE = "./.env"
 INITIALIZED = False
 
+
 def uniquify_paths(paths: list[str]) -> list[str]:
     """Removes duplicate paths from the given path string."""
     found = set()
