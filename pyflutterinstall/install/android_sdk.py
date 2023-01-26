@@ -15,7 +15,7 @@ from pyflutterinstall.resources import (
     INSTALL_DIR,
     DOWNLOAD_DIR,
     ANDROID_SDK,
-    IS_GITHUB_RUNNER
+    IS_GITHUB_RUNNER,
 )
 
 from pyflutterinstall.util import (

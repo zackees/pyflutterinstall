@@ -29,10 +29,10 @@ from pyflutterinstall.util import (
     set_global_skip_confirmation,
 )
 from pyflutterinstall.flutter_doctor import postinstall_run_flutter_doctor
-from pyflutterinstall.install_java_sdk import install_java_sdk
-from pyflutterinstall.install_android_sdk import install_android_sdk
-from pyflutterinstall.install_flutter_sdk import install_flutter_sdk
-from pyflutterinstall.install_chrome import install_chrome
+from pyflutterinstall.install.java_sdk import install_java_sdk
+from pyflutterinstall.install.android_sdk import install_android_sdk
+from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
+from pyflutterinstall.install.chrome import install_chrome
 
 
 def ask_if_interactive(

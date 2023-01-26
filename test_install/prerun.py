@@ -5,26 +5,12 @@ Pre run script
 import os
 import sys
 from shutil import which
+from pyflutterinstall.util import print_tree_dir
 
 TOOLS = [
     "flutter",
     "dart",
 ]
-
-
-def print_tree_dir(path: str, max_level=2) -> None:
-    """Prints the tree of a directory"""
-    output = ""
-    for root, _, files in os.walk(path):
-        level = root.replace(path, "").count(os.sep)
-        indent = " " * 4 * (level)
-        if (max_level > 0) and (level + 1) > max_level:  # pylint: disable=chained-comparison
-            continue
-        output += f"{indent}{os.path.basename(root)}" + os.linesep
-        subindent = " " * 4 * (level + 1)
-        for file in files:
-            output += f"{subindent}{file}" + os.linesep
-    print(output)
 
 
 def main() -> int:
