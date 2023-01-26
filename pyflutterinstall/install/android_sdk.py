@@ -88,14 +88,12 @@ def install_android_sdk() -> int:
     return 0
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--yes", action="store_true")
+    parser.add_argument("--prompt", action="store_true")
     args = parser.parse_args()
-    if args.yes:
-        set_global_skip_confirmation(True)
+    set_global_skip_confirmation(not args.prompt)
     install_android_sdk()
-    return 0
 
 
 if __name__ == "__main__":
