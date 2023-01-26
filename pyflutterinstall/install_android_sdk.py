@@ -15,6 +15,7 @@ from pyflutterinstall.resources import (
     INSTALL_DIR,
     DOWNLOAD_DIR,
     ANDROID_SDK,
+    IS_GITHUB_RUNNER
 )
 
 from pyflutterinstall.util import (
@@ -23,8 +24,6 @@ from pyflutterinstall.util import (
 )
 
 from pyflutterinstall.setenv import add_env_path, set_env_var
-
-IS_GITHUB_RUNNER = os.getenv("GITHUB_ACTIONS") == "true"
 
 
 def install_android_sdk() -> int:
