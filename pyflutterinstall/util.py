@@ -95,8 +95,8 @@ def execute(
         print(f"  CWD={cwd}")
 
     if send_confirmation is None:
-        subprocess.run(command, cwd=cwd, shell=True, check=True)
-        return 0
+        completed_process = subprocess.run(command, cwd=cwd, shell=True, check=not ignore_errors)
+        return completed_process.returncode
 
     with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
         if send_confirmation:
