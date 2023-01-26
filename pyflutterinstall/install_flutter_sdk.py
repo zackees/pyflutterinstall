@@ -56,6 +56,7 @@ def install_flutter_sdk() -> int:
         send_confirmation="y\n",
         ignore_errors=False,
     )
+    execute("flutter precache", ignore_errors=True)
     execute(
         "flutter doctor --android-licenses",
         send_confirmation="y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n",
