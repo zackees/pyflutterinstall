@@ -15,11 +15,13 @@ from pyflutterinstall.setenv import init_dotenv
 init_dotenv()
 
 
-def print_tree_dir(path: str) -> None:
+def print_tree_dir(path: str, max_level = 2) -> None:
     """Prints the tree of a directory"""
     output = ""
     for root, _, files in os.walk(path):
         level = root.replace(path, "").count(os.sep)
+        if level > max_level:
+            continue
         indent = " " * 4 * (level)
         output += f"{indent}{os.path.basename(root)}" + os.linesep
         subindent = " " * 4 * (level + 1)
