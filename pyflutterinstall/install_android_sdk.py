@@ -24,6 +24,8 @@ from pyflutterinstall.util import (
 
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
+IS_GITHUB_RUNNER = os.getenv("GITHUB_ACTIONS") == "true"
+
 
 def install_android_sdk() -> int:
     make_title("Installing Android SDK")
@@ -81,10 +83,8 @@ def install_android_sdk() -> int:
     )
     add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
     if sys.platform == "darwin":
-        if os.getenv("GITHUB_ACTIONS") == "true":
-            execute("gem install cocoapods", ignore_errors=True)
-        else:
-            execute("brew install cocoapods", ignore_errors=True)
+        package_mgr = "brew" if IS_GITHUB_RUNNER else "gem"
+        execute(f"{package_mgr} install cocoapods", ignore_errors=True)
     return 0
 
 
