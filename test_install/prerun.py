@@ -12,18 +12,18 @@ TOOLS = [
 ]
 
 
-def print_tree_dir(path: str, max_level = 2) -> None:
+def print_tree_dir(path: str, max_level=2) -> None:
     """Prints the tree of a directory"""
     output = ""
     for root, _, files in os.walk(path):
         level = root.replace(path, "").count(os.sep)
-        if level > max_level:
-            continue
         indent = " " * 4 * (level)
         output += f"{indent}{os.path.basename(root)}" + os.linesep
         subindent = " " * 4 * (level + 1)
-        for f in files:
-            output += f"{subindent}{f}" + os.linesep
+        if (max_level > 0) and (level + 1) > max_level:  # pylint: disable=chained-comparison
+            continue
+        for file in files:
+            output += f"{subindent}{file}" + os.linesep
     print(output)
 
 
