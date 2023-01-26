@@ -2,8 +2,9 @@
 Contains the install functions for the various components
 """
 
-# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long
+# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long,R0801
 
+import argparse
 import os
 import sys
 from pathlib import Path
@@ -18,7 +19,7 @@ from pyflutterinstall.resources import (
     JAVA_DIR,
 )
 
-from pyflutterinstall.util import make_title
+from pyflutterinstall.util import make_title, set_global_skip_confirmation
 
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
@@ -61,9 +62,14 @@ def install_java_sdk() -> int:
     return 0
 
 
-def main() -> int:
-    return install_java_sdk()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--yes", action="store_true")
+    args = parser.parse_args()
+    if args.yes:
+        set_global_skip_confirmation(True)
+    install_java_sdk()
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

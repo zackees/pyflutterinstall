@@ -4,6 +4,7 @@ Contains the install functions for the various components
 
 # pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long
 
+import argparse
 import os
 import shutil
 import sys
@@ -18,10 +19,7 @@ from pyflutterinstall.resources import (
     IS_GITHUB_RUNNER,
 )
 
-from pyflutterinstall.util import (
-    execute,
-    make_title,
-)
+from pyflutterinstall.util import execute, make_title, set_global_skip_confirmation
 
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
@@ -91,6 +89,11 @@ def install_android_sdk() -> int:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--yes", action="store_true")
+    args = parser.parse_args()
+    if args.yes:
+        set_global_skip_confirmation(True)
     install_android_sdk()
     return 0
 

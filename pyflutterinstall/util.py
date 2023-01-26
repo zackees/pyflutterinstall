@@ -172,9 +172,7 @@ def print_tree_dir(path: str, max_level=2) -> None:
     for root, _, files in os.walk(path):
         level = root.replace(path, "").count(os.sep)
         indent = " " * 4 * (level)
-        if (
-            max_level > 0 and (level + 1) > max_level
-        ):
+        if max_level > 0 and (level + 1) > max_level:
             continue
         output += f"{indent}{os.path.basename(root)}" + os.linesep
         subindent = " " * 4 * (level + 1)

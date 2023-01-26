@@ -2,8 +2,9 @@
 Contains the install functions for the various components
 """
 
-# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long
+# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long,R0801
 
+import argparse
 import os
 import subprocess
 from download import download  # type: ignore
@@ -14,9 +15,7 @@ from pyflutterinstall.resources import (
     DOWNLOAD_DIR,
 )
 
-from pyflutterinstall.util import (
-    make_title,
-)
+from pyflutterinstall.util import make_title, set_global_skip_confirmation
 
 
 def install_chrome() -> int:
@@ -42,3 +41,16 @@ def install_chrome() -> int:
             f"Error while installing chrome:\n  status={exc.returncode},\n  output={exc.output}"
         )
     return 0
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--yes", action="store_true")
+    args = parser.parse_args()
+    if args.yes:
+        set_global_skip_confirmation(True)
+    install_chrome()
+
+
+if __name__ == "__main__":
+    main()

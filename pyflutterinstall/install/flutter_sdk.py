@@ -2,8 +2,9 @@
 Contains the install functions for the various components
 """
 
-# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long
+# pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long,R0801
 
+import argparse
 import os
 import shutil
 
@@ -14,12 +15,7 @@ from pyflutterinstall.resources import (
     FLUTTER_TARGET,
 )
 
-from pyflutterinstall.util import (
-    execute,
-    make_title,
-)
-
-from pyflutterinstall.util import set_global_skip_confirmation
+from pyflutterinstall.util import execute, make_title, set_global_skip_confirmation
 from pyflutterinstall.setenv import add_env_path
 
 
@@ -67,6 +63,14 @@ def install_flutter_sdk() -> int:
     return 0
 
 
-if __name__ == "__main__":
-    set_global_skip_confirmation(True)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--yes", action="store_true")
+    args = parser.parse_args()
+    if args.yes:
+        set_global_skip_confirmation(True)
     install_flutter_sdk()
+
+
+if __name__ == "__main__":
+    main()
