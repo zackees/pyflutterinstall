@@ -71,7 +71,7 @@ PROJECT_ROOT = Path(os.getcwd())
 INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
 ENV_FILE = PROJECT_ROOT / ".env"
 DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
-ANDROID_SDK = INSTALL_DIR / "Android"
+ANDROID_SDK = INSTALL_DIR / "Android" / "sdk"
 FLUTTER_TARGET = ANDROID_SDK / "flutter"
 JAVA_DIR = ANDROID_SDK / "java"
 IS_GITHUB_RUNNER = os.getenv("GITHUB_ACTIONS", "false") == "true"
