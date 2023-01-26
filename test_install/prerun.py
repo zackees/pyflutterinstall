@@ -15,6 +15,8 @@ TOOLS = [
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
     # Print out the current environment
+    print("ANDROID_HOME = " + os.environ["ANDROID_HOME"])
+    print(f"dir $ANDROID_HOME = {os.listdir(os.environ['ANDROID_HOME'])}")
     print("Environment:")
     for key, value in os.environ.items():
         # skip path
