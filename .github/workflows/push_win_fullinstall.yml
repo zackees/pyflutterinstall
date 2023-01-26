@@ -36,8 +36,12 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -e '.[test]'
+
     - name: Run tests
       run: pytest tests
+
+    - name: Pre Run Environment state
+      run: python test_install/prerun.py
 
     - name: install all
       run: pyflutterinstall --skip-confirmation --skip-chrome

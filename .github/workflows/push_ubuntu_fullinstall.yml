@@ -30,6 +30,10 @@ jobs:
 
     - name: Install dependencies
       run: pip install -e '.[test]'
+
+    - name: Pre Run Environment state
+      run: python test_install/prerun.py
+
     - name: Run tests
       run: pytest tests
 
