@@ -81,7 +81,10 @@ def install_android_sdk() -> int:
     )
     add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
     if sys.platform == "darwin":
-        execute("brew install cocoapods", ignore_errors=True)
+        if os.getenv("GITHUB_ACTIONS") == "true":
+            execute("gem install cocoapods", ignore_errors=True)
+        else:
+            execute("brew install cocoapods", ignore_errors=True)
     return 0
 
 
