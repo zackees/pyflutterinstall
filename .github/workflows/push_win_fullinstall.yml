@@ -49,5 +49,8 @@ jobs:
     - name: post install check
       run: python test_install/postrun.py
 
+    - name: post install check
+      run: python test_install/postrun.py
+
     - name: Print Flutter SDK Folder
       run: python test_install/print_flutter_folder.py
