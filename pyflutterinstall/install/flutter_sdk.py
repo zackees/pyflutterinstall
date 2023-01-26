@@ -15,8 +15,9 @@ from pyflutterinstall.resources import (
     FLUTTER_TARGET,
 )
 
-from pyflutterinstall.util import execute, make_title, set_global_skip_confirmation
+from pyflutterinstall.util import make_title
 from pyflutterinstall.setenv import add_env_path
+from pyflutterinstall.execute import execute, set_global_skip_confirmation
 
 
 def install_flutter_sdk() -> int:

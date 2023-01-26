@@ -6,7 +6,8 @@ Contains the install functions for the various components
 
 import shutil
 
-from pyflutterinstall.util import make_title, execute
+from pyflutterinstall.util import make_title
+from pyflutterinstall.execute import execute
 
 
 def postinstall_run_flutter_doctor() -> None:

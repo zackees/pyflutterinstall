@@ -26,13 +26,13 @@ from typing import Callable
 from pyflutterinstall.resources import INSTALL_DIR
 from pyflutterinstall.util import (
     make_dirs,
-    set_global_skip_confirmation,
 )
 from pyflutterinstall.flutter_doctor import postinstall_run_flutter_doctor
 from pyflutterinstall.install.java_sdk import install_java_sdk
 from pyflutterinstall.install.android_sdk import install_android_sdk
 from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
 from pyflutterinstall.install.chrome import install_chrome
+from pyflutterinstall.execute import set_global_skip_confirmation
 
 
 def ask_if_interactive(

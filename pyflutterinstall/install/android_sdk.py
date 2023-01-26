@@ -19,8 +19,8 @@ from pyflutterinstall.resources import (
     IS_GITHUB_RUNNER,
 )
 
-from pyflutterinstall.util import execute, make_title, set_global_skip_confirmation
-
+from pyflutterinstall.util import make_title
+from pyflutterinstall.execute import execute, set_global_skip_confirmation
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
 
