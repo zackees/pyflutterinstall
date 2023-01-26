@@ -43,10 +43,12 @@ def install_android_sdk() -> int:
         / "bin"
         / sdkmanager_name
     )
-    # add_system_path(sdkmanager_path.parent)
     if not os.path.exists(sdkmanager_path):
         raise FileNotFoundError(f"Could not find {sdkmanager_path}")
     os.chmod(sdkmanager_path, 0o755)
+    # Adding the sdkmanager shouldn't be needed because it should be installed to
+    # latest.
+    # add_env_path(sdkmanager_path.parent)
     print("About to install Android SDK tools")
     # install latest
     execute(
@@ -78,6 +80,8 @@ def install_android_sdk() -> int:
         ignore_errors=False,
     )
     add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
+    if sys.platform == "darwin":
+        execute("brew install cocoapods", ignore_errors=True)
     return 0
 
 
