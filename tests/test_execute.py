@@ -42,6 +42,7 @@ class ExecuteTester(unittest.TestCase):
         child.close()
         self.assertEqual(child.exitstatus, 0)
         self.assertIsNone(child.signalstatus)
+        self.assertIn("ok - y", fake_stream.buffer)
 
 
 if __name__ == "__main__":
