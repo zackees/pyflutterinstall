@@ -41,13 +41,13 @@ jobs:
       run: pytest tests
 
     - name: install java
-      run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
+      run: python -m pyflutterinstall.install.java_dk
 
     - name: install android
-      run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
+      run: python -m pyflutterinstall.install.android_sdk
 
-    - name: install flutter
-      run: pyflutterinstall --skip-confirmation --skip-java  --skip-android --skip-chrome
+    - name: install android
+      run: python -m pyflutterinstall.install.flutter_sdk
 
     - name: post install check
       run: python test_install/postrun.py
