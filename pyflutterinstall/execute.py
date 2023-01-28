@@ -32,7 +32,8 @@ def execute(
 
     if send_confirmation is None:
         completed_process = subprocess.run(
-            command, cwd=cwd, shell=True, check=not ignore_errors
+            command, cwd=cwd, shell=True, check=not ignore_errors,
+            timeout=timeout, encoding=encoding,
         )
         return completed_process.returncode
     # temporary buffer for stderr
