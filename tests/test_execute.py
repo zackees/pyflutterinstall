@@ -44,7 +44,10 @@ class ExecuteTester(unittest.TestCase):
         child.sendline("y")
         child.expect(EOF)
         child.close()
-        self.assertEqual(child.exitstatus, 0, f"Exit status: {child.exitstatus}, Error: {child.signalstatus}")
+        if sys.platform != "win32":
+            self.assertEqual(child.exitstatus, 0, f"Exit status: {child.exitstatus}, Error: {child.signalstatus}")
+        else:
+            self.assertEqual(child.exitstatus, 0)
         self.assertIsNone(child.signalstatus)
         self.assertIn("ok - y", fake_stream.buffer)
 
