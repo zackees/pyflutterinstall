@@ -63,8 +63,10 @@ def execute(
             break  # EOF
         child.sendline(answer)
     child.expect(EOF)
-    child.close()
-
+    if sys.platform != "win32":
+        child.close()
+    else:
+        child.wait()
     if child.exitstatus != 0 and not ignore_errors:
         raise RuntimeError("Command failed: " + command)
     return child.exitstatus
