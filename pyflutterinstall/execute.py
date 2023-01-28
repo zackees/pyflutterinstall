@@ -31,11 +31,15 @@ def execute(
     encoding="utf-8",
 ) -> int:
     """Execute a command"""
-    print("####################################")
-    print(f"Executing\n  {command}")
-    print("####################################")
+
+    out = ""
+    out += "####################################\n"
+    out += f"Executing\n  {command}\n"
+    out += "####################################\n"
     if cwd:
-        print(f"  CWD={cwd}")
+        out += f"  CWD={cwd}\n"
+    sys.stdout.write(out)
+    sys.stdout.flush()
 
     if send_confirmation is None:
         completed_process = subprocess.run(
