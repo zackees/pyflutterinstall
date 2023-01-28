@@ -36,11 +36,13 @@ jobs:
            gbase64 -di profile.txt > profile.mobileprovision &&
            KEYCHAIN_PATH=$RUNNER_TEMP/login.keychain
 
-    - name: check prerun
-      run: python test_install/prerun.py
     - name: Install dependencies
       run: |
         pip install -e '.[test]'
+
+    - name: check prerun
+      run: python test_install/prerun.py
+
     - name: Run tests
       run: pytest tests
 
