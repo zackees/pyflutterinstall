@@ -53,14 +53,14 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
     )
+    confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
+    send_confirmation = [
+        ("Accept? (y/n): ", conf.strip())
+        for conf in confirmation.splitlines()
+        if conf.strip()
+    ]
     if install_precache:
         execute("flutter precache", ignore_errors=True)
-        confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
-        send_confirmation = [
-            ("Accept? (y/n): ", conf.strip())
-            for conf in confirmation.splitlines()
-            if conf.strip()
-        ]
     execute(
         "flutter doctor --android-licenses",
         send_confirmation=send_confirmation if not prompt else None,
