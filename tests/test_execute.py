@@ -44,7 +44,7 @@ class ExecuteTester(unittest.TestCase):
         child.sendline("y")
         child.expect(EOF)
         child.close()
-        self.assertEqual(child.exitstatus, 0)
+        self.assertEqual(child.exitstatus, 0, f"Exit status: {child.exitstatus}, Error: {child.signalstatus}")
         self.assertIsNone(child.signalstatus)
         self.assertIn("ok - y", fake_stream.buffer)
 
