@@ -3,4 +3,5 @@ colorama
 pywin32; sys_platform == 'win32'
 python-dotenv
 setenvironment >= 1.0.9
-pexpect
+pexpect; sys_platform != 'win32'
+wexpect; sys_platform == 'win32'

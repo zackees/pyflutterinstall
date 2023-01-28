@@ -7,10 +7,15 @@ Shared utility functions
 import subprocess
 import sys
 from typing import Optional
-import pexpect  # type: ignore
 from colorama import just_fix_windows_console  # type: ignore
 
-from pyflutterinstall.outstream import Outstream
+if sys.platform == "win32":
+    from wexpect import spawn, EOF  # type: ignore # pylint: disable=import-error
+else:
+    from pexpect import spawn, EOF  # type: ignore # pylint: disable=import-error
+
+
+from pyflutterinstall.outstream import Outstream  # pylint: disable=wrong-import-position
 
 just_fix_windows_console()  # Fixes color breakages in win32
 
@@ -32,13 +37,17 @@ def execute(
 
     if send_confirmation is None:
         completed_process = subprocess.run(
-            command, cwd=cwd, shell=True, check=not ignore_errors,
-            timeout=timeout, encoding=encoding,
+            command,
+            cwd=cwd,
+            shell=True,
+            check=not ignore_errors,
+            timeout=timeout,
+            encoding=encoding,
         )
         return completed_process.returncode
     # temporary buffer for stderr
     outstream = Outstream
-    child = pexpect.spawn(
+    child = spawn(
         command,
         cwd=cwd,
         encoding=encoding,
@@ -47,11 +56,11 @@ def execute(
     )
     child.logfile = sys.stdout
     for expect, answer in send_confirmation:
-        which = child.expect_exact([expect, pexpect.EOF], timeout=timeout)
+        which = child.expect_exact([expect, EOF], timeout=timeout)
         if which == 1:
             break  # EOF
         child.sendline(answer)
-    child.expect(pexpect.EOF)
+    child.expect(EOF)
     child.close()
 
     if child.exitstatus != 0 and not ignore_errors:

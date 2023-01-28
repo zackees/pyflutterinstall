@@ -5,7 +5,11 @@ Test pyflutterinstall
 import unittest
 import os
 import sys
-import pexpect  # type: ignore
+
+if sys.platform == "win32":
+    from wexpect import spawn, EOF  # type: ignore  # pylint: disable=import-error
+else:
+    from pexpect import spawn, EOF  # type: ignore  # pylint: disable=import-error
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 ACCEPT_PY = os.path.join(HERE, "accept.py")
@@ -33,12 +37,12 @@ class ExecuteTester(unittest.TestCase):
     def test_platform_executable(self) -> None:
         """Tests the platform executable"""
         fake_stream = FakeStream()
-        child = pexpect.spawn(
+        child = spawn(
             f"python {ACCEPT_PY}", encoding="utf-8", timeout=5, logfile=fake_stream
         )
         child.expect_exact("Accept? (y/n): ")
         child.sendline("y")
-        child.expect(pexpect.EOF)
+        child.expect(EOF)
         child.close()
         self.assertEqual(child.exitstatus, 0)
         self.assertIsNone(child.signalstatus)

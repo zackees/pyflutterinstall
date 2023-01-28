@@ -90,7 +90,9 @@ def main():
             interactive, "android_sdk", lambda: install_android_sdk(interactive)
         )
     if not args.skip_flutter:
-        ask_if_interactive(interactive, "flutter", lambda: install_flutter_sdk(interactive))
+        ask_if_interactive(
+            interactive, "flutter", lambda: install_flutter_sdk(interactive)
+        )
     if not args.skip_chrome:
         ask_if_interactive(interactive, "chrome", install_chrome)
     if not args.skip_flutter:
