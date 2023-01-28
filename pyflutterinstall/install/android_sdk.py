@@ -20,11 +20,11 @@ from pyflutterinstall.resources import (
 )
 
 from pyflutterinstall.util import make_title
-from pyflutterinstall.execute import execute, set_global_skip_confirmation
+from pyflutterinstall.execute import execute
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
 
-def install_android_sdk() -> int:
+def install_android_sdk(prompt: bool) -> int:
     make_title("Installing Android SDK")
     print(
         f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {INSTALL_DIR}"
@@ -52,7 +52,7 @@ def install_android_sdk() -> int:
     # install latest
     execute(
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install "platform-tools"',
-        send_confirmation="y\n",
+        send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
         ignore_errors=False,
     )
     set_env_var("ANDROID_SDK_ROOT", ANDROID_SDK)
@@ -61,21 +61,26 @@ def install_android_sdk() -> int:
     print(f"Updating Android SDK with {sdkmanager_path}")
     execute(
         f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --update',
-        send_confirmation="y\n",
+        send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
         ignore_errors=False,
     )
     tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
     for tool in tools_to_install:
         execute(
             f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install {tool}',
-            send_confirmation="y\n",
+            send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
             ignore_errors=False,
         )
-    # send_confirmation = "y\ny\ny\ny\ny\ny\ny\nn\n"
-    send_confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\nn\n"
+    confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\nn\n"
+    send_confirmation = []
+    send_confirmation.append(
+        ("Review licenses that have not been accepted (y/N)?", "y")
+    )
+    for conf in confirmation.splitlines():
+        send_confirmation.append(("Accept? (y/N):", conf))
     execute(
         f'{sdkmanager_path} --licenses --sdk_root="{ANDROID_SDK}"',
-        send_confirmation=send_confirmation,
+        send_confirmation=send_confirmation if not prompt else None,
         ignore_errors=False,
     )
     add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
@@ -89,12 +94,13 @@ def install_android_sdk() -> int:
 
 
 def main():
+    print("BLLJFKDSJFLDSFJDSKLFJDLSKJFDSKLJFKDLSJ")
     parser = argparse.ArgumentParser()
     parser.add_argument("--prompt", action="store_true")
     args = parser.parse_args()
-    set_global_skip_confirmation(not args.prompt)
-    install_android_sdk()
+    install_android_sdk(args.prompt)
 
 
 if __name__ == "__main__":
+    print("blah")
     sys.exit(main())

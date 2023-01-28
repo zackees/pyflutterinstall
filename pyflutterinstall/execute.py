@@ -6,62 +6,26 @@ Shared utility functions
 
 import subprocess
 import sys
-from threading import Thread, Event
-from tempfile import TemporaryFile
+from typing import Optional
+import pexpect  # type: ignore
 from colorama import just_fix_windows_console  # type: ignore
 
+from pyflutterinstall.outstream import Outstream
+
 just_fix_windows_console()  # Fixes color breakages in win32
-
-
-SKIP_CONFIRMATION = False
-
-
-def set_global_skip_confirmation(val: bool) -> None:
-    """Set the global skip confirmation flag"""
-    global SKIP_CONFIRMATION
-    SKIP_CONFIRMATION = val
-    print(f"**** Setting SKIP_CONFIRMATION to {SKIP_CONFIRMATION} ****")
-
-
-class StreamPumpThread(Thread):
-    """Thread to read stdout"""
-
-    def __init__(self, stream):
-        super().__init__(daemon=True)
-        self.stream = stream
-        self.start()
-
-    def run(self):
-        def read_one() -> str:
-            # Needed for flutter install on MacOS, othrwise it hangs.
-            char = self.stream.read(1)  # type: ignore
-            return char
-
-        for char in iter(read_one, ""):
-            try:
-                # print(char, end="")
-                sys.stdout.write(char)
-                sys.stdout.flush()
-            except UnicodeEncodeError as exc:
-                print("UnicodeEncodeError:", exc)
 
 
 def execute(
     command,
     cwd=None,
-    send_confirmation=None,
+    send_confirmation: Optional[list[tuple[str, str]]] = None,
     ignore_errors=False,
     timeout=60 * 10,
     encoding="utf-8",
 ) -> int:
     """Execute a command"""
-    if not SKIP_CONFIRMATION:
-        send_confirmation = None
     print("####################################")
     print(f"Executing\n  {command}")
-    if send_confirmation is not None:
-        conf_str = send_confirmation.replace("\n", "\\n")
-        print(f'Sending confirmation: "{conf_str}"')
     print("####################################")
     if cwd:
         print(f"  CWD={cwd}")
@@ -71,60 +35,24 @@ def execute(
             command, cwd=cwd, shell=True, check=not ignore_errors
         )
         return completed_process.returncode
+    # temporary buffer for stderr
+    outstream = Outstream
+    child = pexpect.spawn(
+        command,
+        cwd=cwd,
+        encoding=encoding,
+        timeout=timeout,
+        logfile=outstream,
+    )
+    child.logfile = sys.stdout
+    for expect, answer in send_confirmation:
+        which = child.expect_exact([expect, pexpect.EOF], timeout=timeout)
+        if which == 1:
+            break  # EOF
+        child.sendline(answer)
+    child.expect(pexpect.EOF)
+    child.close()
 
-    with TemporaryFile(encoding="utf-8", mode="a") as stdin_string_stream:
-        if send_confirmation:
-            stdin_string_stream.write(send_confirmation)
-        # temporary buffer for stderr
-        proc = subprocess.Popen(
-            command,
-            cwd=cwd,
-            shell=True,
-            stdin=stdin_string_stream,
-            stderr=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            encoding=encoding,
-            # 5 MB buffer
-            bufsize=1024 * 1024 * 5,
-            universal_newlines=True,
-        )
-        stdout_stream = proc.stdout
-        stderr_stream = proc.stderr
-        assert stdout_stream is not None
-        assert stderr_stream is not None
-        thread_stdout = StreamPumpThread(stream=stdout_stream)
-        thread_stderr = StreamPumpThread(stream=stderr_stream)
-
-        event = Event()
-
-        def watchdog():
-            val = event.wait(timeout=timeout)
-            if not val:
-                sys.stdout.write(
-                    f"Command {command} timed out after {timeout} seconds.\n"
-                )
-                sys.stdout.flush()
-                proc.kill()
-                sys.exit(1)
-
-        watchdog_thread = Thread(target=watchdog, daemon=True)
-        watchdog_thread.start()
-        try:
-            rtn = proc.wait()
-            event.set()
-            watchdog_thread.join()
-        except subprocess.TimeoutExpired:
-            print(f"Command {command} timed out after {timeout} seconds.")
-        thread_stdout.join(timeout=10.0)
-        if thread_stdout.is_alive():
-            print("Thread is still alive, killing it.")
-            stdout_stream.close()
-            thread_stdout.join(timeout=10.0)
-        thread_stderr.join(timeout=10.0)
-        if thread_stderr.is_alive():
-            print("Thread is still alive, killing it.")
-            stderr_stream.close()
-            thread_stderr.join(timeout=10.0)
-        if rtn != 0 and not ignore_errors:
-            print(f"Command {command} failed with return code {rtn}")
-        return rtn
+    if child.exitstatus != 0 and not ignore_errors:
+        raise RuntimeError("Command failed: " + command)
+    return child.exitstatus

@@ -17,10 +17,10 @@ from pyflutterinstall.resources import (
 
 from pyflutterinstall.util import make_title
 from pyflutterinstall.setenv import add_env_path
-from pyflutterinstall.execute import execute, set_global_skip_confirmation
+from pyflutterinstall.execute import execute
 
 
-def install_flutter_sdk() -> int:
+def install_flutter_sdk(prompt: bool) -> int:
     make_title("Installing Flutter")
     if shutil.which("git") is None:
         error_msg = "'git' not found in path"
@@ -50,13 +50,19 @@ def install_flutter_sdk() -> int:
     add_env_path(FLUTTER_TARGET / "bin")
     execute(
         f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
-        send_confirmation="y\n",
+        send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
     )
     execute("flutter precache", ignore_errors=True)
+    confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
+    send_confirmation = [
+        ("Accept? (y/n): ", conf.strip())
+        for conf in confirmation.splitlines()
+        if conf.strip()
+    ]
     execute(
         "flutter doctor --android-licenses",
-        send_confirmation="y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n",
+        send_confirmation=send_confirmation if not prompt else None,
         ignore_errors=False,
     )
     # os.system("echo y | flutter doctor --android-licenses")
@@ -68,8 +74,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--prompt", action="store_true")
     args = parser.parse_args()
-    set_global_skip_confirmation(not args.prompt)
-    install_flutter_sdk()
+    install_flutter_sdk(not args.prompt)
 
 
 if __name__ == "__main__":

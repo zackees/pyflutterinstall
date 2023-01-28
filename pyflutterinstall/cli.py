@@ -32,7 +32,6 @@ from pyflutterinstall.install.java_sdk import install_java_sdk
 from pyflutterinstall.install.android_sdk import install_android_sdk
 from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
 from pyflutterinstall.install.chrome import install_chrome
-from pyflutterinstall.execute import set_global_skip_confirmation
 
 
 def ask_if_interactive(
@@ -82,15 +81,16 @@ def main():
         args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
     )
     interactive = not skip_confirmation
-    set_global_skip_confirmation(skip_confirmation)
     print("\nInstalling Flutter SDK and dependencies\n")
     make_dirs()
     if not args.skip_java:
         ask_if_interactive(interactive, "java_sdk", install_java_sdk)
     if not args.skip_android:
-        ask_if_interactive(interactive, "android_sdk", install_android_sdk)
+        ask_if_interactive(
+            interactive, "android_sdk", lambda: install_android_sdk(True)
+        )
     if not args.skip_flutter:
-        ask_if_interactive(interactive, "flutter", install_flutter_sdk)
+        ask_if_interactive(interactive, "flutter", lambda: install_flutter_sdk(True))
     if not args.skip_chrome:
         ask_if_interactive(interactive, "chrome", install_chrome)
     if not args.skip_flutter:
