@@ -39,7 +39,7 @@ jobs:
       run: python test_install/prerun.py
 
     - name: install flutter
-      run: python pyflutterinstall/install_flutter_sdk.py
+      run: python -m pyflutterinstall.install.flutter_sdk
 
     - name: post install check
       run: python test_install/postrun.py

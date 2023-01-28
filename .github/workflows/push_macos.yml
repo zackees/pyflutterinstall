@@ -41,7 +41,7 @@ jobs:
       run: pytest tests
 
     - name: install java
-      run: python -m pyflutterinstall.install.java_dk
+      run: python -m pyflutterinstall.install.java_sdk
 
     - name: install android
       run: python -m pyflutterinstall.install.android_sdk
