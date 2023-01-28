@@ -37,9 +37,11 @@ def make_dirs() -> None:
 def make_title(title: str) -> None:
     """Make a title"""
     title = f" {title} "
-    print("\n\n###########################################")
-    print(f"{title.center(43, '#')}")
-    print("###########################################\n\n")
+    out = ""
+    out += "\n\n###########################################\n"
+    out += f"{title.center(43, '#')}\n"
+    out += "###########################################\n\n\n"
+    sys.stdout.write(out)
     sys.stdout.flush()
 
 
@@ -55,4 +57,5 @@ def print_tree_dir(path: str, max_level=2) -> None:
         subindent = " " * 4 * (level + 1)
         for file in files:
             output += f"{subindent}{file}" + os.linesep
-    print(output)
+    sys.stdout.write(output)
+    sys.stdout.flush()
