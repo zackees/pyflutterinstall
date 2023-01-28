@@ -15,7 +15,9 @@ else:
     from pexpect import spawn, EOF  # type: ignore # pylint: disable=import-error
 
 
-from pyflutterinstall.outstream import Outstream  # pylint: disable=wrong-import-position
+from pyflutterinstall.outstream import (  # pylint: disable=wrong-import-position
+    Outstream,
+)
 
 just_fix_windows_console()  # Fixes color breakages in win32
 

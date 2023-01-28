@@ -37,15 +37,18 @@ class ExecuteTester(unittest.TestCase):
     def test_platform_executable(self) -> None:
         """Tests the platform executable"""
         fake_stream = FakeStream()
-        child = spawn(
-            f"python {ACCEPT_PY}", encoding="utf-8", timeout=5, logfile=fake_stream
-        )
+        child = spawn(f"python {ACCEPT_PY}", encoding="utf-8", timeout=5)
+        child.logfile = fake_stream
         child.expect_exact("Accept? (y/n): ")
         child.sendline("y")
         child.expect(EOF)
         if sys.platform != "win32":
             child.close()
-            self.assertEqual(child.exitstatus, 0, f"Exit status: {child.exitstatus}, Error: {child.signalstatus}")
+            self.assertEqual(
+                child.exitstatus,
+                0,
+                f"Exit status: {child.exitstatus}, Error: {child.signalstatus}",
+            )
             self.assertIsNone(child.signalstatus)
         else:
             child.wait()
