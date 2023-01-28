@@ -20,7 +20,7 @@ from pyflutterinstall.setenv import add_env_path
 from pyflutterinstall.execute import execute
 
 
-def install_flutter_sdk(prompt: bool) -> int:
+def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     make_title("Installing Flutter")
     if shutil.which("git") is None:
         error_msg = "'git' not found in path"
@@ -53,13 +53,14 @@ def install_flutter_sdk(prompt: bool) -> int:
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
     )
-    execute("flutter precache", ignore_errors=True)
-    confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
-    send_confirmation = [
-        ("Accept? (y/n): ", conf.strip())
-        for conf in confirmation.splitlines()
-        if conf.strip()
-    ]
+    if install_precache:
+        execute("flutter precache", ignore_errors=True)
+        confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
+        send_confirmation = [
+            ("Accept? (y/n): ", conf.strip())
+            for conf in confirmation.splitlines()
+            if conf.strip()
+        ]
     execute(
         "flutter doctor --android-licenses",
         send_confirmation=send_confirmation if not prompt else None,
