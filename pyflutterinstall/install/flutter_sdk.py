@@ -62,7 +62,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     if install_precache:
         execute("flutter precache", ignore_errors=True)
     execute(
-        "flutter doctor --android-licenses",
+        "flutter doctor --android-licenses 2>&1",
         send_confirmation=send_confirmation if not prompt else None,
         ignore_errors=False,
         timeout=60*20
