@@ -46,7 +46,7 @@ jobs:
     - name: install android
       run: python -m pyflutterinstall.install.android_sdk
 
-    - name: install android
+    - name: install flutter
       run: python -m pyflutterinstall.install.flutter_sdk
 
     - name: post install check
