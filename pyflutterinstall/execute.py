@@ -61,12 +61,15 @@ def execute(
         logfile=outstream,
     )
     child.logfile = sys.stdout
+    eof_reached = False
     for expect, answer in send_confirmation:
         which = child.expect_exact([expect, EOF], timeout=timeout)
         if which == 1:
+            eof_reached = True
             break  # EOF
         child.sendline(answer)
-    child.expect(EOF)
+    if not eof_reached:
+        child.expect(EOF)
     if sys.platform != "win32":
         child.close()
     else:
