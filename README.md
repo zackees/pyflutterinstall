@@ -31,6 +31,7 @@ Usage
 ```
 
 # Releases
+  * 1.0.3: Uses pexpect to run commands.
   * 1.0.2: MacOS: now installs cocoapods dependency.
   * 1.0.1: Update setenvironment to 1.0.9 to get expanded paths.
   * 1.0.0: Windows, Mac and Linux now supported and all tests pass.
