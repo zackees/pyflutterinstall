@@ -23,6 +23,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
 
+    - name: Install apt-get update
+      run: apt-get update && 
+
     - name: Install ninja
       run: sudo apt install ninja-build
 
