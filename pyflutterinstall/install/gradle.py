@@ -8,16 +8,15 @@ import shutil
 from pathlib import Path
 from download import download  # type: ignore
 
-from pyflutterinstall.resources import DOWNLOAD_DIR, GRADLE_DIR
+from pyflutterinstall.resources import DOWNLOAD_DIR, GRADLE_DIR, GRADLE_URL
 
 from pyflutterinstall.setenv import add_env_path
 
 
 def install_gradle() -> None:
     """Installs the gradle build tools"""
-    gradle_url = "https://services.gradle.org/distributions/gradle-7.6-bin.zip"
     gradle_path_zip = Path(
-        download(gradle_url, DOWNLOAD_DIR / os.path.basename(gradle_url))
+        download(GRADLE_URL, DOWNLOAD_DIR / os.path.basename(GRADLE_URL))
     )
 
     if os.path.exists(GRADLE_DIR):
