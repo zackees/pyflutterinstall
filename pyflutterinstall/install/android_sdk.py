@@ -94,7 +94,6 @@ def install_android_sdk(prompt: bool) -> int:
 
 
 def main():
-    print("BLLJFKDSJFLDSFJDSKLFJDLSKJFDSKLJFKDLSJ")
     parser = argparse.ArgumentParser()
     parser.add_argument("--prompt", action="store_true")
     args = parser.parse_args()
