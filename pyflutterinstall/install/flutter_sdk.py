@@ -65,7 +65,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         "flutter doctor --android-licenses 2>&1",
         send_confirmation=send_confirmation if not prompt else None,
         ignore_errors=False,
-        timeout=60*20
+        timeout=60 * 20,
     )
     # os.system("echo y | flutter doctor --android-licenses")
     print("Flutter installed.\n")

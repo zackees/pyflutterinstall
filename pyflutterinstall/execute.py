@@ -15,10 +15,6 @@ else:
     from pexpect import spawn, EOF  # type: ignore # pylint: disable=import-error
 
 
-from pyflutterinstall.outstream import (  # pylint: disable=wrong-import-position
-    Outstream,
-)
-
 just_fix_windows_console()  # Fixes color breakages in win32
 
 
@@ -53,12 +49,7 @@ def execute(
         )
         return completed_process.returncode
     # temporary buffer for stderr
-    child = spawn(
-        command,
-        cwd=cwd,
-        encoding=encoding,
-        timeout=timeout
-    )
+    child = spawn(command, cwd=cwd, encoding=encoding, timeout=timeout)
     child.logfile = outstream or sys.stdout
     eof_reached = False
     for expect, answer in send_confirmation:

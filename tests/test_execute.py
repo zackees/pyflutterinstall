@@ -8,11 +8,6 @@ import sys
 
 from pyflutterinstall.execute import execute
 
-if sys.platform == "win32":
-    from wexpect import spawn, EOF  # type: ignore  # pylint: disable=import-error
-else:
-    from pexpect import spawn, EOF  # type: ignore  # pylint: disable=import-error
-
 HERE = os.path.abspath(os.path.dirname(__file__))
 ACCEPT_PY = os.path.join(HERE, "accept.py")
 

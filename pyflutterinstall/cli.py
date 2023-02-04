@@ -88,7 +88,9 @@ def main():
         ask_if_interactive(interactive, "java_sdk", install_java_sdk)
     if not args.skip_android:
         ask_if_interactive(
-            interactive, "android_sdk", lambda: install_android_sdk(interactive) and install_gradle()
+            interactive,
+            "android_sdk",
+            lambda: install_android_sdk(interactive) and install_gradle(),
         )
     if not args.skip_flutter:
         ask_if_interactive(

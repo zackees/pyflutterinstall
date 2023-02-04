@@ -8,7 +8,7 @@ import argparse
 import os
 import shutil
 import sys
-
+from download import download  # type: ignore
 
 from pyflutterinstall.resources import (
     ANDROID_SDK_URL,
