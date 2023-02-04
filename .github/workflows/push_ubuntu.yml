@@ -48,6 +48,9 @@ jobs:
     - name: install android
       run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
 
+    - name: install gradle
+      run: python -m pyflutterinstall.install.gradle
+
     - name: install flutter
       run: pyflutterinstall --skip-confirmation --skip-java  --skip-android --skip-chrome
 

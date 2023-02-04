@@ -6,6 +6,8 @@ import unittest
 import os
 import sys
 
+from pyflutterinstall.execute import execute
+
 if sys.platform == "win32":
     from wexpect import spawn, EOF  # type: ignore  # pylint: disable=import-error
 else:
@@ -37,24 +39,15 @@ class ExecuteTester(unittest.TestCase):
     def test_platform_executable(self) -> None:
         """Tests the platform executable"""
         fake_stream = FakeStream()
-        child = spawn(
-            f"python {ACCEPT_PY}", encoding="utf-8", timeout=5, logfile=fake_stream
+
+        rtn = execute(
+            f"python {ACCEPT_PY}",
+            send_confirmation=[("Accept? (y/n): ", "y")],
+            outstream=fake_stream,
         )
-        child.expect_exact("Accept? (y/n): ")
-        child.sendline("y")
-        child.expect(EOF)
         if sys.platform != "win32":
-            child.close()
-            self.assertEqual(
-                child.exitstatus,
-                0,
-                f"Exit status: {child.exitstatus}, Error: {child.signalstatus}",
-            )
-            self.assertIsNone(child.signalstatus)
             self.assertIn("ok - y", fake_stream.buffer)
-        else:
-            child.wait()
-            self.assertEqual(child.exitstatus, 0)
+        self.assertEqual(rtn, 0)
 
 
 if __name__ == "__main__":

@@ -29,6 +29,7 @@ def execute(
     ignore_errors=False,
     timeout=60 * 10,
     encoding="utf-8",
+    outstream=None,
 ) -> int:
     """Execute a command"""
 
@@ -52,15 +53,13 @@ def execute(
         )
         return completed_process.returncode
     # temporary buffer for stderr
-    outstream = Outstream
     child = spawn(
         command,
         cwd=cwd,
         encoding=encoding,
-        timeout=timeout,
-        logfile=outstream,
+        timeout=timeout
     )
-    child.logfile = sys.stdout
+    child.logfile = outstream or sys.stdout
     eof_reached = False
     for expect, answer in send_confirmation:
         which = child.expect_exact([expect, EOF], timeout=timeout)

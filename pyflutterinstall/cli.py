@@ -32,6 +32,7 @@ from pyflutterinstall.install.java_sdk import install_java_sdk
 from pyflutterinstall.install.android_sdk import install_android_sdk
 from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
 from pyflutterinstall.install.chrome import install_chrome
+from pyflutterinstall.install.gradle import install_gradle
 
 
 def ask_if_interactive(
@@ -87,7 +88,7 @@ def main():
         ask_if_interactive(interactive, "java_sdk", install_java_sdk)
     if not args.skip_android:
         ask_if_interactive(
-            interactive, "android_sdk", lambda: install_android_sdk(interactive)
+            interactive, "android_sdk", lambda: install_android_sdk(interactive) and install_gradle()
         )
     if not args.skip_flutter:
         ask_if_interactive(

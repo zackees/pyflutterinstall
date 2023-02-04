@@ -47,7 +47,7 @@ jobs:
       run: pytest tests
 
     - name: install all
-      run: python -m pyflutterinstall.install.flutter_sdk
+      run: pyflutterinstall
 
     - name: post install check
       run: python test_install/postrun.py
