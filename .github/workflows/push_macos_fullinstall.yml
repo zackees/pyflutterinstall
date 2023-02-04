@@ -47,7 +47,7 @@ jobs:
       run: pytest tests
 
     - name: install all
-      run: pyflutterinstall
+      run: pyflutterinstall --skip-confirmation
 
     - name: post install check
       run: python test_install/postrun.py
