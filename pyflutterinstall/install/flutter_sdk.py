@@ -51,6 +51,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
+        timeout=60 * 20,
     )
     confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
     send_confirmation = [
