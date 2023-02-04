@@ -31,6 +31,7 @@ Usage
 ```
 
 # Releases
+  * 1.0.6: Fix macos install.
   * 1.0.5: Gradle is now installed as well
   * 1.0.3: Uses pexpect to run commands.
   * 1.0.2: MacOS: now installs cocoapods dependency.
