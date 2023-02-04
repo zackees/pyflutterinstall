@@ -9,7 +9,7 @@ import os
 import shutil
 import sys
 from download import download  # type: ignore
-
+from shellexecute import execute  # type: ignore
 from pyflutterinstall.resources import (
     ANDROID_SDK_URL,
     CMDLINE_TOOLS,
@@ -20,7 +20,6 @@ from pyflutterinstall.resources import (
 )
 
 from pyflutterinstall.util import make_title
-from pyflutterinstall.execute import execute
 from pyflutterinstall.setenv import add_env_path, set_env_var
 
 
