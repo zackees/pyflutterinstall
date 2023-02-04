@@ -48,10 +48,11 @@ def make_title(title: str) -> None:
 def print_tree_dir(path: str, max_level=2) -> None:
     """Prints the tree of a directory"""
     output = ""
-    for root, _, files in os.walk(path):
+    for root, dirs, files in os.walk(path):
         level = root.replace(path, "").count(os.sep)
         indent = " " * 4 * (level)
         if max_level > 0 and (level + 1) > max_level:
+            del dirs[:]
             continue
         output += f"{indent}{os.path.basename(root)}" + os.linesep
         subindent = " " * 4 * (level + 1)
