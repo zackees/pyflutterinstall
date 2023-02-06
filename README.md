@@ -12,8 +12,6 @@ Installs all dependencies for pyflutter on Windows.
 
 # MacOS
 
-[![MacOS_FlutterOnly](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_flutter_only.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_flutter_only.yml)
-
 [![MacOS_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos.yml)
 
 [![MacOS_Fullinstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_fullinstall.yml)
