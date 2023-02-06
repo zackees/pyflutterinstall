@@ -29,15 +29,17 @@ CMDLINE_TOOLS = [
 def get_platform_java_sdk() -> str:
     """Gets the java platform specific url"""
     if sys.platform == "win32":
-        return "https://download.oracle.com/java/17/archive/jdk-17.0.6_windows-x64_bin.zip"
+        return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip"
     if platform.machine() == "x86_64":
         arch = "x64"
     else:
         arch = "aarch64"
     if sys.platform == "darwin":
-        return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_macos-{arch}_bin.tar.gz"
+        #return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_macos-{arch}_bin.tar.gz"
+        return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_osx-x64_bin.tar.gz"
     elif "linux" in sys.platform:
-        return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_linux-{arch}_bin.tar.gz"
+        # return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_linux-{arch}_bin.tar.gz"
+        return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz"
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
 
 
