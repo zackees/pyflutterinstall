@@ -30,15 +30,9 @@ def get_platform_java_sdk() -> str:
     """Gets the java platform specific url"""
     if sys.platform == "win32":
         return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip"
-    if platform.machine() == "x86_64":
-        arch = "x64"
-    else:
-        arch = "aarch64"
     if sys.platform == "darwin":
-        #return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_macos-{arch}_bin.tar.gz"
         return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_osx-x64_bin.tar.gz"
     elif "linux" in sys.platform:
-        # return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_linux-{arch}_bin.tar.gz"
         return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz"
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
 
@@ -67,7 +61,7 @@ def get_chrome_url() -> str:
 CHROME_URL = get_chrome_url()
 ANDROID_SDK_URL = get_android_sdk_url()
 JAVA_SDK_URL = get_platform_java_sdk()
-GRADLE_URL = "https://services.gradle.org/distributions/gradle-7.2-bin.zip"
+GRADLE_URL = "https://services.gradle.org/distributions/gradle-7.5-bin.zip"
 PROJECT_ROOT = Path(os.getcwd())
 INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
 ENV_FILE = PROJECT_ROOT / ".env"
