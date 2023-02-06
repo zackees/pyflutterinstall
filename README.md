@@ -29,6 +29,7 @@ Usage
 ```
 
 # Releases
+  * 1.0.8: Gradle upgrade to 7.5, JDK is downgraded to 9
   * 1.0.7: Windows now uses user environment variables to avoid elevated privileges.
   * 1.0.6: Fix macos install.
   * 1.0.5: Gradle is now installed as well
