@@ -2,4 +2,4 @@ download
 colorama
 python-dotenv
 setenvironment >= 1.0.10
-shellexecute
+shellexecute >= 1.0.4
