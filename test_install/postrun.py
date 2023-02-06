@@ -47,7 +47,11 @@ def main() -> int:
             break
     if not found:
         raise RuntimeError(f'Android tools "{needle} not found in PATH')
-
+    
+    print("Checking that adb is in the path")
+    if not which("adb"):
+        print("adb not found in path")
+        return 1
     print("Checking if Flutter is in path")
     if not which("flutter"):
         print("Flutter not found in path")
