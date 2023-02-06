@@ -66,9 +66,10 @@ def install_android_sdk(prompt: bool) -> int:
     tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
     for tool in tools_to_install:
         execute(
-            f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --install {tool}',
+            f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --verbose --install {tool}',
             send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
             ignore_errors=False,
+            timeout = 60 * 20
         )
     confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\nn\n"
     send_confirmation = []

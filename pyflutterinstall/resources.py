@@ -7,7 +7,6 @@ Resources for pyflutterinstall
 import os
 import sys
 from pathlib import Path
-import platform
 
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
@@ -15,8 +14,7 @@ FLUTTER_GIT_DOWNLOAD = (
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CMDLINE_TOOLS = [
     "sources;android-33",
-    "system-images;android-30;default;x86_64",
-    "system-images;android-27;google_apis_playstore;x86",
+    "system-images;android-33;google_apis;x86_64",
     "cmdline-tools;latest",
     "platform-tools",
     "build-tools;33.0.1",
@@ -32,7 +30,7 @@ def get_platform_java_sdk() -> str:
         return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip"
     if sys.platform == "darwin":
         return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_osx-x64_bin.tar.gz"
-    elif "linux" in sys.platform:
+    if "linux" in sys.platform:
         return "https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz"
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
 
