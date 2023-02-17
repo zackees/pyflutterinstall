@@ -29,6 +29,7 @@ Usage
 ```
 
 # Releases
+  * 1.0.10: Emulator tools now installed on path.
   * 1.0.9: adb is now installed on the path.
   * 1.0.8: Gradle upgrade to 7.5, JDK is downgraded to 9.
   * 1.0.7: Windows now uses user environment variables to avoid elevated privileges.
