@@ -6,14 +6,10 @@ Contains the install functions for the various components
 
 import os
 import subprocess
+
 from download import download  # type: ignore
 
-from pyflutterinstall.resources import (
-    CHROME_URL,
-    INSTALL_DIR,
-    DOWNLOAD_DIR,
-)
-
+from pyflutterinstall.resources import CHROME_URL, DOWNLOAD_DIR, INSTALL_DIR
 from pyflutterinstall.util import make_title
 
 

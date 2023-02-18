@@ -6,11 +6,12 @@ Shared utility functions
 
 import os
 import sys
+
 from pyflutterinstall.resources import (
-    INSTALL_DIR,
-    DOWNLOAD_DIR,
     ANDROID_SDK,
+    DOWNLOAD_DIR,
     FLUTTER_TARGET,
+    INSTALL_DIR,
     JAVA_DIR,
 )
 

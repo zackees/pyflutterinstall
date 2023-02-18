@@ -8,19 +8,20 @@ import argparse
 import os
 import shutil
 import sys
+
 from download import download  # type: ignore
 from shellexecute import execute  # type: ignore
+
 from pyflutterinstall.resources import (
+    ANDROID_SDK,
     ANDROID_SDK_URL,
     CMDLINE_TOOLS,
-    INSTALL_DIR,
     DOWNLOAD_DIR,
-    ANDROID_SDK,
+    INSTALL_DIR,
     IS_GITHUB_RUNNER,
 )
-
-from pyflutterinstall.util import make_title
 from pyflutterinstall.setenv import add_env_path, set_env_var
+from pyflutterinstall.util import make_title
 
 
 def install_android_sdk(prompt: bool) -> int:
@@ -69,7 +70,7 @@ def install_android_sdk(prompt: bool) -> int:
             f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --verbose --install {tool}',
             send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
             ignore_errors=False,
-            timeout = 60 * 20
+            timeout=60 * 20,
         )
     confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\nn\n"
     send_confirmation = []

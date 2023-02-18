@@ -20,19 +20,19 @@ sdk/Android:
 
 import argparse
 import os
-import sys
 import shutil
+import sys
 from typing import Callable
-from pyflutterinstall.resources import INSTALL_DIR
-from pyflutterinstall.util import (
-    make_dirs,
-)
+
 from pyflutterinstall.flutter_doctor import postinstall_run_flutter_doctor
-from pyflutterinstall.install.java_sdk import install_java_sdk
 from pyflutterinstall.install.android_sdk import install_android_sdk
-from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
+from pyflutterinstall.install.ant_sdk import install_ant_sdk
 from pyflutterinstall.install.chrome import install_chrome
+from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
 from pyflutterinstall.install.gradle import install_gradle
+from pyflutterinstall.install.java_sdk import install_java_sdk
+from pyflutterinstall.resources import INSTALL_DIR
+from pyflutterinstall.util import make_dirs
 
 
 def ask_if_interactive(
@@ -68,6 +68,7 @@ def main():
     )
     parser.add_argument("--skip-java", action="store_true", help="Skip Java SDK")
     parser.add_argument("--skip-android", action="store_true", help="Skip Android SDK")
+    parser.add_argument("--skip-ant", action="store_true", help="Skip Ant")
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
     args = parser.parse_args()
@@ -97,6 +98,8 @@ def main():
             "android_sdk",
             install_android_sdk_and_gradle,
         )
+    if not args.skip_ant:
+        install_ant_sdk()
     if not args.skip_flutter:
         ask_if_interactive(
             interactive, "flutter", lambda: install_flutter_sdk(interactive)

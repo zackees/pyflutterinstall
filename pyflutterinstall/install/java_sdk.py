@@ -5,22 +5,16 @@ Contains the install functions for the various components
 # pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long,R0801
 
 import os
-import sys
-from pathlib import Path
 import shutil
 import subprocess
+import sys
+from pathlib import Path
+
 from download import download  # type: ignore
 
-from pyflutterinstall.resources import (
-    JAVA_SDK_URL,
-    INSTALL_DIR,
-    DOWNLOAD_DIR,
-    JAVA_DIR,
-)
-
-from pyflutterinstall.util import make_title
-
+from pyflutterinstall.resources import DOWNLOAD_DIR, INSTALL_DIR, JAVA_DIR, JAVA_SDK_URL
 from pyflutterinstall.setenv import add_env_path, set_env_var
+from pyflutterinstall.util import make_title
 
 
 def install_java_sdk() -> int:

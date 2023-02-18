@@ -11,6 +11,7 @@ from pathlib import Path
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
 )
+ANT_SDK_DOWNLOAD = "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.13-bin.zip"
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CMDLINE_TOOLS = [
     "sources;android-33",
@@ -65,6 +66,7 @@ INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
 ENV_FILE = PROJECT_ROOT / ".env"
 DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
 ANDROID_SDK = INSTALL_DIR / "Android" / "sdk"
+ANT_DIR = INSTALL_DIR / "ant"
 FLUTTER_TARGET = INSTALL_DIR / "flutter"
 JAVA_DIR = INSTALL_DIR / "java"
 GRADLE_DIR = INSTALL_DIR / "gradle"

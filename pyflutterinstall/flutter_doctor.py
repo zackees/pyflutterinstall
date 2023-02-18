@@ -7,6 +7,7 @@ Contains the install functions for the various components
 import shutil
 
 from shellexecute import execute  # type: ignore
+
 from pyflutterinstall.util import make_title
 
 

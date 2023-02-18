@@ -7,16 +7,12 @@ Contains the install functions for the various components
 import argparse
 import os
 import shutil
+
 from shellexecute import execute  # type: ignore
 
-from pyflutterinstall.resources import (
-    FLUTTER_GIT_DOWNLOAD,
-    ANDROID_SDK,
-    FLUTTER_TARGET,
-)
-
-from pyflutterinstall.util import make_title
+from pyflutterinstall.resources import ANDROID_SDK, FLUTTER_GIT_DOWNLOAD, FLUTTER_TARGET
 from pyflutterinstall.setenv import add_env_path
+from pyflutterinstall.util import make_title
 
 
 def install_flutter_sdk(prompt: bool, install_precache=False) -> int:

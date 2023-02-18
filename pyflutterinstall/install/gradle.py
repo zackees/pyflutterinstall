@@ -6,10 +6,10 @@ Install gradle
 import os
 import shutil
 from pathlib import Path
+
 from download import download  # type: ignore
 
 from pyflutterinstall.resources import DOWNLOAD_DIR, GRADLE_DIR, GRADLE_URL
-
 from pyflutterinstall.setenv import add_env_path
 
 

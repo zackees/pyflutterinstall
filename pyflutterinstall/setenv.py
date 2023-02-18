@@ -5,10 +5,11 @@ This module provides functions for setting environment variables.
 # pylint: disable=import-outside-toplevel
 
 import os
-from typing import Union
 from pathlib import Path
-from dotenv import load_dotenv, set_key, get_key
+from typing import Union
+
 import setenvironment  # type: ignore
+from dotenv import get_key, load_dotenv, set_key
 
 ENV_FILE = "./.env"
 INITIALIZED = False
