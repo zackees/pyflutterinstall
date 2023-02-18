@@ -2,6 +2,10 @@
 
 Install flutter and all the dependencies for Mac, Windows and Linux.
 
+Also, this installer will install the toolchain for the AndroidSDK (api version 33), so even if you don't
+want to use the Flutter SDK, this package will still work for you! And honestly, installing all the dependencies
+for the Android SDK is a major pain. This software package makes it a snap!
+
 # Win Tests
 
 [![Win_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml)
