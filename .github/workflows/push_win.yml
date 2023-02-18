@@ -49,7 +49,7 @@ jobs:
       run: python -m pyflutterinstall.install.android_sdk
 
     - name: install ant
-      run: python -m pyflutterinstall.install.ant_sdj
+      run: python -m pyflutterinstall.install.ant_sdk
 
     - name: install gradle
       run: python -m pyflutterinstall.install.gradle
