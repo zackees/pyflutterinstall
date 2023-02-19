@@ -46,3 +46,7 @@ Usage
   * 1.0.0: Windows, Mac and Linux now supported and all tests pass.
   * 0.0.2: Automated tests for windows.
   * 0.0.1: Initial release - windows supported.
+
+# TODO
+  * [ ] Integrate the Windows Universal bridge driver for devices:
+    * https://adb.clockworkmod.com/
