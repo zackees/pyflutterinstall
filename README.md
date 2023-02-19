@@ -1,17 +1,13 @@
 # pyflutterinstall
 
-Installs all dependencies for pyflutter/AndroidSDK on Windows.
-
-# Build
-
 [![Win_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win.yml)
 [![Win_FullInstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win_fullinstall.yml)
-
 [![MacOS_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos.yml)
 [![MacOS_Fullinstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_fullinstall.yml)
-
 [![Ubuntu_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu.yml)
 [![Ubuntu_Fullinstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu_fullinstall.yml)
+
+Installs all dependencies for pyflutter/AndroidSDK on Windows.
 
 ```bash
 pip install pyflutterinstall
@@ -32,9 +28,8 @@ Installing the Android SDK toolchain is **hard**! This tool takes care of all of
 Windows/Linux/MacOS and does it in a fully automated way. This is great for reproducabilty of tool chain install across your
 team.
 
-Right now this install API 33 for Android.
 
-#### API
+#### Versions
 
   * Android API: 33
   * Java: 8
