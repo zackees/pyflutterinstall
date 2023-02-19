@@ -1,10 +1,24 @@
 # pyflutterinstall
 
-Install flutter and all the dependencies for Mac, Windows and Linux.
+```bash
+pip install pyflutterinstall
+cd <DIRECTORY YOU WANT TO INSTALL>
+pyflutterinstall
+```
+The SDK will be installed at `FlutterSDK`
 
-Also, this installer will install the toolchain for the AndroidSDK (api version 33), so even if you don't
-want to use the Flutter SDK, this package will still work for you! And honestly, installing all the dependencies
-for the Android SDK is a major pain. This software package makes it a snap!
+Use this tool if you need to:
+  * Install FlutterSDK
+  * -or- Install the AndroidSDK
+  
+Your path will be updated with the dependencies so that you can execute `sdkmanager`, `adb`, `emulator` and the like.
+  
+# Why?
+
+Dude, installing the Android SDK toolchain is **hard**! This tool takes care of all of this for
+Windows/Linux/MacOS and does it in a fully automated way.
+
+Right now this install API 33 for Android.
 
 # Win Tests
 
