@@ -31,7 +31,7 @@ from pyflutterinstall.install.chrome import install_chrome
 from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
 from pyflutterinstall.install.gradle import install_gradle
 from pyflutterinstall.install.java_sdk import install_java_sdk
-from pyflutterinstall.resources import INSTALL_DIR
+from pyflutterinstall.resources import INSTALL_DIR, JAVA_SDK_VERSIONS
 from pyflutterinstall.util import make_dirs
 
 
@@ -71,6 +71,8 @@ def main():
     parser.add_argument("--skip-ant", action="store_true", help="Skip Ant")
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
+    parser.add_argument("--java-version", help="Java version to install", default=11,
+                        choices=JAVA_SDK_VERSIONS.keys())
     args = parser.parse_args()
     check_preqs()
     any_skipped = any(

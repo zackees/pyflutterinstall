@@ -4,6 +4,7 @@ Contains the install functions for the various components
 
 # pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long,R0801
 
+import argparse
 import os
 import shutil
 import subprocess
@@ -12,16 +13,23 @@ from pathlib import Path
 
 from download import download  # type: ignore
 
-from pyflutterinstall.resources import DOWNLOAD_DIR, INSTALL_DIR, JAVA_DIR, JAVA_SDK_URL
+from pyflutterinstall.resources import (
+    DOWNLOAD_DIR,
+    INSTALL_DIR,
+    JAVA_DIR,
+    get_platform_java_sdk,
+    JAVA_SDK_VERSIONS,
+)
 from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
 
 
-def install_java_sdk() -> int:
+def install_java_sdk(version: int = 11) -> int:
     make_title("Installing Java SDK")
-    print(f"Install Java SDK from {JAVA_SDK_URL} to {INSTALL_DIR}")
+    java_sdk_url = get_platform_java_sdk(version)
+    print(f"Install Java SDK from {java_sdk_url} to {INSTALL_DIR}")
     java_sdk_zip_file = Path(
-        download(JAVA_SDK_URL, DOWNLOAD_DIR / os.path.basename(JAVA_SDK_URL))
+        download(java_sdk_url, DOWNLOAD_DIR / os.path.basename(java_sdk_url))
     )
     if os.path.exists(JAVA_DIR):
         print(f"Removing existing Java SDK at {JAVA_DIR}")
@@ -56,7 +64,16 @@ def install_java_sdk() -> int:
 
 
 def main():
-    install_java_sdk()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--version",
+        type=int,
+        default=11,
+        help="The version of Java to install",
+        choices=JAVA_SDK_VERSIONS.keys(),
+    )
+    args = parser.parse_args()
+    install_java_sdk(args.version)
 
 
 if __name__ == "__main__":
