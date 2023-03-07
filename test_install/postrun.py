@@ -8,7 +8,8 @@ import os
 import sys
 from shutil import which
 
-# coloram has an issue that just_fix_windows_console is broken, so rename init to just_fix_windows_console
+# coloram has an issue that just_fix_windows_console is broken
+# so rename init to just_fix_windows_console
 from colorama import init as just_fix_windows_console  # type: ignore
 
 from pyflutterinstall.setenv import init_dotenv

@@ -71,8 +71,12 @@ def main():
     parser.add_argument("--skip-ant", action="store_true", help="Skip Ant")
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
-    parser.add_argument("--java-version", help="Java version to install", default=11,
-                        choices=JAVA_SDK_VERSIONS.keys())
+    parser.add_argument(
+        "--java-version",
+        help="Java version to install",
+        default=11,
+        choices=JAVA_SDK_VERSIONS.keys(),
+    )
     args = parser.parse_args()
     check_preqs()
     any_skipped = any(
