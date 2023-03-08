@@ -24,7 +24,7 @@ from pyflutterinstall.util import make_title
 
 def install_ant_sdk() -> int:
     make_title("Installing Ant SDK")
-    if sys.platform == "win32":
+    if sys.platform in ["win32", "linux"]:
         print(f"Install Ant from {ANT_SDK_DOWNLOAD} to {INSTALL_DIR}")
         ant_sdk_sip = Path(
             download(
@@ -41,11 +41,10 @@ def install_ant_sdk() -> int:
         ant_bin_dir = base_ant_dir / "bin"
         add_env_path(ant_bin_dir)
         # check that ant is in the path
+        print(f"Ant SDK installed: {base_ant_dir}\n")
     if sys.platform == "darwin":
         execute("brew install ant")
-        return 1
     assert shutil.which("ant"), "ant not found in ant bin dir"
-    print(f"Ant SDK installed: {base_ant_dir}\n")
     return 0
 
 
