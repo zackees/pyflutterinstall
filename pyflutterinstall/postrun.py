@@ -63,6 +63,9 @@ def main() -> int:
         print("Java not found in path")
         return 1
     os.system("flutter doctor -v")
+    if which("sdkmanager") is None:
+        print("sdkmanager not found in path")
+        return 1
     return 0
 
 
