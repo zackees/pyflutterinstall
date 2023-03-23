@@ -87,6 +87,7 @@ def install_android_sdk(prompt: bool) -> int:
     add_env_path(ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
     add_env_path(ANDROID_SDK / "platform-tools")
     add_env_path(ANDROID_SDK / "emulator")
+    add_env_path(ANDROID_SDK / "tools" / "bin")
     if sys.platform == "darwin":
         if IS_GITHUB_RUNNER:
             package_mgr = "gem"
