@@ -42,6 +42,7 @@ Usage
 ```
 
 # Releases
+  * 1.1.2: Adds --install-dir option to install to a specific directory.
   * 1.1.1: Expose the post_run testing function to test environments.
   * 1.1.0: Adds ant install.
   * 1.0.10: Emulator tools now installed on path.
