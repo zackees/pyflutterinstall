@@ -50,7 +50,7 @@ jobs:
       run: pyflutterinstall --skip-confirmation
 
     - name: post install check
-      run: python test_install/postrun.py
+      run: python -m pyflutterinstall.postrun
 
     - name: Print Flutter SDK Folder
       run: python test_install/print_flutter_folder.py
