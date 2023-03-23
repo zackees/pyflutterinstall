@@ -24,6 +24,14 @@ import shutil
 import sys
 from typing import Callable
 
+# if --install-dir is specified, add it to the path
+try:
+    install_dir_found = sys.argv.index("--install-dir") + 1
+    install_dir = sys.argv[install_dir_found]
+    print(f"Setting install location to '{install_dir}'")
+    os.chdir(install_dir)  # Do this early before any other imports
+except:
+    pass
 from pyflutterinstall.flutter_doctor import postinstall_run_flutter_doctor
 from pyflutterinstall.install.android_sdk import install_android_sdk
 from pyflutterinstall.install.ant_sdk import install_ant_sdk
@@ -66,6 +74,8 @@ def main():
         help="Skip confirmation",
         default=False,
     )
+    # Note that --install-dir is handled at the import level
+    parser.add_argument("--install-dir", help="Install directory", default=None)
     parser.add_argument("--skip-java", action="store_true", help="Skip Java SDK")
     parser.add_argument("--skip-android", action="store_true", help="Skip Android SDK")
     parser.add_argument("--skip-ant", action="store_true", help="Skip Ant")
@@ -78,6 +88,8 @@ def main():
         choices=JAVA_SDK_VERSIONS.keys(),
     )
     args = parser.parse_args()
+    if args.install_dir is not None:
+        INSTALL_DIR = args.install_dir
     check_preqs()
     any_skipped = any(
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
