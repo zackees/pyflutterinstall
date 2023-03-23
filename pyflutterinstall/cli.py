@@ -88,8 +88,6 @@ def main():
         choices=JAVA_SDK_VERSIONS.keys(),
     )
     args = parser.parse_args()
-    if args.install_dir is not None:
-        INSTALL_DIR = args.install_dir
     check_preqs()
     any_skipped = any(
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
