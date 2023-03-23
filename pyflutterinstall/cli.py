@@ -17,6 +17,7 @@ sdk/Android:
 """
 
 # pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check
+# pylint: disable=wrong-import-position
 
 import argparse
 import os
@@ -30,8 +31,11 @@ try:
     install_dir = sys.argv[install_dir_found]
     print(f"Setting install location to '{install_dir}'")
     os.chdir(install_dir)  # Do this early before any other imports
-except:
+except BaseException:  # pylint: disable=broad-except
     pass
+
+# isort: off
+# black: off
 from pyflutterinstall.flutter_doctor import postinstall_run_flutter_doctor
 from pyflutterinstall.install.android_sdk import install_android_sdk
 from pyflutterinstall.install.ant_sdk import install_ant_sdk
@@ -41,6 +45,8 @@ from pyflutterinstall.install.gradle import install_gradle
 from pyflutterinstall.install.java_sdk import install_java_sdk
 from pyflutterinstall.resources import INSTALL_DIR, JAVA_SDK_VERSIONS
 from pyflutterinstall.util import make_dirs
+# black: on
+# isort: on
 
 
 def ask_if_interactive(
