@@ -111,8 +111,8 @@ def main():
     print("\nInstalling Flutter SDK and dependencies\n")
     config = config_load()
     config.update({
-        "ANDROID_SDK": ANDROID_SDK,
-        "GRADLE_DIR": GRADLE_DIR
+        "ANDROID_SDK": str(ANDROID_SDK),
+        "GRADLE_DIR": str(GRADLE_DIR)
     })
     config_save(config)
     make_dirs()
