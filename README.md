@@ -42,6 +42,7 @@ Usage
 ```
 
 # Releases
+  * 1.2.2: Fixes for sdkmanager.
   * 1.2.1: Fixes for avdmanager.
   * 1.2.0: Now uses shims for adb, avdmanager, emulator, gradle, java, sdkmanager
   * 1.1.3: Fix 1.1.2
