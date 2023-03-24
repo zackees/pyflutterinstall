@@ -42,6 +42,7 @@ Usage
 ```
 
 # Releases
+  * 1.2.0: Now uses shims for adb, avdmanager, emulator, gradle, java, sdkmanager
   * 1.1.3: Fix 1.1.2
   * 1.1.2: Adds --install-dir option to install to a specific directory.
   * 1.1.1: Expose the post_run testing function to test environments.
