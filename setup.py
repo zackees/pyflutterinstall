@@ -84,7 +84,13 @@ setup(
     entry_points={
         "console_scripts": [
             "pyflutterinstall = pyflutterinstall.cli:main",
-            "pyflutteractivate = pyflutterinstall.setenv:init_dotenv"
+            "pyflutteractivate = pyflutterinstall.setenv:init_dotenv",
+            "sdkmanager = androidemulator.cmds.sdkmanager:main",
+            "avdmanager = androidemulator.cmds.avdmanager:main",
+            "adb = androidemulator.cmds.adb:main",
+            "gradle = androidemulator.cmds.gradle:main",
+            "emulator = androidemulator.cmds.emulator:main",
+            "java = androidemulator.cmds.java:main"
         ],
     },
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
