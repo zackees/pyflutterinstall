@@ -16,7 +16,8 @@ ANT_SDK_DOWNLOAD = "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.13-bi
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CMDLINE_TOOLS = [
     "sources;android-33",
-    "system-images;android-33;google_apis;x86_64",
+    # HUGE
+    # "system-images;android-33;google_apis;x86_64",
     "cmdline-tools;latest",
     "platform-tools",
     "build-tools;33.0.1",

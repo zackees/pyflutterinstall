@@ -43,8 +43,15 @@ from pyflutterinstall.install.chrome import install_chrome
 from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
 from pyflutterinstall.install.gradle import install_gradle
 from pyflutterinstall.install.java_sdk import install_java_sdk
-from pyflutterinstall.resources import INSTALL_DIR, JAVA_SDK_VERSIONS, ANDROID_SDK, GRADLE_DIR
+from pyflutterinstall.resources import (
+    INSTALL_DIR,
+    JAVA_SDK_VERSIONS,
+    ANDROID_SDK,
+    GRADLE_DIR,
+)
 from pyflutterinstall.util import make_dirs
+from pyflutterinstall.config import config_load, config_save
+
 
 # black: on
 # isort: on
@@ -72,8 +79,6 @@ def check_preqs() -> None:
             )
             sys.exit(1)
 
-
-from .config import config_load, config_save
 
 def main():
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
@@ -110,10 +115,14 @@ def main():
     interactive = not skip_confirmation
     print("\nInstalling Flutter SDK and dependencies\n")
     config = config_load()
-    config.update({
-        "ANDROID_SDK": str(ANDROID_SDK),
-        "GRADLE_DIR": str(GRADLE_DIR)
-    })
+    config.update(
+        {
+            "ANDROID_SDK": str(ANDROID_SDK),
+            "GRADLE_DIR": str(GRADLE_DIR),
+            "INSTALL_DIR": str(INSTALL_DIR),
+            "JAVA_DIR": str(INSTALL_DIR / "java"),
+        }
+    )
     config_save(config)
     make_dirs()
     if not args.skip_java:
