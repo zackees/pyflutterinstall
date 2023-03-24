@@ -8,7 +8,7 @@ from pyflutterinstall.config import config_load
 
 ANDROID_SDK = config_load().get("ANDROID_SDK", ".")
 COMMAND = "sdkmanager"
-DEFAULT_PATH = os.path.join(ANDROID_SDK, "tools", "bin")
+DEFAULT_PATH = os.path.join(ANDROID_SDK, "cmdline-tools", "latest", "bin")
 
 
 def main(argv: list[str] | None = None) -> int:
