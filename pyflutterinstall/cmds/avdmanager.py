@@ -10,6 +10,9 @@ from pyflutterinstall.trampoline import trampoline
 from pyflutterinstall.config import config_load
 
 android_sdk = config_load().get("ANDROID_SDK", ".")
+if android_sdk != ".":
+    os.environ["ANDROID_SDK"] = android_sdk
+    os.environ["ANDROID_HOME"] = android_sdk
 
 COMMAND = "avdmanager"
 DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "latest", "bin")
