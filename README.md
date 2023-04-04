@@ -42,6 +42,7 @@ Usage
 ```
 
 # Releases
+  * 1.2.4: Java v11.0.2 -> v11.0.18 (fixes OkHttp3 bug)
   * 1.2.2: Fixes for sdkmanager.
   * 1.2.1: Fixes for avdmanager.
   * 1.2.0: Now uses shims for adb, avdmanager, emulator, gradle, java, sdkmanager
