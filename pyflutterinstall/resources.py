@@ -57,6 +57,7 @@ def get_platform_java_sdk17() -> str:
 
 
 def get_platform_java_sdk20() -> str:
+    """Java version 20."""
     if sys.platform == "win32":
         return "https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.zip"
     if platform.machine() == "x86_64":
@@ -64,9 +65,13 @@ def get_platform_java_sdk20() -> str:
     else:
         arch = "aarch64"
     if sys.platform == "darwin":
-        return f"https://download.oracle.com/java/20/latest/jdk-20_macos-{arch}_bin.tar.gz"
+        return (
+            f"https://download.oracle.com/java/20/latest/jdk-20_macos-{arch}_bin.tar.gz"
+        )
     if "linux" in sys.platform:
-        return f"https://download.oracle.com/java/20/latest/jdk-20_linux-{arch}_bin.tar.gz"
+        return (
+            f"https://download.oracle.com/java/20/latest/jdk-20_linux-{arch}_bin.tar.gz"
+        )
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
 
 
