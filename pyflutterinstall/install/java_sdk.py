@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 from download import download  # type: ignore
 
@@ -23,8 +24,7 @@ from pyflutterinstall.resources import (
 from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
 
-
-def install_java_sdk(version: int = 11) -> int:
+def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
     java_sdk_url = get_platform_java_sdk(version)
     print(f"Install Java SDK from {java_sdk_url} to {INSTALL_DIR}")

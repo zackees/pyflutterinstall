@@ -8,6 +8,7 @@ import os
 import sys
 from pathlib import Path
 import platform
+from typing import Optional
 
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
@@ -55,14 +56,32 @@ def get_platform_java_sdk17() -> str:
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
 
 
+def get_platform_java_sdk20() -> str:
+    if sys.platform == "win32":
+        return "https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.zip"
+    if platform.machine() == "x86_64":
+        arch = "x64"
+    else:
+        arch = "aarch64"
+    if sys.platform == "darwin":
+        return f"https://download.oracle.com/java/20/latest/jdk-20_macos-{arch}_bin.tar.gz"
+    if "linux" in sys.platform:
+        return f"https://download.oracle.com/java/20/latest/jdk-20_linux-{arch}_bin.tar.gz"
+    raise NotImplementedError(f"Unsupported platform: {sys.platform}")
+
+
+DEFAULT_JAVA_VERSION = 17
+
 JAVA_SDK_VERSIONS = {
     11: get_platform_java_sdk11,
     17: get_platform_java_sdk17,
+    20: get_platform_java_sdk20,
 }
 
 
-def get_platform_java_sdk(version: int = 11) -> str:
+def get_platform_java_sdk(version: Optional[int] = None) -> str:
     """Gets the java platform specific url"""
+    version = version or DEFAULT_JAVA_VERSION
     url_function = JAVA_SDK_VERSIONS.get(version)
     if url_function:
         return url_function()
