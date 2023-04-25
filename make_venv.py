@@ -8,9 +8,12 @@
     source activate.sh
 
   Notes:
-    This script is tested to work using python2 and python3 from a fresh install. The only side effect
-    of running this script is that virtualenv will be globally installed if it isn't already.
+    This script is tested to work using python2 and python3 from a fresh install. The only side
+    effect of running this script is that virtualenv will be globally installed if it isn't
+    already.
 """
+
+# pylint: disable=all
 
 import os
 import shutil
@@ -20,13 +23,26 @@ import sys
 # This activation script adds the ability to run it from any path and also
 # aliasing pip3 and python3 to pip/python so that this works across devices.
 _ACTIVATE_SH = """
+#!/bin/bash
+set -e
+# if IN_ACTIVATED_ENV is set, then we are already in the venv
+if [ -n "$IN_ACTIVATED_ENV" ]; then
+  return
+fi
 function abs_path {
   (cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
 }
+# if python is not python3, then make it
+if [ "$(python --version 2>&1)" != "Python 3"* ]; then
+  alias python=python3
+  alias pip=pip3
+fi
+# if make_venv dir is not present, then make it
+if [ ! -d "venv" ]; then
+  python make_venv.py
+fi
 . $( dirname $(abs_path ${BASH_SOURCE[0]}))/venv/bin/activate
 export PATH=$( dirname $(abs_path ${BASH_SOURCE[0]}))/:$PATH
-alias python3=python
-alias pip3=pip
 export IN_ACTIVATED_ENV="1"
 """
 
@@ -64,7 +80,4 @@ if sys.platform == "win32":
 with open("activate.sh", "wt") as fd:
     fd.write(_ACTIVATE_SH)
 
-
-print(
-    'Now use ". activate.sh" (at the project root dir) to enter into the environment.'
-)
+print('Now use ". activate.sh" (at the project root dir) to enter into the environment.')
