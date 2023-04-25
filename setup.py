@@ -80,7 +80,6 @@ setup(
         "Environment :: Console",
     ],
     install_requires=REQUIREMENTS,
-
     entry_points={
         "console_scripts": [
             "pyflutterinstall = pyflutterinstall.cli:main",
@@ -91,7 +90,7 @@ setup(
             "adb = pyflutterinstall.cmds.adb:main",
             "gradle = pyflutterinstall.cmds.gradle:main",
             "emulator = pyflutterinstall.cmds.emulator:main",
-            "java = pyflutterinstall.cmds.java:main"
+            "java = pyflutterinstall.cmds.java:main",
         ],
     },
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),

@@ -29,5 +29,10 @@ def config_load() -> dict:
 def print_config() -> int:
     """Endpoint for printing the current configuration."""
     config = config_load()
+    print(f"Config file: {CONFIG_FILE}")
     print(json.dumps(config, indent=4))
     return 0
+
+
+if __name__ == "__main__":
+    print_config()

@@ -8,13 +8,15 @@ import sys
 from pyflutterinstall.config import config_load
 from pyflutterinstall.trampoline import trampoline
 
-JAVA_DIR = config_load().get("JAVA_DIR", "INVALID")
+JAVA_DIR = config_load().get("JAVA_DIR", None)
 
 COMMAND = "java"
 
 
 def find_default_path_or_none() -> str | None:
     """Find default path"""
+    if JAVA_DIR is None:
+        return None
     jdk_folders = os.listdir(JAVA_DIR)
     if not jdk_folders:
         return None
