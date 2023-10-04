@@ -17,6 +17,8 @@ if android_sdk != ".":
 
 
 COMMAND = "apkanalyzer"
+if sys.platform == "win32":
+    COMMAND += ".bat"
 DEFAULT_PATH = os.path.join(
     android_sdk, "cmdline-tools", "tools", "cmdline-tools", "bin"
 )

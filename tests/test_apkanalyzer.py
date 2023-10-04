@@ -13,11 +13,11 @@ config = config_load()
 INSTALLED = config.get("INSTALL_DIR") is not None
 
 
-class JavaTest(unittest.TestCase):
+class ApkAnalyzerTester(unittest.TestCase):
     """Thest that each tool can be called from the path."""
 
     @unittest.skipIf(not INSTALLED, "Not installed")
-    def test_java(self) -> None:
+    def test_apkanalyzer(self) -> None:
         """Tests that we can bind to the java executable."""
         print("Test apkanalyzer")
         java_version = subprocess.check_output(

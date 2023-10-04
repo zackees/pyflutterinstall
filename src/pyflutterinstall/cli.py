@@ -56,6 +56,8 @@ from pyflutterinstall.config import config_load, config_save
 # black: on
 # isort: on
 
+JAVA_VERSION = 21
+
 
 def ask_if_interactive(
     is_interactive: bool, callback_name: str, callback: Callable[[], int]
@@ -84,6 +86,7 @@ def main():
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
     parser.add_argument(
         "--skip-confirmation",
+        "-y",
         action="store_true",
         help="Skip confirmation",
         default=False,
@@ -126,7 +129,11 @@ def main():
     config_save(config)
     make_dirs()
     if not args.skip_java:
-        ask_if_interactive(interactive, "java_sdk", install_java_sdk)
+
+        def install_java_sdk_version() -> int:
+            return install_java_sdk(JAVA_VERSION)
+
+        ask_if_interactive(interactive, "java_sdk", install_java_sdk_version)
     if not args.skip_android:
 
         def install_android_sdk_and_gradle():

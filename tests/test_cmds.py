@@ -54,12 +54,6 @@ class UseExePaths(unittest.TestCase):
         print("Test emulator")
         self.assertEqual(0, emulator.main(["-help"]))
 
-    @unittest.skipIf(not INSTALLED, "Not installed")
-    def test_apkanalyzer(self) -> None:
-        """Tests that we can bind to the emulator executable."""
-        print("Test apkanalyzer")
-        self.assertEqual(0, emulator.main(["-help"]))
-
 
 if __name__ == "__main__":
     unittest.main()

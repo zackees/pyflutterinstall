@@ -28,6 +28,22 @@ CMDLINE_TOOLS = [
 ]
 
 
+# Not all versions of java support getting url by version number.
+def get_platform_java_sdk_dynamic(version: str) -> str:
+    """Gets the java platform specific url using the version string."""
+    if sys.platform == "win32":
+        return f"https://download.oracle.com/java/21/latest/jdk-{version}_windows-x64_bin.zip"
+    if platform.machine() == "x86_64":
+        arch = "x64"
+    else:
+        arch = "aarch64"
+    if sys.platform == "darwin":
+        return f"https://download.oracle.com/java/21/latest/jdk-{version}_macos-{arch}_bin.tar.gz"
+    if "linux" in sys.platform:
+        return f"https://download.oracle.com/java/17/archive/jdk-{version}_linux-{arch}_bin.tar.gz"
+    raise NotImplementedError(f"Unsupported platform: {sys.platform}")
+
+
 def get_platform_java_sdk11() -> str:
     """Gets the java platform specific url"""
     if sys.platform == "win32":
@@ -41,38 +57,17 @@ def get_platform_java_sdk11() -> str:
 
 def get_platform_java_sdk17() -> str:
     """Gets the java platform specific url"""
-    if sys.platform == "win32":
-        return (
-            "https://download.oracle.com/java/17/archive/jdk-17.0.6_windows-x64_bin.zip"
-        )
-    if platform.machine() == "x86_64":
-        arch = "x64"
-    else:
-        arch = "aarch64"
-    if sys.platform == "darwin":
-        return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_macos-{arch}_bin.tar.gz"
-    if "linux" in sys.platform:
-        return f"https://download.oracle.com/java/17/archive/jdk-17.0.6_linux-{arch}_bin.tar.gz"
-    raise NotImplementedError(f"Unsupported platform: {sys.platform}")
+    return get_platform_java_sdk_dynamic("17.0.6")
 
 
 def get_platform_java_sdk20() -> str:
     """Java version 20."""
-    if sys.platform == "win32":
-        return "https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.zip"
-    if platform.machine() == "x86_64":
-        arch = "x64"
-    else:
-        arch = "aarch64"
-    if sys.platform == "darwin":
-        return (
-            f"https://download.oracle.com/java/20/latest/jdk-20_macos-{arch}_bin.tar.gz"
-        )
-    if "linux" in sys.platform:
-        return (
-            f"https://download.oracle.com/java/20/latest/jdk-20_linux-{arch}_bin.tar.gz"
-        )
-    raise NotImplementedError(f"Unsupported platform: {sys.platform}")
+    return get_platform_java_sdk_dynamic("20")
+
+
+def get_platform_java_sdk21() -> str:
+    """Java version 21."""
+    return get_platform_java_sdk_dynamic("21")
 
 
 DEFAULT_JAVA_VERSION = 17
@@ -81,6 +76,7 @@ JAVA_SDK_VERSIONS = {
     11: get_platform_java_sdk11,
     17: get_platform_java_sdk17,
     20: get_platform_java_sdk20,
+    21: get_platform_java_sdk21,
 }
 
 
