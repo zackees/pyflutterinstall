@@ -24,6 +24,9 @@ from pyflutterinstall.util import make_title
 
 def install_ant_sdk() -> int:
     make_title("Installing Ant SDK")
+    if shutil.which("ant") is not None:
+        print("Ant already installed")
+        return 0
     if sys.platform in ["win32", "linux"]:
         print(f"Install Ant from {ANT_SDK_DOWNLOAD} to {INSTALL_DIR}")
         ant_sdk_sip = Path(
