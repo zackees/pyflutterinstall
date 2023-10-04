@@ -55,7 +55,10 @@ jobs:
       run: where java
 
     - name: What java version?
-      run: java --version
+      run: |
+        java --version
+        java --which || true
+      shell: bash
 
     - name: Test java is 21
       run: |
