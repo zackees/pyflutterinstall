@@ -94,4 +94,6 @@ jobs:
       run: find ./.downloads -type l -delete
 
     - name: Remove all symlinks in apt cache directory
-      run: sudo find /var/cache/apt/archives -type l -exec sh -c 'unlink {} || true' \;
+      run: |
+        sudo rm var/cache/apt/archives/lock
+        sudo rm var/cache/apt/archives/partial
