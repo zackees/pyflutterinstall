@@ -33,7 +33,7 @@ class UseExePaths(unittest.TestCase):
     def test_avdmanager(self) -> None:
         """Tests that we can bind to the avdmanager executable."""
         print("Test avdmanager")
-        self.assertEqual(1, avdmanager.main(["--help"]))
+        self.assertEqual(1, avdmanager.main(["list"]))
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_gradle(self) -> None:
