@@ -53,8 +53,8 @@ def find_default_path_or_none() -> str | None:
 def main(argv: list[str] | None = None) -> int:
     """Main"""
     print(f"Java dir: {JAVA_DIR}")
-    print(os.listdir(JAVA_DIR))
-    print_tree_dir(JAVA_DIR, max_level=5)
+    #print(os.listdir(JAVA_DIR))
+    #print_tree_dir(JAVA_DIR, max_level=5)
     java_home = find_default_path_or_none()
     java_exe = find_java_exe(java_home)
     print(f"Java bin: {java_exe}")
