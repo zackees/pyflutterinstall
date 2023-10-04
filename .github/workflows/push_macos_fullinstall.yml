@@ -79,7 +79,10 @@ jobs:
 
     - name: which java
       run: which java
-      
+
+    - name: java --which
+      run: java --which
+
     - name: Test java is 21
       run: |
         java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || (echo "Java 21 is not installed" && exit 1)
