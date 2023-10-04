@@ -20,6 +20,7 @@ from pyflutterinstall.resources import (
     JAVA_DIR,
     get_platform_java_sdk,
     JAVA_SDK_VERSIONS,
+    JAVA_VERSION
 )
 from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
@@ -70,7 +71,7 @@ def main():
     parser.add_argument(
         "--version",
         type=int,
-        default=11,
+        default=JAVA_VERSION,
         help="The version of Java to install",
         choices=JAVA_SDK_VERSIONS.keys(),
     )

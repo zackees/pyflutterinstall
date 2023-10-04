@@ -48,15 +48,10 @@ from pyflutterinstall.resources import (
     JAVA_SDK_VERSIONS,
     ANDROID_SDK,
     GRADLE_DIR,
+    JAVA_VERSION,
 )
 from pyflutterinstall.util import make_dirs
 from pyflutterinstall.config import config_load, config_save
-
-
-# black: on
-# isort: on
-
-JAVA_VERSION = 21
 
 
 def ask_if_interactive(
