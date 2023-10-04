@@ -41,8 +41,8 @@ jobs:
     - uses: actions/cache@v3
       name: Cache apt packages
       with:
-        path: /var/cache/apt/archives
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-3
+        path: /var/cache/apt
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-4
         restore-keys: |
           ${{ runner.os }}-apt-
 
