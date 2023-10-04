@@ -30,10 +30,12 @@ jobs:
     - uses: actions/cache@v3
       name: Configure flutter caching
       with:
-        path: ./.downloads
+        path: |
+          ./.downloads
         key: ${{ runner.os }}-pyflutter-${{ env.date }}
         restore-keys: |
           ${{ runner.os }}-pyflutter-
+
 
     # Cache apt-get archives
     - uses: actions/cache@v3
@@ -71,8 +73,8 @@ jobs:
     - name: Print Flutter SDK Folder
       run: python test_install/print_flutter_folder.py
 
-    - name: print out gz files
-      run: find . | grep gz$
+    - name: print out downloads folder
+      run: cd ./.downloads && find .
 
     - name: Test java is 21
       run: java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || echo "Java 21 is not installed"
@@ -83,3 +85,6 @@ jobs:
     - name: Test Install
       run: |
         pytest tests
+
+    - name: Remove all symlinks in .downloads directory
+      run: find ./.downloads -type l -delete
