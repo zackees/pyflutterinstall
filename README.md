@@ -4,6 +4,7 @@
 [![Win_FullInstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_win_fullinstall.yml)
 [![MacOS_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos.yml)
 [![MacOS_Fullinstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_fullinstall.yml)
+[![Mac_arm_Fullinstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_arm_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_macos_arm_fullinstall.yml)
 [![Ubuntu_Tests](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu.yml)
 [![Ubuntu_Fullinstall](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu_fullinstall.yml/badge.svg)](https://github.com/zackees/pyflutterinstall/actions/workflows/push_ubuntu_fullinstall.yml)
 

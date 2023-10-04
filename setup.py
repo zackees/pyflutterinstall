@@ -1,6 +1,5 @@
 import os
-import sys
-from shutil import rmtree
+import re
 
 import setuptools
 
