@@ -37,15 +37,6 @@ jobs:
           ${{ runner.os }}-pyflutter-
 
 
-    # Cache apt-get archives
-    - uses: actions/cache@v3
-      name: Cache apt packages
-      with:
-        path: /var/cache/apt
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-5
-        restore-keys: |
-          ${{ runner.os }}-apt-
-
     - name: set local apt cache directory to .downloads
       run: sudo apt-get -o dir::cache=./downloads update
 
@@ -95,8 +86,3 @@ jobs:
 
     - name: Remove all symlinks in .downloads directory
       run: find ./.downloads -type l -delete
-
-    - name: Remove all symlinks in apt cache directory
-      run: |
-        sudo chmod -R a+r /var/cache/apt/archives || true
-
