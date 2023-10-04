@@ -50,7 +50,7 @@ jobs:
 
     - name: Test java is 21
       run: |
-        java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || (echo "Java 21 is not installed" && exit 1)
+        java -version 2>&1 | grep -q 'java 21' && echo "Java 21 is installed" || (echo "Java 21 is not installed" && exit 1)
       shell: bash
 
     - name: install android
