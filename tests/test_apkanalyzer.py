@@ -9,14 +9,17 @@ import subprocess
 import shutil
 from pyflutterinstall.config import config_load
 
-config = config_load()
-INSTALLED = config.get("INSTALL_DIR") is not None
 
 from pyflutterinstall.resources import (
     ANDROID_SDK,
 )
 
 from pyflutterinstall.util import print_tree_dir
+
+
+config = config_load()
+INSTALLED = config.get("INSTALL_DIR") is not None
+
 
 class ApkAnalyzerTester(unittest.TestCase):
     """Thest that each tool can be called from the path."""
@@ -35,7 +38,7 @@ class ApkAnalyzerTester(unittest.TestCase):
         java_path = shutil.which("java")
         print(f"Java path: {java_path}\n")
         rtn = os.system("apkanalyzer --help")
-        print_tree_dir(ANDROID_SDK, max_level=5)
+        print_tree_dir(str(ANDROID_SDK.absolute()), max_level=5)
         self.assertEqual(rtn, 0)
 
 
