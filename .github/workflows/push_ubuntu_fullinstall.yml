@@ -49,3 +49,6 @@ jobs:
 
     - name: Print Flutter SDK Folder
       run: python test_install/print_flutter_folder.py
+
+    - name: Test Install
+      run: pytest tests

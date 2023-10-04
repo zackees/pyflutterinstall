@@ -40,7 +40,9 @@ def trampoline(
                 print("Real tool is at:", paths[0])
                 return 0
             return subprocess.call(cmd_list, env=env)
-        print(f"Trampoline {command} could not find the real {command} installed on the system paths.")
+        print(
+            f"Trampoline {command} could not find the real {command} installed on the system paths."
+        )
         return 1
     finally:
         if prev_path:

@@ -42,6 +42,7 @@ Usage
 ```
 
 # Releases
+  * 1.2.7: Use a trampoline for apkanalyzer to fix missing class paths
   * 1.2.6: Java trampoline fixed for Mac OSX
   * 1.2.5: Java is now jdk v17 by default
   * 1.2.4: Java v11.0.2 -> v11.0.18 (fixes OkHttp3 bug)

@@ -13,7 +13,7 @@ URL = "https://github.com/zackees/pyflutterinstall"
 EMAIL = "dont@email.me"
 AUTHOR = "Zach Vorhies"
 REQUIRES_PYTHON = ">=3.9"
-VERSION = "1.2.6"
+VERSION = "1.2.7"
 
 # The text of the README file
 with open(os.path.join(HERE, "README.md")) as fd:
@@ -91,6 +91,7 @@ setup(
             "gradle = pyflutterinstall.cmds.gradle:main",
             "emulator = pyflutterinstall.cmds.emulator:main",
             "java = pyflutterinstall.cmds.java:main",
+            "apkanalyzer = pyflutterinstall.cmds.apkanalyzer:main",
         ],
     },
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
