@@ -20,7 +20,12 @@ class JavaTest(unittest.TestCase):
     def test_java(self) -> None:
         """Tests that we can bind to the java executable."""
         print("Test apkanalyzer")
-        java_version = subprocess.check_output("java -version", shell=True, universal_newlines=True, stderr=subprocess.STDOUT)
+        java_version = subprocess.check_output(
+            "java -version",
+            shell=True,
+            universal_newlines=True,
+            stderr=subprocess.STDOUT,
+        )
         print(f"Java version: {java_version}\n")
         java_path = shutil.which("java")
         print(f"Java path: {java_path}\n")

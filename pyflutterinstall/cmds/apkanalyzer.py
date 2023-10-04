@@ -16,12 +16,34 @@ if android_sdk != ".":
 
 
 COMMAND = "apkanalyzer"
-DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "tools", "cmdline-tools", "bin")
+DEFAULT_PATH = os.path.join(
+    android_sdk, "cmdline-tools", "tools", "cmdline-tools", "bin"
+)
+LATEST_PATH = os.path.join(android_sdk, "cmdline-tools", "latest", "bin")
+
+BINARY_PATHS = [
+    DEFAULT_PATH,
+    LATEST_PATH,
+]
+
+
+def find_path() -> str:
+    """Find path"""
+    for path in BINARY_PATHS:
+        final_path = os.path.join(path, COMMAND)
+        if sys.platform == "win32":
+            final_path += ".bat"
+        if os.path.exists(path):
+            return path
+    raise FileNotFoundError(
+        f"Could not find {COMMAND} on any of the paths: {BINARY_PATHS}"
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
-    return trampoline(COMMAND, args=argv, default_path=DEFAULT_PATH)
+    default_path = find_path()
+    return trampoline(COMMAND, args=argv, default_path=default_path)
 
 
 if __name__ == "__main__":
