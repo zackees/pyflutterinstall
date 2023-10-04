@@ -36,6 +36,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pyflutter-
 
+    - uses: actions/cache@v3
+      name: Cache Android SDK
+      with:
+        path: /home/runner/work/pyflutterinstall/pyflutterinstall/FlutterSDK/Android/sdk
+        key: ${{ runner.os }}-pyflutter-android-sdk-${{ env.date }}-7
+        restore-keys: |
+          ${{ runner.os }}-pyflutter-android-sdk-
+
     - name: Print current working directory
       run: pwd
     - name: Print all files in current working directory
