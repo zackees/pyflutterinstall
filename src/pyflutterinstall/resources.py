@@ -92,7 +92,7 @@ def get_platform_java_sdk(version: Optional[int] = None) -> str:
 
 def get_android_sdk_url() -> str:
     """Gets the android platform specific url"""
-    version = "10306996"
+    version = "10406996"
     if sys.platform == "win32":
         os_name = "win"
     elif sys.platform == "darwin":
