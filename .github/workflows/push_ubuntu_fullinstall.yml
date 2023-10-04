@@ -61,4 +61,5 @@ jobs:
         unset JAVA_HOME_8_X64
         unset JAVA_HOME_11_X64
         unset JAVA_HOME_17_X64
+        export PATH=$(python -c "import sys; print(sys.exec_prefix + '/bin')"):$PATH
         pytest tests

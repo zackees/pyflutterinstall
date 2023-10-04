@@ -71,9 +71,14 @@ def get_platform_java_sdk21() -> str:
     return get_platform_java_sdk_dynamic("21")
 
 
+def get_platform_java_sdk8() -> str:
+    """Gets the java platform specific url"""
+    return get_platform_java_sdk_dynamic("8.0.312")
+
 DEFAULT_JAVA_VERSION = 17
 
 JAVA_SDK_VERSIONS = {
+    8: get_platform_java_sdk8,
     11: get_platform_java_sdk11,
     17: get_platform_java_sdk17,
     20: get_platform_java_sdk20,

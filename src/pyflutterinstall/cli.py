@@ -56,7 +56,7 @@ from pyflutterinstall.config import config_load, config_save
 # black: on
 # isort: on
 
-JAVA_VERSION = 8
+JAVA_VERSION = 21
 
 
 def ask_if_interactive(
