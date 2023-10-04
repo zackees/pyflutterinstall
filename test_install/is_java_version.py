@@ -34,8 +34,13 @@ def main() -> int:
     if args.version not in java_version:
         print(f"Java version {args.version} not found")
         print("Printing environment")
-        for key, val in sorted(os.environ.items()):
+        env_copy = os.environ.copy()
+        paths = env_copy.pop("PATH")
+        for key, val in sorted(env_copy.items()):
             print(f"{key} = {val}")
+        print("PATH:")
+        for path in paths.split(os.pathsep):
+            print(f"  {path}")
         return 1
     print(f"Java version {args.version} found at {which('java')}")
     return 0
