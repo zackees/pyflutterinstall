@@ -31,16 +31,17 @@ CMDLINE_TOOLS = [
 # Not all versions of java support getting url by version number.
 def get_platform_java_sdk_dynamic(version: str) -> str:
     """Gets the java platform specific url using the version string."""
+    major_version = int(version.split(".")[0])
     if sys.platform == "win32":
-        return f"https://download.oracle.com/java/21/latest/jdk-{version}_windows-x64_bin.zip"
+        return f"https://download.oracle.com/java/{major_version}/latest/jdk-{version}_windows-x64_bin.zip"
     if platform.machine() == "x86_64":
         arch = "x64"
     else:
         arch = "aarch64"
     if sys.platform == "darwin":
-        return f"https://download.oracle.com/java/21/latest/jdk-{version}_macos-{arch}_bin.tar.gz"
+        return f"https://download.oracle.com/java/{major_version}/latest/jdk-{version}_macos-{arch}_bin.tar.gz"
     if "linux" in sys.platform:
-        return f"https://download.oracle.com/java/17/archive/jdk-{version}_linux-{arch}_bin.tar.gz"
+        return f"https://download.oracle.com/java/{major_version}/archive/jdk-{version}_linux-{arch}_bin.tar.gz"
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
 
 
