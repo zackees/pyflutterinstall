@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 # cd to self bash script directory
-cd $( dirname ${BASH_SOURCE[0]})
+cd "${BASH_SOURCE[0]%/*}"
 
 echo Fixing code style with black
 black pyflutterinstall tests test_install
