@@ -8,6 +8,7 @@ import sys
 from pyflutterinstall.trampoline import trampoline
 
 from pyflutterinstall.config import config_load
+from pyflutterinstall.cmds.java import find_default_path_or_none
 
 # from pyflutterinstall.util import print_tree_dir
 
@@ -23,9 +24,14 @@ if sys.platform == "win32":
 
 DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "latest", "bin")
 
+JAVA_DIR = config_load().get("JAVA_DIR", None)
+
+
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
+    java_home = find_default_path_or_none()
+    os.environ["JAVA_HOME"] = java_home
     return trampoline(COMMAND, args=argv, default_path=DEFAULT_PATH)
 
 
