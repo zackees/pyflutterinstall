@@ -38,7 +38,7 @@ class ApkAnalyzerTester(unittest.TestCase):
         java_path = shutil.which("java")
         print(f"Java path: {java_path}\n")
         rtn = os.system("apkanalyzer --help")
-        print_tree_dir(str(ANDROID_SDK.absolute()), max_level=5)
+        print_tree_dir(str(ANDROID_SDK.absolute()), max_level=5, only_exe=True)
         self.assertEqual(rtn, 0)
 
 

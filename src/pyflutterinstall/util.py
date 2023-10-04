@@ -46,7 +46,7 @@ def make_title(title: str) -> None:
     sys.stdout.flush()
 
 
-def print_tree_dir(path: str, max_level=2) -> None:
+def print_tree_dir(path: str, max_level=2, only_exe=False) -> None:
     """Prints the tree of a directory"""
     output = ""
     for root, dirs, files in os.walk(path):
@@ -58,6 +58,16 @@ def print_tree_dir(path: str, max_level=2) -> None:
         output += f"{indent}{os.path.basename(root)}" + os.linesep
         subindent = " " * 4 * (level + 1)
         for file in files:
-            output += f"{subindent}{file}" + os.linesep
+            if only_exe:
+                if sys.platform == "win32":
+                    if not file.endswith(".exe") and not file.endswith(".bat"):
+                        continue
+                    output += f"{subindent}{file}" + os.linesep
+                else:
+                    if not os.access(os.path.join(root, file), os.X_OK):
+                        continue
+                    output += f"{subindent}{file}" + os.linesep
+            else:
+                output += f"{subindent}{file}" + os.linesep
     sys.stdout.write(output)
     sys.stdout.flush()
