@@ -35,6 +35,7 @@ def find_default_path_or_none() -> str | None:
 def main(argv: list[str] | None = None) -> int:
     """Main"""
     print(f"Java dir: {JAVA_DIR}")
+    print(os.listdir(JAVA_DIR))
     rtn = trampoline(COMMAND, args=argv, default_path=find_default_path_or_none())
     return rtn
 
