@@ -38,6 +38,8 @@ jobs:
 
     - name: Print current working directory
       run: pwd
+    - name: Print all files in current working directory
+      run: ls -la
 
     - name: set local apt cache directory to .downloads
       run: sudo apt-get -o dir::cache=./downloads update
