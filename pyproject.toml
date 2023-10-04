@@ -18,6 +18,9 @@ version = "1.2.7"
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }
 
+[tool.poetry.extras]
+test = ["pytest"]
+
 [project.scripts]
 pyflutterinstall = "pyflutterinstall.cli:main"
 pyflutteractivate = "pyflutterinstall.setenv:init_dotenv"
