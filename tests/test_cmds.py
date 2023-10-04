@@ -2,7 +2,6 @@
 Unit test file.
 """
 
-import sys
 import os
 import unittest
 from shutil import which

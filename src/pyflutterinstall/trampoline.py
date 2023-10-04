@@ -13,6 +13,7 @@ import sys
 from pyflutterinstall.which_all import which_all
 from pyflutterinstall.config import config_load
 
+
 def trampoline(
     command: str, args: list[str] | None = None, default_path: str | None = None
 ) -> int:
