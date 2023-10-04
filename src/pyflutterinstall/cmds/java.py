@@ -33,9 +33,8 @@ def find_default_path_or_none() -> str | None:
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
-    java_bin = trampoline(COMMAND, args=argv, default_path=find_default_path_or_none())
-    assert os.path.exists(java_bin), f"java_bin {java_bin} does not exist"
-    return 0
+    rtn = trampoline(COMMAND, args=argv, default_path=find_default_path_or_none())
+    return rtn
 
 
 if __name__ == "__main__":

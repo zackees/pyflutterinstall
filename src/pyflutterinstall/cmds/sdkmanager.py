@@ -23,8 +23,10 @@ def main(argv: list[str] | None = None) -> int:
         argv.append("--sdk_root")
         argv.append(ANDROID_SDK)
     java_path = shutil.which("java")
-    version = os.popen(f"{java_path} -version").read()
+    version = os.popen(f"{java_path} -version").read().strip()
     print(f"java version: {version}")
+    print(f"Java path: {java_path}")
+    
     return trampoline(COMMAND, args=argv, default_path=DEFAULT_PATH)
 
 
