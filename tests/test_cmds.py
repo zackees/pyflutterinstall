@@ -46,7 +46,7 @@ class UseExePaths(unittest.TestCase):
     def test_sdkmanager(self) -> None:
         """Tests that we can bind to the sdkmanager executable."""
         print("Test sdkmanager")
-        self.assertEqual(1, sdkmanager.main(["--help"]))
+        self.assertEqual(1, sdkmanager.main(["--version"]))
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_emulator(self) -> None:
