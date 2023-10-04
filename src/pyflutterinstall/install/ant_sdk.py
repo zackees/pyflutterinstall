@@ -41,7 +41,7 @@ def install_ant_sdk() -> int:
         ant_bin_dir = base_ant_dir / "bin"
         add_env_path(ant_bin_dir)
         ant_exe = "ant.exe" if os.name == "nt" else "ant"
-        if os.name == "nt":
+        if os.name != "nt":
             os.chmod(ant_bin_dir / ant_exe, 0o755)
         # check that ant is in the path
         print(f"Ant SDK installed: {base_ant_dir}\n")
