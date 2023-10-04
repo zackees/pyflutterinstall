@@ -92,3 +92,6 @@ jobs:
 
     - name: Remove all symlinks in .downloads directory
       run: find ./.downloads -type l -delete
+
+    - name: Remove all symlinks in apt cache directory
+      run: find /var/cache/apt/archives -type l -delete
