@@ -24,7 +24,9 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Generate Day Stamp
       id: date
-      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      run: |
+        echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        echo "GITHUB_ENV: $GITHUB_ENV"
     - uses: actions/cache@v3
       name: Configure flutter caching
       with:
