@@ -29,12 +29,13 @@ def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
     java_sdk_url = get_platform_java_sdk(version)
     print(f"Install Java SDK from {java_sdk_url} to {INSTALL_DIR}")
+    local_file = DOWNLOAD_DIR / os.path.basename(java_sdk_url)
     java_sdk_zip_file = Path(
-        download(java_sdk_url, DOWNLOAD_DIR / os.path.basename(java_sdk_url))
+        download(url=java_sdk_url, path=local_file, replace=False)
     )
-    if os.path.exists(JAVA_DIR):
-        print(f"Removing existing Java SDK at {JAVA_DIR}")
-        shutil.rmtree(JAVA_DIR)
+    #if os.path.exists(JAVA_DIR):
+    #    print(f"Removing existing Java SDK at {JAVA_DIR}")
+    #    shutil.rmtree(JAVA_DIR)
     print(f"Unpacking {java_sdk_zip_file} to {JAVA_DIR}")
     shutil.unpack_archive(java_sdk_zip_file, JAVA_DIR)
     base_java_dir = JAVA_DIR / os.listdir(JAVA_DIR)[0]
