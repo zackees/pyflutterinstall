@@ -95,5 +95,5 @@ jobs:
 
     - name: Remove all symlinks in apt cache directory
       run: |
-        sudo rm var/cache/apt/archives/lock
-        sudo rm var/cache/apt/archives/partial
+        sudo rm /var/cache/apt/archives/lock || true
+        sudo rm /var/cache/apt/archives/partial || true
