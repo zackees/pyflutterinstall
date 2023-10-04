@@ -60,7 +60,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Java bin: {java_exe}")
     os.environ["JAVA_HOME"] = java_home
     print(f"Searched for bin directory and found: {find_java_exe(JAVA_DIR)}")
-    rtn = trampoline(java_exe, args=argv, default_path=None)
+    rtn = trampoline(COMMAND, args=argv, default_path=java_exe)
     return rtn
 
 
