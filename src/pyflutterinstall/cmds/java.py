@@ -41,7 +41,7 @@ def find_default_path_or_none() -> str | None:
     base_java_dir = os.path.join(JAVA_DIR, jdk_folders[0])
 
     if "linux" in sys.platform:
-        return find_bin_folder(base_java_dir)
+        return base_java_dir
         
     if sys.platform == "darwin":
         java_bin = os.path.join(base_java_dir, "Contents", "Home", "bin")
