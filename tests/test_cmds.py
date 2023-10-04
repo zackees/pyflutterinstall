@@ -50,8 +50,8 @@ class UseExePaths(unittest.TestCase):
         """Tests that we can bind to the sdkmanager executable."""
         print("Test sdkmanager")
         print(f"which sdkmanager: {which('sdkmanager')}")
-        expected_return_value = 0 if "linux" in sys.platform else 1
-        self.assertEqual(expected_return_value, sdkmanager.main(["--version"]))
+        rtn = sdkmanager.main(["--version"])
+        self.assertEqual(0, rtn)
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_emulator(self) -> None:
