@@ -45,6 +45,9 @@ jobs:
     - name: install java
       run: python -m pyflutterinstall.install.java_sdk
 
+    - name: Where Java?
+      run: where java
+
     - name: Test java is 21
       run: java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || echo "Java 21 is not installed"
 
