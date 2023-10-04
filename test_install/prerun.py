@@ -20,7 +20,10 @@ def main() -> int:
     print(f"dir $ANDROID_HOME = {os.listdir(os.environ['ANDROID_HOME'])}")
     print_tree_dir(os.environ["ANDROID_HOME"])
     print("Environment:")
-    for key, value in os.environ.items():
+    env_items = os.environ.items()
+    # sort
+    env_items = sorted(env_items)
+    for key, value in env_items:
         # skip path
         if key == "PATH":
             continue
