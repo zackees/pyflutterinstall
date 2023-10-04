@@ -12,8 +12,6 @@ import sys
 # sdkmanager.bat -> sdkmanager.
 def which_all(progname: str, filter_package_exes=True) -> list:
     """Returns all the paths where the program name could be found."""
-    if os.path.isfile(progname):
-        return [progname]
     if os.name == "nt":
         paths = _which_all_win32(progname)
     else:

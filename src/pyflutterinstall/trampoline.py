@@ -35,7 +35,10 @@ def trampoline(
             os.environ["PATH"] = new_path
         print(f"Trampoline {command} with args: {args}")
 
-        paths = which_all(command, filter_package_exes=True)
+        if os.path.isfile(command):
+            paths = [command]
+        else:
+            paths = which_all(command, filter_package_exes=True)
         if paths:
             cmd_list = [paths[0]] + args
             if "--which" in sys.argv:
