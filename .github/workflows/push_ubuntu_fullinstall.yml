@@ -50,7 +50,7 @@ jobs:
     - name: Install ninja
       run: sudo apt install ninja-build
 
-    - name: Install gtk
+    - name: Install gtk.
       run: sudo apt install libgtk-3-dev
 
     - name: Install dependencies
