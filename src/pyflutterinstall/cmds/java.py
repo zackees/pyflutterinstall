@@ -40,11 +40,14 @@ def find_default_path_or_none() -> str | None:
         jdk_folders.reverse()
     print(f"jdk_folders: {jdk_folders}")
     base_java_dir = os.path.join(JAVA_DIR, jdk_folders[0])
-    if "linux" in sys.platform or "darwin" in sys.platform:
+    if "linux" in sys.platform:
         return base_java_dir
+    if "darwin" in sys.platform:
+        return os.path.join(base_java_dir, "Contents", "Home", "bin")
     #if sys.platform == "darwin":
     #    return os.path.join(base_java_dir, "Contents", "Home", "bin")
-    return os.path.join(base_java_dir, "bin")
+    # return os.path.join(base_java_dir, "bin")
+    return base_java_dir
 
 
 def main(argv: list[str] | None = None) -> int:
