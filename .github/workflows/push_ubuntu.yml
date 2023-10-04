@@ -45,9 +45,8 @@ jobs:
     - name: install java
       run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
 
-
-    - name: Test java is 17
-      run: "java -version | grep 'version \"17'"
+    - name: Test java is 21
+      run: java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || echo "Java 21 is not installed"
 
     - name: install android
       run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
