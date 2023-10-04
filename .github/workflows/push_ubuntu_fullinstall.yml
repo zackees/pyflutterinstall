@@ -76,8 +76,12 @@ jobs:
     - name: print out downloads folder
       run: cd ./.downloads && find .
 
+    - name: which java
+      run: which java
+      
     - name: Test java is 21
-      run: java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || echo "Java 21 is not installed"
+      run: |
+        java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || (echo "Java 21 is not installed" && exit 1)
 
     - name: Which avdmanager
       run: which avdmanager

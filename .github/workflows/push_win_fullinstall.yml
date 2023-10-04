@@ -53,9 +53,10 @@ jobs:
 
     - name: Where Java?
       run: where java
-      
+
     - name: Test java is 21
-      run: java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || echo "Java 21 is not installed"
+      run: |
+        java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || (echo "Java 21 is not installed" && exit 1)
 
     - name: Test Install
       run: pytest tests
