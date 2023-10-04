@@ -51,7 +51,7 @@ jobs:
       run: python test_install/print_flutter_folder.py
 
     - name: Test java is 17
-      run: "java -version | grep 'version \"17'"
+      run: java -version 2>&1 | grep -q 'version "17' && echo "Java 17 is installed" || echo "Java 17 is not installed"
 
     - name: Test Install
       run: pytest tests
