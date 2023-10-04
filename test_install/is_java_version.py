@@ -10,8 +10,6 @@ import sys
 from shutil import which
 from pyflutterinstall.util import print_tree_dir
 
-
-
 def get_java_version() -> str:
     """Get java version"""
     try:
@@ -33,10 +31,13 @@ def main() -> int:
     parser.add_argument("version", type=str, help="java version to check for")
     args = parser.parse_args()
     java_version = get_java_version()
-    print(f"Java version: {java_version}")
     if args.version not in java_version:
         print(f"Java version {args.version} not found")
+        print("Printing environment")
+        for key, val in sorted(os.environ.items()):
+            print(f"{key} = {val}")
         return 1
+    print(f"Java version {args.version} found at {which('java')}")
     return 0
     
 
