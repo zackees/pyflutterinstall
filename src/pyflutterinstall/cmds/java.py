@@ -55,10 +55,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Java dir: {JAVA_DIR}")
     print(os.listdir(JAVA_DIR))
     print_tree_dir(JAVA_DIR, max_level=5)
-    print(f"Expected java path: {find_default_path_or_none()}")
+    java_bin = find_default_path_or_none()
+    print(f"Java bin: {java_bin}")
+    os.environ["JAVA_HOME"] = JAVA_DIR
     print(f"Searched for bin directory and found: {find_bin_folder(JAVA_DIR)}")
-
-    rtn = trampoline(COMMAND, args=argv, default_path=find_default_path_or_none())
+    rtn = trampoline(COMMAND, args=argv, default_path=java_bin)
     return rtn
 
 
