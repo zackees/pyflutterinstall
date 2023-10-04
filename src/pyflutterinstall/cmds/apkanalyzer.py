@@ -17,16 +17,11 @@ if android_sdk != ".":
     os.environ["ANDROID_SDK"] = android_sdk
     os.environ["ANDROID_HOME"] = android_sdk
 
-
 COMMAND = "apkanalyzer"
 if sys.platform == "win32":
     COMMAND += ".bat"
 
 DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "latest", "bin")
-
-JAVA_DIR = config_load().get("JAVA_DIR", None)
-
-
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""

@@ -14,13 +14,16 @@ from pyflutterinstall.util import print_tree_dir
 
 def get_java_version() -> str:
     """Get java version"""
-    java_version = subprocess.check_output(
-        "java -version",
-        shell=True,
-        universal_newlines=True,
-        stderr=subprocess.STDOUT,
-    )
-    return java_version.strip()
+    try:
+        java_version = subprocess.check_output(
+            "java -version",
+            shell=True,
+            universal_newlines=True,
+            stderr=subprocess.STDOUT,
+        )
+        return java_version.strip()
+    except subprocess.CalledProcessError:
+        return "java not found"
 
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
