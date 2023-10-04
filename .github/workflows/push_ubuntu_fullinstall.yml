@@ -42,7 +42,7 @@ jobs:
       name: Cache apt packages
       with:
         path: /var/cache/apt
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-4
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-5
         restore-keys: |
           ${{ runner.os }}-apt-
 
