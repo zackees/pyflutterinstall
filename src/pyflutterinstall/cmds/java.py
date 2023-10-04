@@ -14,7 +14,7 @@ JAVA_DIR = config_load().get("JAVA_DIR", None)
 COMMAND = "java"
 
 
-def find_bin_folder(java_base_dir: str) -> str | None:
+def find_java_exe(java_base_dir: str) -> str | None:
     """Find bin folder"""
     # use os walk
     for root, dirs, files in os.walk(java_base_dir):
@@ -24,7 +24,7 @@ def find_bin_folder(java_base_dir: str) -> str | None:
             if sys.platform == "win32":
                 java_bin += ".exe"
             if os.path.isfile(java_bin):
-                return bin_dir
+                return java_bin
     return None
 
 
@@ -56,11 +56,11 @@ def main(argv: list[str] | None = None) -> int:
     print(os.listdir(JAVA_DIR))
     print_tree_dir(JAVA_DIR, max_level=5)
     java_home = find_default_path_or_none()
-    java_bin = find_bin_folder(java_home)
-    print(f"Java bin: {java_bin}")
+    java_exe = find_java_exe(java_home)
+    print(f"Java bin: {java_exe}")
     os.environ["JAVA_HOME"] = java_home
-    print(f"Searched for bin directory and found: {find_bin_folder(JAVA_DIR)}")
-    rtn = trampoline(COMMAND, args=argv, default_path=java_bin)
+    print(f"Searched for bin directory and found: {find_java_exe(JAVA_DIR)}")
+    rtn = trampoline(java_exe, args=argv, default_path=None)
     return rtn
 
 

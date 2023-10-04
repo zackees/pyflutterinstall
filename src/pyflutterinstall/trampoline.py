@@ -33,6 +33,7 @@ def trampoline(
         if default_path is not None:
             new_path = os.pathsep.join([default_path, prev_path])
             os.environ["PATH"] = new_path
+        print(f"Trampoline {command} with args: {args}")
 
         paths = which_all(command, filter_package_exes=True)
         if paths:
