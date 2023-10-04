@@ -16,7 +16,7 @@ def print_dir(path: str, max_depth: int) -> None:
         if depth >= max_depth:
             continue
         for file in files:
-            print(os.path.join(root, file))
+            print(os.path.join(root, file), end="\n")
 
 
 def main() -> int:
