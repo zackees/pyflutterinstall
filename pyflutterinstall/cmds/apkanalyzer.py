@@ -16,7 +16,7 @@ if android_sdk != ".":
 
 
 COMMAND = "apkanalyzer"
-DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "latest", "bin")
+DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "tools", "cmdline-tools", "bin")
 
 
 def main(argv: list[str] | None = None) -> int:
