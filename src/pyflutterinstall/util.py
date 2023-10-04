@@ -50,7 +50,7 @@ def print_tree_dir(path: str, max_level=2) -> None:
     """Prints the tree of a directory"""
     output = ""
     for root, dirs, files in os.walk(path):
-        level = root.replace(path, "").count(os.sep)
+        level = str(root).replace(path, "").count(os.sep)
         indent = " " * 4 * (level)
         if max_level > 0 and (level + 1) > max_level:
             del dirs[:]
