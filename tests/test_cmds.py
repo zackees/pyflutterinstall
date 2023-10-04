@@ -5,6 +5,7 @@ Unit test file.
 import sys
 import os
 import unittest
+from shutil import which
 
 from pyflutterinstall.cmds import adb, avdmanager, emulator, gradle, java, sdkmanager
 
@@ -34,6 +35,7 @@ class UseExePaths(unittest.TestCase):
     def test_avdmanager(self) -> None:
         """Tests that we can bind to the avdmanager executable."""
         print("Test avdmanager")
+        print(f"which avdmanager: {which('avdmanager')}")
         self.assertEqual(0, avdmanager.main(["list"]))
 
     @unittest.skipIf(not INSTALLED, "Not installed")
@@ -47,7 +49,7 @@ class UseExePaths(unittest.TestCase):
     def test_sdkmanager(self) -> None:
         """Tests that we can bind to the sdkmanager executable."""
         print("Test sdkmanager")
-
+        print(f"which sdkmanager: {which('sdkmanager')}")
         expected_return_value = 0 if "linux" in sys.platform else 1
         self.assertEqual(expected_return_value, sdkmanager.main(["--version"]))
 
