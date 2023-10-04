@@ -53,5 +53,8 @@ jobs:
     - name: Test java is 21
       run: java -version 2>&1 | grep -q 'version "21' && echo "Java 21 is installed" || echo "Java 21 is not installed"
 
+    - name: Remove other java versions from path
+      run: unset JAVA_HOME_17_X64 && unset JAVA_HOME_11_X64 && unset JAVA_HOME_8_X64 && unset JAVA_HOME_8_X86 && unset JAVA_HOME_11_X64
+
     - name: Test Install
       run: pytest tests
