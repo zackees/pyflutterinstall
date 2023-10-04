@@ -56,6 +56,12 @@ jobs:
     - name: Which avdmanager
       run: which avdmanager
 
+    - name: remove system avdmanager
+      run: sudo rm /opt/hostedtoolcache/Python/3.11.5/x64/bin/avdmanager
+
+    - name: remove system sdkmanager
+      run: sudo rm /opt/hostedtoolcache/Python/3.11.5/x64/bin/sdkmanager
+
     - name: Test Install
       run: |
         unset JAVA_HOME_8_X64
