@@ -32,7 +32,7 @@ jobs:
       with:
         path: |
           ./.downloads
-        key: ${{ runner.os }}-pyflutter-${{ env.date }}-3
+        key: ${{ runner.os }}-pyflutter-${{ env.date }}-4
         restore-keys: |
           ${{ runner.os }}-pyflutter-
 
