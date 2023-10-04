@@ -8,18 +8,18 @@ import sys
 FLUTTER_SDK = "FlutterSDK"
 MAX_DEPTH = 4
 
-
-def main() -> int:
-    """Main function."""
-    # print all files from flutter did
-    print(f"Printing files from {FLUTTER_SDK}")
-    for root, _, files in os.walk(FLUTTER_SDK):
-        depth = root[len(FLUTTER_SDK) + 1 :].count(os.sep)
-        if depth >= MAX_DEPTH:
+def print_dir(path: str, max_depth: int) -> None:
+    """Walk directory."""
+    for root, _, files in os.walk(path):
+        depth = root[len(path) + 1 :].count(os.sep)
+        if depth >= max_depth:
             continue
         for file in files:
             print(os.path.join(root, file))
-    return 0
+
+def main() -> int:
+    """Main function."""
+    print_dir(FLUTTER_SDK, MAX_DEPTH)
 
 
 if __name__ == "__main__":
