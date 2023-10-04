@@ -42,7 +42,7 @@ jobs:
       name: Cache apt packages
       with:
         path: /var/cache/apt/archives
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-2
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-3
         restore-keys: |
           ${{ runner.os }}-apt-
 
@@ -95,5 +95,4 @@ jobs:
 
     - name: Remove all symlinks in apt cache directory
       run: |
-        sudo rm -rf /var/cache/apt/archives/lock || true
-        sudo rm -rf /var/cache/apt/archives/partial || true
+        sudo chmod -R a+r /var/cache/apt/archives || true
