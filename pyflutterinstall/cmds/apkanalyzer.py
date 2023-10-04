@@ -8,6 +8,7 @@ import sys
 from pyflutterinstall.trampoline import trampoline
 
 from pyflutterinstall.config import config_load
+from pyflutterinstall.util import print_tree_dir
 
 android_sdk = config_load().get("ANDROID_SDK", ".")
 if android_sdk != ".":
@@ -42,7 +43,12 @@ def find_path() -> str:
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
-    default_path = find_path()
+    try:
+        default_path = find_path()
+    except FileNotFoundError as exc:
+        print(exc)
+        print_tree_dir(os.environ["ANDROID_HOME"])
+        return 1
     return trampoline(COMMAND, args=argv, default_path=default_path)
 
 
