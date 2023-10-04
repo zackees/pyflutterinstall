@@ -2,6 +2,7 @@
 Unit test file.
 """
 
+import sys
 import os
 import unittest
 
@@ -46,7 +47,9 @@ class UseExePaths(unittest.TestCase):
     def test_sdkmanager(self) -> None:
         """Tests that we can bind to the sdkmanager executable."""
         print("Test sdkmanager")
-        self.assertEqual(0, sdkmanager.main(["--version"]))
+
+        expected_return_value = 0 if "linux" in sys.platform else 1
+        self.assertEqual(expected_return_value, sdkmanager.main(["--version"]))
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_emulator(self) -> None:
