@@ -29,6 +29,9 @@ if __name__ == "__main__":
         long_description_content_type="text/markdown",
         url=URL,
         include_package_data=True,
+        extras_require={
+            'test': ['pytest', 'pytest-cov'],
+        },
         entry_points={
             "console_scripts": [
                 "pyflutterinstall = pyflutterinstall.cli:main",
