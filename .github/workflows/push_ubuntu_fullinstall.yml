@@ -32,7 +32,7 @@ jobs:
       with:
         path: |
           ./.downloads
-        key: ${{ runner.os }}-pyflutter-${{ env.date }}-4
+        key: ${{ runner.os }}-pyflutter-${{ env.date }}-6
         restore-keys: |
           ${{ runner.os }}-pyflutter-
 
@@ -42,7 +42,7 @@ jobs:
       run: ls -la
 
     - name: set local apt cache directory to .downloads
-      run: sudo apt-get -o dir::cache=./downloads update
+      run: sudo apt-get -o dir::cache=/home/runner/work/pyflutterinstall/pyflutterinstall/.downloads update
 
     - name: Install apt-get update
       run: sudo apt-get update
