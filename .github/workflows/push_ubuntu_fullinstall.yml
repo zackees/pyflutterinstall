@@ -32,7 +32,7 @@ jobs:
       with:
         path: |
           ./.downloads
-        key: ${{ runner.os }}-pyflutter-${{ env.date }}
+        key: ${{ runner.os }}-pyflutter-${{ env.date }}-2
         restore-keys: |
           ${{ runner.os }}-pyflutter-
 
@@ -42,7 +42,7 @@ jobs:
       name: Cache apt packages
       with:
         path: /var/cache/apt/archives
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.list') }}-2
         restore-keys: |
           ${{ runner.os }}-apt-
 
