@@ -58,8 +58,4 @@ jobs:
 
     - name: Test Install
       run: |
-        unset JAVA_HOME_8_X64
-        unset JAVA_HOME_11_X64
-        unset JAVA_HOME_17_X64
-        bash
         pytest tests
