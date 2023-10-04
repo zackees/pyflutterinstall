@@ -82,6 +82,9 @@ jobs:
 
     - name: java --which
       run: java --which
+    
+    - name: java -version
+      run: java -version
 
     - name: Test java is 21
       run: |
