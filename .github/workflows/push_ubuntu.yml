@@ -47,7 +47,7 @@ jobs:
 
 
     - name: Test java is 17
-      run: "java -version 2>&1 | grep 'version \"17'"
+      run: "java -version | grep 'version \"17'"
 
     - name: install android
       run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
