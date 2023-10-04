@@ -18,7 +18,11 @@ DEFAULT_PATH = os.path.join(ANDROID_SDK, "cmdline-tools", "latest", "bin")
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
-    return trampoline(COMMAND, default_path=DEFAULT_PATH)
+    argv = argv or list(sys.argv)
+    if "--sdk_root" not in argv:
+        argv.append(f"--sdk_root={ANDROID_SDK}")
+        argv.append(ANDROID_SDK)
+    return trampoline(COMMAND, args=argv, default_path=DEFAULT_PATH)
 
 
 if __name__ == "__main__":
