@@ -32,12 +32,10 @@ def main() -> int:
     parser.add_argument("version", type=str, help="java version to check for")
     args = parser.parse_args()
     java_version = get_java_version()
-    # print environment
-    for key, val in sorted(os.environ.items()):
-        print(f"{key} = {val}")
     if args.version not in java_version:
         print(f"Java version {args.version} not found")
         print("Printing environment")
+        print(f"which java: {which('java')}")
         env_copy = os.environ.copy()
         paths = env_copy.pop("PATH")
         for key, val in sorted(env_copy.items()):
