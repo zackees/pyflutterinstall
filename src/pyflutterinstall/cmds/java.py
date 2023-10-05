@@ -42,7 +42,7 @@ def find_default_path_or_none() -> str | None:
     if len(jdk_folders) > 1:
         jdk_folders.sort()
         jdk_folders.reverse()
-    print(f"jdk_folders: {jdk_folders}")
+    # print(f"jdk_folders: {jdk_folders}")
     base_java_dir = os.path.join(java_dir, jdk_folders[0])
     if "linux" in sys.platform:
         return base_java_dir
@@ -56,7 +56,7 @@ def find_default_path_or_none() -> str | None:
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
-    print(f"Java dir: {JAVA_DIR}")
+    # print(f"Java dir: {JAVA_DIR}")
     # print(os.listdir(JAVA_DIR))
     # print_tree_dir(JAVA_DIR, max_level=5)
     java_home = find_default_path_or_none()
@@ -64,11 +64,11 @@ def main(argv: list[str] | None = None) -> int:
         warnings.warn("Java home not found")
         return 1
     java_exe = find_java_exe(java_home)
-    print(f"Java home: {java_home}")
-    print(f"Java exe: {java_exe}")
+    # print(f"Java home: {java_home}")
+    # print(f"Java exe: {java_exe}")
     os.environ["JAVA_HOME"] = java_home
-    print(f"Searched for bin directory and found: {java_exe}")
-    print(f"JAVA_HOME: {java_home}")
+    # print(f"Searched for bin directory and found: {java_exe}")
+    # print(f"JAVA_HOME: {java_home}")
     rtn = trampoline(COMMAND, args=argv, default_path=java_exe)
     return rtn
 
