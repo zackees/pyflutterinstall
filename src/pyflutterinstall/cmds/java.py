@@ -6,12 +6,12 @@ import os
 import sys
 import warnings
 
-from pyflutterinstall.config import config_load
 from pyflutterinstall.trampoline import trampoline
 
 from pyflutterinstall.paths import Paths
 
-Paths().apply_env()
+paths = Paths()
+paths.apply_env()
 
 COMMAND = "java"
 
@@ -32,8 +32,8 @@ def find_java_exe(java_base_dir: str) -> str | None:
 
 def find_default_path_or_none() -> str | None:
     """Find default path"""
-    java_dir = JAVA_DIR
-    if JAVA_DIR is None:
+    java_dir = paths.JAVA_DIR
+    if paths.JAVA_DIR is None:
         java_dir = os.environ.get("JAVA_HOME", None)
     if java_dir is None:
         warnings.warn("JAVA_DIR not set")

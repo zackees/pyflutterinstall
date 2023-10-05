@@ -6,14 +6,14 @@ import os
 import sys
 
 from pyflutterinstall.trampoline import trampoline
-from pyflutterinstall.config import config_load
 
 from pyflutterinstall.paths import Paths
 
-Paths().apply_env()
+paths = Paths()
+paths.apply_env()
 
 COMMAND = "emulator"
-DEFAULT_PATH = os.path.join(android_sdk, "emulator")
+DEFAULT_PATH = os.path.join(paths.ANDROID_SDK, "emulator")
 
 
 def main(argv: list[str] | None = None) -> int:
