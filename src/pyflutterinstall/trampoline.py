@@ -45,7 +45,8 @@ def trampoline(
             if "--which" in sys.argv:
                 print("Real tool is at:", paths[0])
                 return 0
-            return subprocess.call(cmd_list, env=env)
+            rtn = subprocess.call(cmd_list, env=env)
+            return rtn
         print(
             f"Trampoline {command} could not find the real {command} installed on the system paths."
         )

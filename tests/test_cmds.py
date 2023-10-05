@@ -19,8 +19,11 @@ from pyflutterinstall.cmds import (
 # config
 from pyflutterinstall.config import config_load
 
-config = config_load()
-INSTALLED = config.get("INSTALL_DIR") is not None
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
+INSTALLED = paths.INSTALL_DIR is not None
 
 
 class UseExePaths(unittest.TestCase):
@@ -43,14 +46,18 @@ class UseExePaths(unittest.TestCase):
         """Tests that we can bind to the avdmanager executable."""
         print("Test avdmanager")
         print(f"which avdmanager: {which('avdmanager')}")
-        self.assertEqual(0, avdmanager.main(["list"]))
+        # self.assertEqual(0, avdmanager.main(["list"]))
+        rtn = avdmanager.main(["list"])
+        self.assertEqual(0, rtn)
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_gradle(self) -> None:
         """Tests that we can bind to the gradle executable."""
         print("Test gradle")
         # os.system("printenv")
-        self.assertEqual(0, gradle.main(["-version"]))
+        #self.assertEqual(0, gradle.main(["-version"]))
+        rtn = gradle.main(["-version"])
+        self.assertEqual(0, rtn)
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_sdkmanager(self) -> None:
@@ -64,19 +71,25 @@ class UseExePaths(unittest.TestCase):
     def test_emulator(self) -> None:
         """Tests that we can bind to the emulator executable."""
         print("Test emulator")
-        self.assertEqual(0, emulator.main(["-help"]))
+        # self.assertEqual(0, emulator.main(["-help"]))
+        rtn = emulator.main(["-help"])
+        self.assertEqual(0, rtn)
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_aapt(self) -> None:
         """Tests that we can bind to the aapt executable."""
         print("Test aapt")
-        self.assertEqual(0, aapt.main(["v"]))
+        #self.assertEqual(0, aapt.main(["v"]))
+        rtn = aapt.main(["v"])
+        self.assertEqual(0, rtn)
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_aapt2(self) -> None:
         """Tests that we can bind to the aapt2 executable."""
         print("Test aapt2")
-        self.assertEqual(0, aapt2.main(["v"]))
+        #self.assertEqual(0, aapt2.main(["v"]))
+        rtn = aapt2.main(["v"])
+        self.assertEqual(0, rtn)
 
 
 if __name__ == "__main__":
