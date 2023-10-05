@@ -113,7 +113,7 @@ def main():
     config = config_load()
     config.update(
         {
-            "ANDROID_SDK": str(Paths().ANDROID_SDK),
+            "ANDROID_SDK": str(paths.ANDROID_SDK),
             "GRADLE_DIR": str(paths.GRADLE_DIR),
             "INSTALL_DIR": str(paths.INSTALL_DIR),
             "JAVA_DIR": str(paths.INSTALL_DIR / "java"),
