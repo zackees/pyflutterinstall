@@ -52,7 +52,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     # If we don't have this then flutter will attempt to use the embedded version
     # of the java jre which will fail.
     execute(
-        "flutter config --android-studio-dir= --no-analytics",
+        f"flutter config --android-studio-dir={ANDROID_SDK} --no-analytics",
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
         timeout=60 * 20,
