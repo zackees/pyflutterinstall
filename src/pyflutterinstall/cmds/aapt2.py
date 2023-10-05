@@ -23,7 +23,7 @@ COMMAND = "aapt2"
 
 def get_aapt2() -> str:
     """Gets the aapt path"""
-    dirs = os.listdir(BUILD_TOOLS_DIR)
+    dirs = [os.path.join(BUILD_TOOLS_DIR, d) for d in os.listdir(BUILD_TOOLS_DIR)]
     # choose the highest version
     dirs.sort(reverse=True)
     aapt = os.path.join(BUILD_TOOLS_DIR, dirs[0], "aapt2")
