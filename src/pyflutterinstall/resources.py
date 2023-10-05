@@ -119,7 +119,7 @@ def get_chrome_url() -> str:
 
 CHROME_URL = get_chrome_url()
 ANDROID_SDK_URL = get_android_sdk_url()
-GRADLE_URL = "https://services.gradle.org/distributions/gradle-7.5-bin.zip"
+GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.2-bin.zip"
 PROJECT_ROOT = Path(os.getcwd())
 INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
 ENV_FILE = PROJECT_ROOT / ".env"
