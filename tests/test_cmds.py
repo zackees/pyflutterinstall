@@ -71,13 +71,13 @@ class UseExePaths(unittest.TestCase):
     def test_aapt(self) -> None:
         """Tests that we can bind to the aapt executable."""
         print("Test aapt")
-        self.assertEqual(0, aapt.main(["-help"]))
+        self.assertEqual(0, aapt.main(["v"]))
 
     @unittest.skipIf(not INSTALLED, "Not installed")
     def test_aapt2(self) -> None:
         """Tests that we can bind to the aapt2 executable."""
         print("Test aapt2")
-        self.assertEqual(0, aapt2.main(["-help"]))
+        self.assertEqual(0, aapt2.main(["v"]))
 
 
 if __name__ == "__main__":
