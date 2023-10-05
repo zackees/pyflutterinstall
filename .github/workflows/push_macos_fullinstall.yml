@@ -37,8 +37,9 @@ jobs:
     - uses: actions/cache@v3
       name: Configure flutter caching
       with:
-        path: ./pyflutterinstall/.downloads
-        key: ${{ runner.os }}-pyflutter-${{ env.date }}
+        path: |
+          ./.downloads
+        key: ${{ runner.os }}-pyflutter-${{ env.date }}-6
         restore-keys: |
           ${{ runner.os }}-pyflutter-
 
