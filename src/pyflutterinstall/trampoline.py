@@ -11,7 +11,6 @@ import subprocess
 import sys
 
 from pyflutterinstall.which_all import which_all
-from pyflutterinstall.config import config_load
 
 
 def trampoline(

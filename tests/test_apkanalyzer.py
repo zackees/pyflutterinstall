@@ -2,6 +2,8 @@
 Unit test file.
 """
 
+# pylint: disable=R0801
+
 import unittest
 
 import os

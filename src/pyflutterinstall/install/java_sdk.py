@@ -20,7 +20,7 @@ from pyflutterinstall.resources import (
     JAVA_DIR,
     get_platform_java_sdk,
     JAVA_SDK_VERSIONS,
-    JAVA_VERSION
+    JAVA_VERSION,
 )
 from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
@@ -31,10 +31,8 @@ def install_java_sdk(version: Optional[int] = None) -> int:
     java_sdk_url = get_platform_java_sdk(version)
     print(f"Install Java SDK from {java_sdk_url} to {INSTALL_DIR}")
     local_file = DOWNLOAD_DIR / os.path.basename(java_sdk_url)
-    java_sdk_zip_file = Path(
-        download(url=java_sdk_url, path=local_file, replace=False)
-    )
-    #if os.path.exists(JAVA_DIR):
+    java_sdk_zip_file = Path(download(url=java_sdk_url, path=local_file, replace=False))
+    # if os.path.exists(JAVA_DIR):
     #    print(f"Removing existing Java SDK at {JAVA_DIR}")
     #    shutil.rmtree(JAVA_DIR)
     print(f"Unpacking {java_sdk_zip_file} to {JAVA_DIR}")

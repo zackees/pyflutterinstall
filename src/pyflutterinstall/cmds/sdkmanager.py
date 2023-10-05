@@ -5,7 +5,6 @@ import os
 import sys
 from pyflutterinstall.trampoline import trampoline
 from pyflutterinstall.config import config_load
-import shutil
 
 from pyflutterinstall.cmds.java import find_default_path_or_none
 

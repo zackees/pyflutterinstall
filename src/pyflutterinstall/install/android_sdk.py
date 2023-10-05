@@ -23,6 +23,32 @@ from pyflutterinstall.resources import (
 from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
 
+BULK_INSTALL_TOOLS = True
+
+
+def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
+    if BULK_INSTALL_TOOLS:
+        tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
+        for tool in tools_to_install:
+            execute(
+                f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --verbose --install {tool}',
+                send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
+                ignore_errors=False,
+                timeout=60 * 20,
+            )
+    else:
+        tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
+        # Combine all tools into a single string, separated by spaces
+        tools_string = " ".join(tools_to_install)
+
+        # Execute the sdkmanager command once with all the tools listed
+        execute(
+            f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --verbose --install {tools_string}',
+            send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
+            ignore_errors=False,
+            timeout=60 * 20,
+        )
+
 
 def install_android_sdk(prompt: bool) -> int:
     make_title("Installing Android SDK")
@@ -64,17 +90,7 @@ def install_android_sdk(prompt: bool) -> int:
         send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
         ignore_errors=False,
     )
-    tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
-    # Combine all tools into a single string, separated by spaces
-    tools_string = ' '.join(tools_to_install)
-
-    # Execute the sdkmanager command once with all the tools listed
-    execute(
-        f'{sdkmanager_path} --sdk_root="{ANDROID_SDK}" --verbose --install {tools_string}',
-        send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
-        ignore_errors=False,
-        timeout=60 * 20,
-    )
+    install_sdk_tools(str(sdkmanager_path), prompt)
     confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\nn\n"
     send_confirmation = []
     send_confirmation.append(

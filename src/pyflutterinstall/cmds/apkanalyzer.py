@@ -23,9 +23,12 @@ if sys.platform == "win32":
 
 DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "latest", "bin")
 
+
 def main(argv: list[str] | None = None) -> int:
     """Main"""
     java_home = find_default_path_or_none()
+    if java_home is None:
+        raise RuntimeError("Java home not found")
     os.environ["JAVA_HOME"] = java_home
     return trampoline(COMMAND, args=argv, default_path=DEFAULT_PATH)
 

@@ -8,7 +8,6 @@ import warnings
 
 from pyflutterinstall.config import config_load
 from pyflutterinstall.trampoline import trampoline
-from pyflutterinstall.util import print_tree_dir
 
 JAVA_DIR = config_load().get("JAVA_DIR", None)
 
@@ -18,7 +17,7 @@ COMMAND = "java"
 def find_java_exe(java_base_dir: str) -> str | None:
     """Find bin folder"""
     # use os walk
-    for root, dirs, files in os.walk(java_base_dir):
+    for root, dirs, _ in os.walk(java_base_dir):
         if "bin" in dirs:
             bin_dir = os.path.join(root, "bin")
             java_exe = os.path.join(bin_dir, "java")
@@ -49,7 +48,7 @@ def find_default_path_or_none() -> str | None:
         return base_java_dir
     if "darwin" in sys.platform:
         return os.path.join(base_java_dir, "Contents", "Home")
-    #if sys.platform == "darwin":
+    # if sys.platform == "darwin":
     #    return os.path.join(base_java_dir, "Contents", "Home", "bin")
     # return os.path.join(base_java_dir, "bin")
     return base_java_dir
@@ -58,9 +57,12 @@ def find_default_path_or_none() -> str | None:
 def main(argv: list[str] | None = None) -> int:
     """Main"""
     print(f"Java dir: {JAVA_DIR}")
-    #print(os.listdir(JAVA_DIR))
-    #print_tree_dir(JAVA_DIR, max_level=5)
+    # print(os.listdir(JAVA_DIR))
+    # print_tree_dir(JAVA_DIR, max_level=5)
     java_home = find_default_path_or_none()
+    if java_home is None:
+        warnings.warn("Java home not found")
+        return 1
     java_exe = find_java_exe(java_home)
     print(f"Java home: {java_home}")
     print(f"Java exe: {java_exe}")

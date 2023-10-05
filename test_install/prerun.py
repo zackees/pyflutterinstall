@@ -17,10 +17,9 @@ def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
     # Print out the current environment
     # if not macos arm
-    if sys.platform != "darwin" or os.uname().machine != "arm64":
-        print("ANDROID_HOME = " + os.environ["ANDROID_HOME"])
-        print(f"dir $ANDROID_HOME = {os.listdir(os.environ['ANDROID_HOME'])}")
-        print_tree_dir(os.environ["ANDROID_HOME"])
+    print("ANDROID_HOME = " + os.environ["ANDROID_HOME"])
+    print(f"dir $ANDROID_HOME = {os.listdir(os.environ['ANDROID_HOME'])}")
+    print_tree_dir(os.environ["ANDROID_HOME"])
     print("Environment:")
     env_items = list(os.environ.items())
     # sort

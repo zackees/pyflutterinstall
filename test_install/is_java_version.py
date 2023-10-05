@@ -8,7 +8,7 @@ import argparse
 import os
 import sys
 from shutil import which
-from pyflutterinstall.util import print_tree_dir
+
 
 def get_java_version() -> str:
     """Get java version"""
@@ -22,6 +22,7 @@ def get_java_version() -> str:
         return java_version.strip()
     except subprocess.CalledProcessError:
         return "java not found"
+
 
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
@@ -44,7 +45,6 @@ def main() -> int:
         return 1
     print(f"Java version {args.version} found at {which('java')}")
     return 0
-    
 
 
 if __name__ == "__main__":
