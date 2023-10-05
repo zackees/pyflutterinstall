@@ -50,7 +50,7 @@ class UseExePaths(unittest.TestCase):
     def test_gradle(self) -> None:
         """Tests that we can bind to the gradle executable."""
         print("Test gradle")
-        os.system("printenv")
+        # os.system("printenv")
         self.assertEqual(0, gradle.main(["-version"]))
 
     @unittest.skipIf(not INSTALLED, "Not installed")

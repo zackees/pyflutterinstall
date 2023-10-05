@@ -58,10 +58,10 @@ class Paths:
             self.OVERRIDEN = False
             self.ANDROID_SDK = Path(config_load().get("ANDROID_SDK", ".")).resolve()
             self.INSTALL_DIR = self.ANDROID_SDK.parent
-            install_root = self.INSTALL_DIR.parent
+            self.INSTALL_ROOT = self.INSTALL_DIR.parent
         self.ANDROID_HOME = self.ANDROID_SDK
-        self.ENV_FILE = install_root / ".env"
-        self.DOWNLOAD_DIR = install_root
+        self.ENV_FILE = self.INSTALL_ROOT / ".env"
+        self.DOWNLOAD_DIR = self.INSTALL_ROOT
         self.ANDROID_SDK = self.ANDROID_SDK
         self.ANT_DIR = self.INSTALL_DIR / "ant"
         self.FLUTTER_TARGET = self.INSTALL_DIR / "flutter"
