@@ -6,19 +6,23 @@ import sys
 import os
 import warnings
 
-from pyflutterinstall.config import config_load
 from pyflutterinstall.trampoline import trampoline
+
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
 
 COMMAND = "gradle"
 
 
 def get_gradle_path() -> str | None:
     """Get gradle path"""
-    install_dir = config_load().get("INSTALL_DIR")
-    if install_dir is None:
+
+    if paths.INSTALL_DIR is None:
         warnings.warn("INSTALL_DIR not set")
         return None
-    gradle_base_directory = os.path.join(install_dir, "gradle")
+    gradle_base_directory = os.path.join(paths.INSTALL_DIR, "gradle")
 
     dirs = os.listdir(gradle_base_directory)
     if not dirs:

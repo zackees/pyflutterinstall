@@ -7,15 +7,13 @@ import sys
 from pyflutterinstall.trampoline import trampoline
 from pyflutterinstall.config import config_load
 
-config = config_load()
-android_sdk = config.get("ANDROID_SDK", ".")
+from pyflutterinstall.paths import Paths
 
-if android_sdk != ".":
-    os.environ["ANDROID_SDK"] = android_sdk
-    os.environ["ANDROID_HOME"] = android_sdk
+paths = Paths()
+paths.apply_env()
 
 COMMAND = "adb"
-DEFAULT_PATH = os.path.join(android_sdk, "platform-tools")
+DEFAULT_PATH = os.path.join(paths.ANDROID_SDK, "platform-tools")
 
 
 def main(argv: list[str] | None = None) -> int:

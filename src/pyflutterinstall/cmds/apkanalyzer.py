@@ -12,16 +12,16 @@ from pyflutterinstall.cmds.java import find_default_path_or_none
 
 # from pyflutterinstall.util import print_tree_dir
 
-android_sdk = config_load().get("ANDROID_SDK", ".")
-if android_sdk != ".":
-    os.environ["ANDROID_SDK"] = android_sdk
-    os.environ["ANDROID_HOME"] = android_sdk
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
 
 COMMAND = "apkanalyzer"
 if sys.platform == "win32":
     COMMAND += ".bat"
 
-DEFAULT_PATH = os.path.join(android_sdk, "cmdline-tools", "latest", "bin")
+DEFAULT_PATH = os.path.join(paths.ANDROID_SDK, "cmdline-tools", "latest", "bin")
 
 
 def main(argv: list[str] | None = None) -> int:

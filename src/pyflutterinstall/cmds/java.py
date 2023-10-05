@@ -9,7 +9,9 @@ import warnings
 from pyflutterinstall.config import config_load
 from pyflutterinstall.trampoline import trampoline
 
-JAVA_DIR = config_load().get("JAVA_DIR", None)
+from pyflutterinstall.paths import Paths
+
+Paths().apply_env()
 
 COMMAND = "java"
 
