@@ -10,9 +10,16 @@ import shutil
 
 from shellexecute import execute  # type: ignore
 
-from pyflutterinstall.resources import ANDROID_SDK, FLUTTER_GIT_DOWNLOAD, FLUTTER_TARGET
+from pyflutterinstall.resources import (
+    FLUTTER_GIT_DOWNLOAD,
+)  # , ANDROID_SDK, , FLUTTER_TARGET
 from pyflutterinstall.setenv import add_env_path
 from pyflutterinstall.util import make_title
+
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
 
 
 def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
@@ -24,27 +31,27 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
             error_msg += f"  {path}\n"
         print(error_msg)
         raise FileNotFoundError(error_msg)
-    print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {FLUTTER_TARGET}")
-    if not FLUTTER_TARGET.exists():
-        cmd = f'{FLUTTER_GIT_DOWNLOAD} "{FLUTTER_TARGET}"'
+    print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_TARGET}")
+    if not paths.FLUTTER_TARGET.exists():
+        cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_TARGET}"'
         execute(cmd, ignore_errors=False)
     else:
-        print(f"Flutter already installed at {FLUTTER_TARGET}")
-    if not os.path.exists(FLUTTER_TARGET):
+        print(f"Flutter already installed at {paths.FLUTTER_TARGET}")
+    if not os.path.exists(paths.FLUTTER_TARGET):
         print(
-            f"!!!!!!!!!!!!! FLUTTER FOLDER {FLUTTER_TARGET} DOES NOT EXIST EITHER !!!!!!!!!!!!!!!"
+            f"!!!!!!!!!!!!! FLUTTER FOLDER {paths.FLUTTER_TARGET} DOES NOT EXIST EITHER !!!!!!!!!!!!!!!"
         )
         path = os.environ["PATH"]
-        error_msg = f"Could not find {FLUTTER_TARGET} in path"
+        error_msg = f"Could not find {paths.FLUTTER_TARGET} in path"
         error_msg += "\npath = \n"
         for path in path.split(os.pathsep):
             error_msg += f"  {path}\n"
         print(error_msg)
         raise FileNotFoundError(error_msg)
     # Add flutter to path
-    add_env_path(FLUTTER_TARGET / "bin")
+    add_env_path(paths.FLUTTER_TARGET / "bin")
     execute(
-        f'flutter config --android-sdk "{ANDROID_SDK}" --no-analytics',
+        f'flutter config --android-sdk "{paths.ANDROID_SDK}" --no-analytics',
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
         timeout=60 * 20,
@@ -52,7 +59,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     # If we don't have this then flutter will attempt to use the embedded version
     # of the java jre which will fail.
     execute(
-        f"flutter config --android-studio-dir={ANDROID_SDK} --no-analytics",
+        f"flutter config --android-studio-dir={paths.ANDROID_SDK} --no-analytics",
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
         timeout=60 * 20,

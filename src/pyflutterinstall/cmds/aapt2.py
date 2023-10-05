@@ -3,39 +3,39 @@ Command stub for sdkmanager
 """
 import os
 import sys
-
+import warnings
 from pyflutterinstall.trampoline import trampoline
-from pyflutterinstall.config import config_load
+from pyflutterinstall.paths import Paths
 
-from pyflutterinstall.resources import BUILD_TOOLS_DIR
-
-config = config_load()
-android_sdk = config.get("ANDROID_SDK", ".")
-
-if android_sdk != ".":
-    os.environ["ANDROID_SDK"] = android_sdk
-    os.environ["ANDROID_HOME"] = android_sdk
+paths = Paths()
+paths.apply_env()
 
 COMMAND = "aapt2"
 
-# dataclass
 
-
-def get_aapt2() -> str:
+def get_aapt2() -> str | None:
     """Gets the aapt path"""
-    dirs = [os.path.join(BUILD_TOOLS_DIR, d) for d in os.listdir(BUILD_TOOLS_DIR)]
+    dirs = [
+        os.path.join(paths.BUILD_TOOLS_DIR, d)
+        for d in os.listdir(paths.BUILD_TOOLS_DIR)
+    ]
     # choose the highest version
     dirs.sort(reverse=True)
-    aapt = os.path.join(BUILD_TOOLS_DIR, dirs[0], "aapt2")
+    aapt2 = os.path.join(paths.BUILD_TOOLS_DIR, dirs[0], "aapt2")
     if sys.platform == "win32":
-        aapt += ".exe"
-    assert os.path.exists(aapt), f"{aapt} does not exist"
-    return aapt
+        aapt2 += ".exe"
+    if not os.path.exists(aapt2):
+        return None
+    return aapt2
 
 
 def main(argv: list[str] | None = None) -> int:
     """Main"""
-    parent_dir = os.path.dirname(get_aapt2())
+    aapt2 = get_aapt2()
+    if aapt2 is None:
+        warnings.warn("aapt2 not found")
+        return 1
+    parent_dir = os.path.dirname(aapt2)
     return trampoline(COMMAND, args=argv, default_path=parent_dir)
 
 

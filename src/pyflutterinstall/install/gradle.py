@@ -10,21 +10,27 @@ from pathlib import Path
 
 from download import download  # type: ignore
 
-from pyflutterinstall.resources import DOWNLOAD_DIR, GRADLE_DIR, GRADLE_URL
+from pyflutterinstall.resources import GRADLE_URL
 from pyflutterinstall.setenv import add_env_path
+
+
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
 
 
 def install_gradle() -> None:
     """Installs the gradle build tools"""
     gradle_path_zip = Path(
-        download(GRADLE_URL, DOWNLOAD_DIR / os.path.basename(GRADLE_URL))
+        download(GRADLE_URL, paths.DOWNLOAD_DIR / os.path.basename(GRADLE_URL))
     )
 
-    if os.path.exists(GRADLE_DIR):
-        print(f"Removing gradle at {GRADLE_DIR}")
-        shutil.rmtree(GRADLE_DIR)
-    shutil.unpack_archive(gradle_path_zip, GRADLE_DIR)
-    gradle_bin_dir = GRADLE_DIR / os.listdir(GRADLE_DIR)[0] / "bin"
+    if os.path.exists(paths.GRADLE_DIR):
+        print(f"Removing gradle at {paths.GRADLE_DIR}")
+        shutil.rmtree(paths.GRADLE_DIR)
+    shutil.unpack_archive(gradle_path_zip, paths.GRADLE_DIR)
+    gradle_bin_dir = paths.GRADLE_DIR / os.listdir(paths.GRADLE_DIR)[0] / "bin"
     add_env_path(gradle_bin_dir)
     if sys.platform != "win32":
         gradle_exe = os.path.join(gradle_bin_dir, "gradle")

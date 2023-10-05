@@ -13,13 +13,19 @@ from download import download  # type: ignore
 from shellexecute import execute  # type: ignore
 
 from pyflutterinstall.resources import (
-    ANT_DIR,
+    # ANT_DIR,
     ANT_SDK_DOWNLOAD,
-    DOWNLOAD_DIR,
-    INSTALL_DIR,
+    # DOWNLOAD_DIR,
+    # INSTALL_DIR,
 )
 from pyflutterinstall.setenv import add_env_path
 from pyflutterinstall.util import make_title
+
+
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
 
 
 def install_ant_sdk() -> int:
@@ -28,18 +34,19 @@ def install_ant_sdk() -> int:
         print("Ant already installed")
         return 0
     if sys.platform in ["win32", "linux"]:
-        print(f"Install Ant from {ANT_SDK_DOWNLOAD} to {INSTALL_DIR}")
+        print(f"Install Ant from {ANT_SDK_DOWNLOAD} to {paths.INSTALL_DIR}")
         ant_sdk_sip = Path(
             download(
-                ANT_SDK_DOWNLOAD, DOWNLOAD_DIR / os.path.basename(ANT_SDK_DOWNLOAD)
+                ANT_SDK_DOWNLOAD,
+                paths.DOWNLOAD_DIR / os.path.basename(ANT_SDK_DOWNLOAD),
             )
         )
-        if os.path.exists(ANT_DIR):
-            print(f"Removing existing Ant SDK at {ANT_DIR}")
-            shutil.rmtree(ANT_DIR)
-        print(f"Unpacking {ant_sdk_sip} to {ANT_DIR}")
-        shutil.unpack_archive(ant_sdk_sip, ANT_DIR)
-        base_ant_dir = ANT_DIR / os.listdir(ANT_DIR)[0]
+        if os.path.exists(paths.ANT_DIR):
+            print(f"Removing existing Ant SDK at {paths.ANT_DIR}")
+            shutil.rmtree(paths.ANT_DIR)
+        print(f"Unpacking {ant_sdk_sip} to {paths.ANT_DIR}")
+        shutil.unpack_archive(ant_sdk_sip, paths.ANT_DIR)
+        base_ant_dir = paths.ANT_DIR / os.listdir(paths.ANT_DIR)[0]
         print(base_ant_dir)
         ant_bin_dir = base_ant_dir / "bin"
         add_env_path(ant_bin_dir)

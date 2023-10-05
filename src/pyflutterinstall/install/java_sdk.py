@@ -15,9 +15,9 @@ from typing import Optional
 from download import download  # type: ignore
 
 from pyflutterinstall.resources import (
-    DOWNLOAD_DIR,
-    INSTALL_DIR,
-    JAVA_DIR,
+    # DOWNLOAD_DIR,
+    # INSTALL_DIR,
+    # JAVA_DIR,
     get_platform_java_sdk,
     JAVA_SDK_VERSIONS,
     JAVA_VERSION,
@@ -25,19 +25,24 @@ from pyflutterinstall.resources import (
 from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
 
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
+
 
 def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
     java_sdk_url = get_platform_java_sdk(version)
-    print(f"Install Java SDK from {java_sdk_url} to {INSTALL_DIR}")
-    local_file = DOWNLOAD_DIR / os.path.basename(java_sdk_url)
+    print(f"Install Java SDK from {java_sdk_url} to {paths.INSTALL_DIR}")
+    local_file = paths.DOWNLOAD_DIR / os.path.basename(java_sdk_url)
     java_sdk_zip_file = Path(download(url=java_sdk_url, path=local_file, replace=False))
     # if os.path.exists(JAVA_DIR):
     #    print(f"Removing existing Java SDK at {JAVA_DIR}")
     #    shutil.rmtree(JAVA_DIR)
-    print(f"Unpacking {java_sdk_zip_file} to {JAVA_DIR}")
-    shutil.unpack_archive(java_sdk_zip_file, JAVA_DIR)
-    base_java_dir = JAVA_DIR / os.listdir(JAVA_DIR)[0]
+    print(f"Unpacking {java_sdk_zip_file} to {paths.JAVA_DIR}")
+    shutil.unpack_archive(java_sdk_zip_file, paths.JAVA_DIR)
+    base_java_dir = paths.JAVA_DIR / os.listdir(paths.JAVA_DIR)[0]
     print(base_java_dir)
     if sys.platform == "darwin":
         java_bin_dir = base_java_dir / "Contents" / "Home" / "bin"

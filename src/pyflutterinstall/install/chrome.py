@@ -9,8 +9,13 @@ import subprocess
 
 from download import download  # type: ignore
 
-from pyflutterinstall.resources import CHROME_URL, DOWNLOAD_DIR, INSTALL_DIR
+from pyflutterinstall.resources import CHROME_URL  # , DOWNLOAD_DIR, INSTALL_DIR
 from pyflutterinstall.util import make_title
+
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
 
 
 def install_chrome() -> int:
@@ -26,8 +31,10 @@ def install_chrome() -> int:
         )
         if "Cannot find Chrome" in stdout:
             print("Chrome not found, installing")
-            print(f"Install Chrome from {CHROME_URL} to {INSTALL_DIR}")
-            path = download(CHROME_URL, DOWNLOAD_DIR / os.path.basename(CHROME_URL))
+            print(f"Install Chrome from {CHROME_URL} to {paths.INSTALL_DIR}")
+            path = download(
+                CHROME_URL, paths.DOWNLOAD_DIR / os.path.basename(CHROME_URL)
+            )
             print(f"Downloaded chrome at {path}")
             # install it
             os.system(f'"{path}"')

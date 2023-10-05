@@ -6,9 +6,9 @@ Resources for pyflutterinstall
 
 import os
 import sys
-from pathlib import Path
 import platform
 from typing import Optional
+
 
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
@@ -117,19 +117,21 @@ def get_chrome_url() -> str:
     return "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 
 
+# MAYBE_ANDROID_SDK = config_load().get("ANDROID_SDK")
+
 CHROME_URL = get_chrome_url()
 ANDROID_SDK_URL = get_android_sdk_url()
 GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.2-bin.zip"
-PROJECT_ROOT = Path(os.getcwd())
-INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
-ENV_FILE = PROJECT_ROOT / ".env"
-DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
-ANDROID_SDK = INSTALL_DIR / "Android" / "sdk"
-ANT_DIR = INSTALL_DIR / "ant"
-FLUTTER_TARGET = INSTALL_DIR / "flutter"
-JAVA_DIR = INSTALL_DIR / "java"
-GRADLE_DIR = INSTALL_DIR / "gradle"
-CMDLINE_TOOLS_DIR = ANDROID_SDK / "cmdline-tools" / "latest" / "bin"
-BUILD_TOOLS_DIR = ANDROID_SDK / "build-tools"
+# PROJECT_ROOT = Path(os.getcwd()).resolve()
+# INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
+# ENV_FILE = PROJECT_ROOT / ".env"
+# DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
+# ANDROID_SDK = INSTALL_DIR / "Android" / "sdk"
+# ANT_DIR = INSTALL_DIR / "ant"
+# FLUTTER_TARGET = INSTALL_DIR / "flutter"
+# JAVA_DIR = INSTALL_DIR / "java"
+# GRADLE_DIR = INSTALL_DIR / "gradle"
+# CMDLINE_TOOLS_DIR = ANDROID_SDK / "cmdline-tools" / "latest" / "bin"
+
 IS_GITHUB_RUNNER = os.getenv("GITHUB_ACTIONS", "false") == "true"
 JAVA_VERSION = 20

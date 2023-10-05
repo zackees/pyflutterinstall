@@ -44,13 +44,10 @@ from pyflutterinstall.install.flutter_sdk import install_flutter_sdk
 from pyflutterinstall.install.gradle import install_gradle
 from pyflutterinstall.install.java_sdk import install_java_sdk
 from pyflutterinstall.resources import (
-    INSTALL_DIR,
     JAVA_SDK_VERSIONS,
-    ANDROID_SDK,
-    GRADLE_DIR,
     JAVA_VERSION,
 )
-from pyflutterinstall.util import make_dirs
+from pyflutterinstall.paths import Paths
 from pyflutterinstall.config import config_load, config_save
 
 
@@ -78,6 +75,7 @@ def check_preqs() -> None:
 
 
 def main():
+    paths = Paths(cwd_override=os.getcwd())
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
     parser.add_argument(
         "--skip-confirmation",
@@ -105,7 +103,7 @@ def main():
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
     )
     print(
-        f"This will install Flutter and its dependencies into {os.path.basename(INSTALL_DIR)}"
+        f"This will install Flutter and its dependencies into {os.path.basename(paths.INSTALL_DIR)}"
     )
     skip_confirmation = (
         args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
@@ -115,14 +113,14 @@ def main():
     config = config_load()
     config.update(
         {
-            "ANDROID_SDK": str(ANDROID_SDK),
-            "GRADLE_DIR": str(GRADLE_DIR),
-            "INSTALL_DIR": str(INSTALL_DIR),
-            "JAVA_DIR": str(INSTALL_DIR / "java"),
+            "ANDROID_SDK": str(Paths().ANDROID_SDK),
+            "GRADLE_DIR": str(paths.GRADLE_DIR),
+            "INSTALL_DIR": str(paths.INSTALL_DIR),
+            "JAVA_DIR": str(paths.INSTALL_DIR / "java"),
         }
     )
     config_save(config)
-    make_dirs()
+    paths.make_dirs()
     if not args.skip_java:
 
         def install_java_sdk_version() -> int:
