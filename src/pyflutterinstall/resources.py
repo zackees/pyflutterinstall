@@ -131,4 +131,4 @@ JAVA_DIR = INSTALL_DIR / "java"
 GRADLE_DIR = INSTALL_DIR / "gradle"
 CMDLINE_TOOLS_DIR = ANDROID_SDK / "cmdline-tools" / "latest" / "bin"
 IS_GITHUB_RUNNER = os.getenv("GITHUB_ACTIONS", "false") == "true"
-JAVA_VERSION = 21
+JAVA_VERSION = 20

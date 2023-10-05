@@ -60,8 +60,8 @@ jobs:
         java --which || true
       shell: bash
 
-    - name: Test java is 21
-      run: python test_install/is_java_version.py 21
+    - name: Test java is 20
+      run: python test_install/is_java_version.py 20
 
     - name: Test Install
       run: pytest tests
