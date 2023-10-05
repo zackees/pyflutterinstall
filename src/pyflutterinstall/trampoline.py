@@ -12,6 +12,10 @@ import sys
 
 from pyflutterinstall.which_all import which_all
 
+from pyflutterinstall.paths import Paths
+
+Paths().apply_env()
+
 
 def trampoline(
     command: str, args: list[str] | None = None, default_path: str | None = None
