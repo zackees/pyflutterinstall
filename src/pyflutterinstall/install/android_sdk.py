@@ -27,7 +27,7 @@ BULK_INSTALL_TOOLS = True
 
 
 def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
-    if BULK_INSTALL_TOOLS:
+    if not BULK_INSTALL_TOOLS:
         tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
         for tool in tools_to_install:
             execute(
