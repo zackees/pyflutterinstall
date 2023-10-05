@@ -48,7 +48,7 @@ def find_default_path_or_none() -> str | None:
     if "linux" in sys.platform:
         return base_java_dir
     if "darwin" in sys.platform:
-        return os.path.join(base_java_dir, "Contents", "Home", "bin")
+        return os.path.join(base_java_dir, "Contents", "Home")
     #if sys.platform == "darwin":
     #    return os.path.join(base_java_dir, "Contents", "Home", "bin")
     # return os.path.join(base_java_dir, "bin")
