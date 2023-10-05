@@ -4,6 +4,7 @@ Command stub for sdkmanager
 
 import os
 import sys
+import warnings
 
 from pyflutterinstall.config import config_load
 from pyflutterinstall.trampoline import trampoline
@@ -34,6 +35,7 @@ def find_default_path_or_none() -> str | None:
     if JAVA_DIR is None:
         java_dir = os.environ.get("JAVA_HOME", None)
     if java_dir is None:
+        warnings.warn("JAVA_DIR not set")
         return None
     jdk_folders = os.listdir(java_dir)
     if not jdk_folders:
