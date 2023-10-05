@@ -29,3 +29,9 @@ gradle = "pyflutterinstall.cmds.gradle:main"
 emulator = "pyflutterinstall.cmds.emulator:main"
 java = "pyflutterinstall.cmds.java:main"
 apkanalyzer = "pyflutterinstall.cmds.apkanalyzer:main"
+aapt = "pyflutterinstall.cmds.aapt:main"
+
+[tool.pylint.messages_control]
+disable = [
+    "R0801",
+]

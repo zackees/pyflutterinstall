@@ -130,5 +130,6 @@ FLUTTER_TARGET = INSTALL_DIR / "flutter"
 JAVA_DIR = INSTALL_DIR / "java"
 GRADLE_DIR = INSTALL_DIR / "gradle"
 CMDLINE_TOOLS_DIR = ANDROID_SDK / "cmdline-tools" / "latest" / "bin"
+BUILD_TOOLS_DIR = ANDROID_SDK / "build-tools"
 IS_GITHUB_RUNNER = os.getenv("GITHUB_ACTIONS", "false") == "true"
 JAVA_VERSION = 20

@@ -6,7 +6,15 @@ import os
 import unittest
 from shutil import which
 
-from pyflutterinstall.cmds import adb, avdmanager, emulator, gradle, java, sdkmanager
+from pyflutterinstall.cmds import (
+    adb,
+    avdmanager,
+    emulator,
+    gradle,
+    java,
+    sdkmanager,
+    aapt,
+)
 
 # config
 from pyflutterinstall.config import config_load
@@ -57,6 +65,12 @@ class UseExePaths(unittest.TestCase):
         """Tests that we can bind to the emulator executable."""
         print("Test emulator")
         self.assertEqual(0, emulator.main(["-help"]))
+
+    @unittest.skipIf(not INSTALLED, "Not installed")
+    def test_aapt(self) -> None:
+        """Tests that we can bind to the aapt executable."""
+        print("Test aapt")
+        self.assertEqual(0, aapt.main(["-help"]))
 
 
 if __name__ == "__main__":
