@@ -14,6 +14,7 @@ from pyflutterinstall.cmds import (
     java,
     sdkmanager,
     aapt,
+    aapt2,
 )
 
 # config
@@ -71,6 +72,12 @@ class UseExePaths(unittest.TestCase):
         """Tests that we can bind to the aapt executable."""
         print("Test aapt")
         self.assertEqual(0, aapt.main(["-help"]))
+
+    @unittest.skipIf(not INSTALLED, "Not installed")
+    def test_aapt2(self) -> None:
+        """Tests that we can bind to the aapt2 executable."""
+        print("Test aapt2")
+        self.assertEqual(0, aapt2.main(["-help"]))
 
 
 if __name__ == "__main__":
