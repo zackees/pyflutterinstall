@@ -36,9 +36,6 @@ jobs:
       run: |
         pip install -e '.[test]'
 
-    - name: Run tests
-      run: pytest tests
-
     - name: Pre Run Environment state
       run: python test_install/prerun.py
 

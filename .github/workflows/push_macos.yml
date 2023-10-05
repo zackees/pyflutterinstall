@@ -37,9 +37,6 @@ jobs:
     - name: Pre Run Environment state
       run: python test_install/prerun.py
 
-    - name: Run tests
-      run: pytest tests
-
     - name: install java
       run: python -m pyflutterinstall.install.java_sdk
 

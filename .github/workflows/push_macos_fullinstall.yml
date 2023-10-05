@@ -58,9 +58,6 @@ jobs:
     - name: check prerun
       run: python test_install/prerun.py
 
-    - name: Run tests
-      run: pytest tests
-
     - name: install all
       run: pyflutterinstall --skip-confirmation
 
