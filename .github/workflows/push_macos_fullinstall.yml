@@ -42,14 +42,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pyflutter-
 
-    - uses: actions/cache@v3
-      name: Configure Brew caching
-      with:
-        path: /usr/local/Cellar
-        key: ${{ runner.os }}-brew-${{ hashFiles('**/Brewfile') }}
-        restore-keys: |
-          ${{ runner.os }}-brew-
-
     - name: Install Xcode Deps
       run: brew install coreutils &&
            echo "$CERTIFICATES_P12" > cert.txt &&
