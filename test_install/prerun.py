@@ -7,6 +7,11 @@ import sys
 from shutil import which
 from pyflutterinstall.util import print_tree_dir
 
+from pyflutterinstall.paths import Paths
+
+paths = Paths()
+paths.apply_env()
+
 TOOLS = [
     "flutter",
     "dart",
