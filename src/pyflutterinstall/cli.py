@@ -76,7 +76,7 @@ def check_preqs() -> None:
             sys.exit(1)
 
 
-def main():
+def main() -> int:
     paths = Paths(cwd_override=os.getcwd())
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
     parser.add_argument(
@@ -100,9 +100,12 @@ def main():
     parser.add_argument("--skip-flutter", action="store_true", help="Skip Flutter SDK")
     parser.add_argument("--skip-chrome", action="store_true", help="Skip Chrome")
     parser.add_argument(
+        "--only-java", action="store_true", help="Only install Java SDK"
+    )
+    parser.add_argument(
         "--java-version",
         help="Java version to install",
-        default=11,
+        default=JAVA_VERSION,
         choices=JAVA_SDK_VERSIONS.keys(),
     )
     args = parser.parse_args()
@@ -142,39 +145,46 @@ def main():
             "GRADLE_DIR": str(paths.GRADLE_DIR),
             "INSTALL_DIR": str(paths.INSTALL_DIR),
             "JAVA_DIR": str(paths.INSTALL_DIR / "java"),
+            "JAVA_HOME": str(paths.INSTALL_DIR / "java"),
         }
     )
     config_save(config)
     paths.make_dirs()
-    if not args.skip_java:
 
-        def install_java_sdk_version() -> int:
-            return install_java_sdk(JAVA_VERSION)
+    def install_java_sdk_versioned() -> int:
+        return install_java_sdk(args.java_version)
 
-        ask_if_interactive(interactive, "java_sdk", install_java_sdk_version)
-    if not args.skip_android:
+    if args.only_java:
+        rtn = install_java_sdk_versioned()
+        if rtn != 0:
+            warnings.warn("Java SDK install failed")
+            return rtn
+    else:
+        if not args.skip_java:
+            ask_if_interactive(interactive, "java_sdk", install_java_sdk_versioned)
+        if not args.skip_android:
 
-        def install_android_sdk_and_gradle():
-            install_android_sdk(interactive)
-            install_gradle()
+            def install_android_sdk_and_gradle():
+                install_android_sdk(interactive)
+                install_gradle()
 
-        ask_if_interactive(
-            interactive,
-            "android_sdk",
-            install_android_sdk_and_gradle,
-        )
-    if not args.skip_ant:
-        install_ant_sdk()
-    if not args.skip_flutter:
-        ask_if_interactive(
-            interactive, "flutter", lambda: install_flutter_sdk(interactive)
-        )
-    if not args.skip_chrome:
-        ask_if_interactive(interactive, "chrome", install_chrome)
-    if not args.skip_flutter:
-        postinstall_run_flutter_doctor()
-    if not any_skipped:
-        print("\nDone installing Flutter SDK and dependencies\n")
+            ask_if_interactive(
+                interactive,
+                "android_sdk",
+                install_android_sdk_and_gradle,
+            )
+        if not args.skip_ant:
+            install_ant_sdk()
+        if not args.skip_flutter:
+            ask_if_interactive(
+                interactive, "flutter", lambda: install_flutter_sdk(interactive)
+            )
+        if not args.skip_chrome:
+            ask_if_interactive(interactive, "chrome", install_chrome)
+        if not args.skip_flutter:
+            postinstall_run_flutter_doctor()
+        if not any_skipped:
+            print("\nDone installing Flutter SDK and dependencies\n")
     if sys.platform == "win32":
         print("Please restart your terminal to apply the changes")
     print(f"Paths: {paths.INSTALL_DIR}")
