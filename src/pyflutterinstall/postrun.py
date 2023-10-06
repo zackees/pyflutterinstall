@@ -8,6 +8,7 @@ import os
 import sys
 from shutil import which
 import warnings
+
 # coloram has an issue that just_fix_windows_console is broken
 # so rename init to just_fix_windows_console
 from colorama import init as just_fix_windows_console  # type: ignore
@@ -24,6 +25,7 @@ def main() -> int:
     android_home = os.environ.get("ANDROID_HOME")
     if android_home is None:
         warnings.warn("ANDROID_HOME not set")
+        return 1
     print("ANDROID_HOME = " + android_home)
     print(f"dir $ANDROID_HOME = {os.listdir(android_home)}")
     print_tree_dir(android_home)
@@ -44,13 +46,13 @@ def main() -> int:
         with open(bashrc, encoding="utf-8", mode="r") as f:
             print(f.read())
 
-    #needle = os.path.join("cmdline-tools", "latest", "bin")
-    #found = False
-    #for path in os.environ["PATH"].split(os.pathsep):
+    # needle = os.path.join("cmdline-tools", "latest", "bin")
+    # found = False
+    # for path in os.environ["PATH"].split(os.pathsep):
     #    if needle in path:
     #        found = True
     #        break
-    #if not found:
+    # if not found:
     #    raise RuntimeError(f'Android tools "{needle} not found in PATH')
 
     print("Checking that adb is in the path")
