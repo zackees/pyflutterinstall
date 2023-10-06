@@ -9,7 +9,7 @@ commands are found.
 import os
 import subprocess
 import sys
-
+from pathlib import Path
 from pyflutterinstall.which_all import which_all
 
 from pyflutterinstall.paths import Paths
@@ -18,11 +18,13 @@ Paths().apply_env()
 
 
 def trampoline(
-    command: str, args: list[str] | None = None, default_path: str | None = None
+    command: str, args: list[str] | None = None, default_path: Path | str | None = None
 ) -> int:
     """Trampoline"""
     if args is None:
         args = sys.argv[1:]
+    if isinstance(default_path, Path):
+        default_path = str(default_path)
     # Not multithreaded safe.
     prev_path = os.environ.get("PATH", "")
     try:

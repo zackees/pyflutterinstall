@@ -154,6 +154,7 @@ def main() -> int:
             "INSTALL_DIR": str(paths.INSTALL_DIR),
             "JAVA_DIR": str(paths.INSTALL_DIR / "java"),
             "JAVA_HOME": str(paths.INSTALL_DIR / "java"),
+            "FLUTTER_HOME": str(paths.FLUTTER_HOME),
         }
     )
     config_save(config)

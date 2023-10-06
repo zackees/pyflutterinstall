@@ -18,7 +18,7 @@ prior definitions
 -DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
 -ANDROID_SDK = INSTALL_DIR / "Android" / "sdk"
 -ANT_DIR = INSTALL_DIR / "ant"
--FLUTTER_TARGET = INSTALL_DIR / "flutter"
+-FLUTTER_HOME = INSTALL_DIR / "flutter"
 -JAVA_DIR = INSTALL_DIR / "java"
 -GRADLE_DIR = INSTALL_DIR / "gradle"
 -CMDLINE_TOOLS_DIR = ANDROID_SDK / "cmdline-tools" / "latest" / "bin"
@@ -41,7 +41,8 @@ class Paths:
     ANDROID_SDK: Path
     ANDROID_HOME: Path
     ANT_DIR: Path
-    FLUTTER_TARGET: Path
+    FLUTTER_HOME: Path
+    FLUTTER_HOME_BIN: Path
     JAVA_DIR: Path
     GRADLE_DIR: Path
     CMDLINE_TOOLS_DIR: Path
@@ -64,7 +65,8 @@ class Paths:
         self.DOWNLOAD_DIR = self.INSTALL_ROOT / ".downloads"
         self.ANDROID_SDK = self.ANDROID_SDK
         self.ANT_DIR = self.INSTALL_DIR / "ant"
-        self.FLUTTER_TARGET = self.INSTALL_DIR / "flutter"
+        self.FLUTTER_HOME = self.INSTALL_DIR / "flutter"
+        self.FLUTTER_HOME_BIN = self.FLUTTER_HOME / "bin"
         self.JAVA_DIR = self.INSTALL_DIR / "java"
         self.GRADLE_DIR = self.INSTALL_DIR / "gradle"
         self.CMDLINE_TOOLS_DIR = self.ANDROID_SDK / "cmdline-tools" / "latest" / "bin"
@@ -75,7 +77,7 @@ class Paths:
         env = os.environ
         env["ANDROID_SDK"] = str(self.ANDROID_SDK)
         env["JAVA_DIR"] = str(self.JAVA_DIR)
-        env["PATH"] = f"{self.FLUTTER_TARGET}/bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
 
     def make_dirs(self) -> None:
@@ -98,11 +100,11 @@ class Paths:
         env["ANDROID_SDK"] = str(self.ANDROID_SDK)
         env["JAVA_DIR"] = str(self.JAVA_DIR)
         # add to path
-        # ${FLUTTER_TARGET}/bin
+        # ${FLUTTER_HOME}/bin
         # add to path
-        # env["PATH"] = f"{FLUTTER_TARGET}/bin{os.pathsep}{env['PATH']}"
+        # env["PATH"] = f"{FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
         # env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.FLUTTER_TARGET}/bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
 
     def __str__(self) -> str:

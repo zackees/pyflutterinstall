@@ -14,6 +14,7 @@ from pyflutterinstall.cmds import (
     sdkmanager,
     aapt,
     aapt2,
+    flutter,
 )
 
 from pyflutterinstall.paths import Paths
@@ -86,6 +87,14 @@ class UseExePaths(unittest.TestCase):
         print("Test aapt2")
         # self.assertEqual(0, aapt2.main(["v"]))
         rtn = aapt2.main(["version"])
+        self.assertEqual(0, rtn)
+
+    @unittest.skipIf(not INSTALLED, "Not installed")
+    def test_flutter(self) -> None:
+        """Tests that we can bind to the aapt2 executable."""
+        print("Test flutter")
+        # self.assertEqual(0, aapt2.main(["v"]))
+        rtn = flutter.main(["--version"])
         self.assertEqual(0, rtn)
 
 

@@ -12,7 +12,7 @@ from shellexecute import execute  # type: ignore
 
 from pyflutterinstall.resources import (
     FLUTTER_GIT_DOWNLOAD,
-)  # , ANDROID_SDK, , FLUTTER_TARGET
+)  # , ANDROID_SDK, , FLUTTER_HOME
 from pyflutterinstall.setenv import add_env_path
 from pyflutterinstall.util import make_title
 
@@ -31,25 +31,25 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
             error_msg += f"  {path}\n"
         print(error_msg)
         raise FileNotFoundError(error_msg)
-    print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_TARGET}")
-    if not paths.FLUTTER_TARGET.exists():
-        cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_TARGET}"'
+    print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
+    if not paths.FLUTTER_HOME.exists():
+        cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_HOME}"'
         execute(cmd, ignore_errors=False)
     else:
-        print(f"Flutter already installed at {paths.FLUTTER_TARGET}")
-    if not os.path.exists(paths.FLUTTER_TARGET):
+        print(f"Flutter already installed at {paths.FLUTTER_HOME}")
+    if not os.path.exists(paths.FLUTTER_HOME):
         print(
-            f"!!!!!!!!!!!!! FLUTTER FOLDER {paths.FLUTTER_TARGET} DOES NOT EXIST EITHER !!!!!!!!!!!!!!!"
+            f"!!!!!!!!!!!!! FLUTTER FOLDER {paths.FLUTTER_HOME} DOES NOT EXIST EITHER !!!!!!!!!!!!!!!"
         )
         path = os.environ["PATH"]
-        error_msg = f"Could not find {paths.FLUTTER_TARGET} in path"
+        error_msg = f"Could not find {paths.FLUTTER_HOME} in path"
         error_msg += "\npath = \n"
         for path in path.split(os.pathsep):
             error_msg += f"  {path}\n"
         print(error_msg)
         raise FileNotFoundError(error_msg)
     # Add flutter to path
-    add_env_path(paths.FLUTTER_TARGET / "bin")
+    add_env_path(paths.FLUTTER_HOME_BIN)
     execute(
         f'flutter config --android-sdk "{paths.ANDROID_SDK}" --no-analytics',
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,

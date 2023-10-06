@@ -31,6 +31,7 @@ java = "pyflutterinstall.cmds.java:main"
 apkanalyzer = "pyflutterinstall.cmds.apkanalyzer:main"
 aapt = "pyflutterinstall.cmds.aapt:main"
 aapt2 = "pyflutterinstall.cmds.aapt2:main"
+flutter = "pyflutterinstall.cmds.flutter:main"
 
 [tool.pylint.messages_control]
 disable = [
