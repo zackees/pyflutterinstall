@@ -34,8 +34,8 @@ paths.apply_env()
 def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
     java_sdk_url = get_platform_java_sdk(version)
-    print(f"Install Java SDK from {java_sdk_url} to {paths.INSTALL_DIR}")
     local_file = paths.DOWNLOAD_DIR / os.path.basename(java_sdk_url)
+    print(f"Install Java SDK from {java_sdk_url} to {local_file}")
     java_sdk_zip_file = Path(download(url=java_sdk_url, path=local_file, replace=False))
     # if os.path.exists(JAVA_DIR):
     #    print(f"Removing existing Java SDK at {JAVA_DIR}")

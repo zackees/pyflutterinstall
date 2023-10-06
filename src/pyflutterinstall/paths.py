@@ -61,7 +61,7 @@ class Paths:
             self.INSTALL_ROOT = self.INSTALL_DIR.parent
         self.ANDROID_HOME = self.ANDROID_SDK
         self.ENV_FILE = self.INSTALL_ROOT / ".env"
-        self.DOWNLOAD_DIR = self.INSTALL_ROOT
+        self.DOWNLOAD_DIR = self.INSTALL_ROOT / ".downloads"
         self.ANDROID_SDK = self.ANDROID_SDK
         self.ANT_DIR = self.INSTALL_DIR / "ant"
         self.FLUTTER_TARGET = self.INSTALL_DIR / "flutter"
