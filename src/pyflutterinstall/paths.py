@@ -114,6 +114,7 @@ class Paths:
         for _, val in self.__dict__.items():
             if isinstance(val, Path):
                 if val.exists():
+                    print(f"Deleting {val}")
                     shutil.rmtree(val, ignore_errors=True)
 
     def __str__(self) -> str:

@@ -11,6 +11,7 @@ import setenvironment  # type: ignore
 
 from pyflutterinstall.config import config_load, config_save
 
+
 def uniquify_paths(paths: list[str]) -> list[str]:
     """Removes duplicate paths from the given path string."""
     found = set()
