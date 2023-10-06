@@ -23,11 +23,10 @@ def uniquify_paths(paths: list[str]) -> list[str]:
 
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     """Sets an environment variable for the platform."""
-    #var_value = str(var_value)
-    #if verbose:
-    #    print(f"$$$ Setting {var_name} to {var_value}")
-    #setenvironment.set_env_var(var_name, var_value)
-    pass
+    var_value = str(var_value)
+    if verbose:
+        print(f"$$$ Setting {var_name} to {var_value}")
+    setenvironment.set_env_var(var_name, var_value)
 
 
 def add_env_path(new_path: Union[Path, str]):
@@ -48,6 +47,7 @@ def get_env_var(var_name: str) -> str:
 def unset_env_var(var_name: str) -> str:
     """Unsets an environment variable."""
     return setenvironment.unset_env_var(var_name)
+
 
 def remove_env_path(path: Union[Path, str]) -> None:
     """Removes a path from the PATH environment variable."""

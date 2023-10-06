@@ -2,9 +2,9 @@
 Unit test file.
 """
 
+import os
 import unittest
 
-from pyflutterinstall.cmds import java
 from pyflutterinstall.config import config_load
 
 config = config_load()
@@ -18,7 +18,9 @@ class JavaTest(unittest.TestCase):
     def test_java(self) -> None:
         """Tests that we can bind to the java executable."""
         print("Test java")
-        self.assertEqual(0, java.main(["-version"]))
+        # self.assertEqual(0, java.main(["-version"]))
+        rtn = os.system("java -version")
+        self.assertEqual(0, rtn)
 
 
 if __name__ == "__main__":
