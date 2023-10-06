@@ -29,7 +29,7 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     if verbose:
         print(f"$$$ Setting {var_name} to {var_value}")
     config = config_load()
-    env = config.setdefault("PATH", {})
+    env = config.setdefault("ENV", {})
     env[var_name] = var_value
     config_save(config)
     setenvironment.set_env_var(var_name, var_value)
