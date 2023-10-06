@@ -1,4 +1,3 @@
-
 """
   Quick install
   cd <YOUR DIRECTORY>
@@ -84,7 +83,7 @@ HERE = os.path.dirname(__file__)
 os.chdir(os.path.abspath(HERE))
 
 
-def _exe(cmd):
+def _exe(cmd: str, check: bool = True) -> None:
     msg = (
         "########################################\n"
         f"# Executing '{cmd}'\n"
@@ -94,7 +93,7 @@ def _exe(cmd):
     sys.stdout.flush()
     sys.stderr.flush()
     # os.system(cmd)
-    subprocess.check_call(cmd, shell=True)
+    subprocess.run(cmd, shell=True, check=check)
 
 
 def is_tool(name):
@@ -116,7 +115,8 @@ def create_virtual_environment() -> None:
     if sys.platform == "win32":
         target = os.path.join(HERE, "venv", "Scripts")
         link = os.path.join(HERE, "venv", "bin")
-        _exe('mklink /J "%s" "%s"' % (link, target))
+        if not os.path.exists(link):
+            _exe(f'mklink /J "{link}" "{target}"', check=False)
     with open("activate.sh", encoding="utf-8", mode="w") as fd:
         fd.write(_ACTIVATE_SH)
     if sys.platform != "win32":
@@ -139,9 +139,6 @@ def main() -> int:
     if args.remove:
         print("Removing virtual environment")
         shutil.rmtree("venv", ignore_errors=True)
-        node_modules = os.path.join("www", "node_modules")
-        print(f"Removing {node_modules}")
-        shutil.rmtree(node_modules, ignore_errors=True)
         return 0
     if not os.path.exists("venv"):
         create_virtual_environment()
