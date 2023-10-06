@@ -130,14 +130,19 @@ def main() -> int:
     any_skipped = any(
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
     )
-    print(
-        f"This will install Flutter and its dependencies into {os.path.basename(paths.INSTALL_DIR)}"
-    )
+
+    msg = ""
+    if args.only_java:
+        msg = "This will only install the Java SDK"
+    else:
+        msg = f"This will install Flutter and its dependencies into {os.path.basename(paths.INSTALL_DIR)}"
+
+    print(msg)
     skip_confirmation = (
         args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
     )
     interactive = not skip_confirmation
-    print("\nInstalling Flutter SDK and dependencies\n")
+    print("\nInstalling Java/Flutter SDK and dependencies\n")
     config = config_load()
     config.update(
         {
