@@ -25,7 +25,6 @@ def config_load() -> dict:
     with open(CONFIG_FILE, encoding="utf-8", mode="r") as filed:
         return json.load(filed)
 
-
 def print_config() -> int:
     """Endpoint for printing the current configuration."""
     config = config_load()

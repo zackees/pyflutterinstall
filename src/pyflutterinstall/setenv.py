@@ -10,10 +10,6 @@ from typing import Union
 import setenvironment  # type: ignore
 
 
-ENV_FILE = "./.env"
-INITIALIZED = False
-
-
 def uniquify_paths(paths: list[str]) -> list[str]:
     """Removes duplicate paths from the given path string."""
     found = set()
@@ -25,23 +21,13 @@ def uniquify_paths(paths: list[str]) -> list[str]:
     return result
 
 
-def init_dotenv() -> None:
-    """Initializes the dotenv environment."""
-    global INITIALIZED  # pylint: disable=global-statement
-    if INITIALIZED:
-        return
-    INITIALIZED = True
-
-
-init_dotenv()
-
-
 def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     """Sets an environment variable for the platform."""
-    var_value = str(var_value)
-    if verbose:
-        print(f"$$$ Setting {var_name} to {var_value}")
-    setenvironment.set_env_var(var_name, var_value)
+    #var_value = str(var_value)
+    #if verbose:
+    #    print(f"$$$ Setting {var_name} to {var_value}")
+    #setenvironment.set_env_var(var_name, var_value)
+    pass
 
 
 def add_env_path(new_path: Union[Path, str]):
@@ -57,3 +43,12 @@ def get_env_path() -> str:
 def get_env_var(var_name: str) -> str:
     """Gets an environment variable."""
     return setenvironment.get_env_var(var_name)
+
+
+def unset_env_var(var_name: str) -> str:
+    """Unsets an environment variable."""
+    return setenvironment.unset_env_var(var_name)
+
+def remove_env_path(path: Union[Path, str]) -> None:
+    """Removes a path from the PATH environment variable."""
+    setenvironment.remove_env_path(str(path))
