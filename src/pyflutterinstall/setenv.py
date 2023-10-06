@@ -37,7 +37,8 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
 def add_env_path(new_path: Union[Path, str]):
     """Adds a path to the front of the PATH environment variable."""
     config = config_load()
-    config["PATH"] = uniquify_paths([str(new_path)] + config["env"]["PATH"].split(":"))
+    path_list = config.setdefault("env", {}).setdefault("PATH", [])
+    config["PATH"] = uniquify_paths([str(new_path)] + path_list)
     config_save(config)
     setenvironment.add_env_path(new_path)
 
@@ -55,7 +56,7 @@ def get_env_var(var_name: str) -> str:
 def unset_env_var(var_name: str) -> str:
     """Unsets an environment variable."""
     config = config_load()
-    config["env"].pop(var_name, None)
+    config.setdefault("env", {}).pop(var_name, None)
     config_save(config)
     return setenvironment.unset_env_var(var_name)
 
@@ -64,7 +65,8 @@ def remove_env_path(path: Union[Path, str]) -> None:
     """Removes a path from the PATH environment variable."""
     config = config_load()
     path = str(path)
-    paths = config["PATH"]
+    # paths = config["PATH"]
+    paths = config.setdefault("PATH", [])
     while path in paths:
         paths.remove(path)
     config["PATH"] = paths
