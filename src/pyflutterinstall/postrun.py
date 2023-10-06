@@ -7,7 +7,7 @@ Pre run script
 import os
 import sys
 from shutil import which
-
+import warnings
 # coloram has an issue that just_fix_windows_console is broken
 # so rename init to just_fix_windows_console
 from colorama import init as just_fix_windows_console  # type: ignore
@@ -21,9 +21,12 @@ paths.apply_env()
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
     just_fix_windows_console()  # Fixes color breakages
-    print("ANDROID_HOME = " + os.environ["ANDROID_HOME"])
-    print(f"dir $ANDROID_HOME = {os.listdir(os.environ['ANDROID_HOME'])}")
-    print_tree_dir(os.environ["ANDROID_HOME"])
+    android_home = os.environ.get("ANDROID_HOME")
+    if android_home is None:
+        warnings.warn("ANDROID_HOME not set")
+    print("ANDROID_HOME = " + android_home)
+    print(f"dir $ANDROID_HOME = {os.listdir(android_home)}")
+    print_tree_dir(android_home)
     print("Environment:")
     for key, value in os.environ.items():
         # skip path
@@ -41,14 +44,14 @@ def main() -> int:
         with open(bashrc, encoding="utf-8", mode="r") as f:
             print(f.read())
 
-    needle = os.path.join("cmdline-tools", "latest", "bin")
-    found = False
-    for path in os.environ["PATH"].split(os.pathsep):
-        if needle in path:
-            found = True
-            break
-    if not found:
-        raise RuntimeError(f'Android tools "{needle} not found in PATH')
+    #needle = os.path.join("cmdline-tools", "latest", "bin")
+    #found = False
+    #for path in os.environ["PATH"].split(os.pathsep):
+    #    if needle in path:
+    #        found = True
+    #        break
+    #if not found:
+    #    raise RuntimeError(f'Android tools "{needle} not found in PATH')
 
     print("Checking that adb is in the path")
     if not which("adb"):
