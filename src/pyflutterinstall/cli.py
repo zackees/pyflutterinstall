@@ -23,7 +23,9 @@ import argparse
 import os
 import shutil
 import sys
+import json
 from typing import Callable
+import warnings
 
 # if --install-dir is specified, add it to the path
 try:
@@ -48,7 +50,7 @@ from pyflutterinstall.resources import (
     JAVA_VERSION,
 )
 from pyflutterinstall.paths import Paths
-from pyflutterinstall.config import config_load, config_save
+from pyflutterinstall.config import config_load, config_save, CONFIG_FILE
 
 
 def ask_if_interactive(
@@ -78,6 +80,12 @@ def main():
     paths = Paths(cwd_override=os.getcwd())
     parser = argparse.ArgumentParser(description="Installs Flutter Dependencies")
     parser.add_argument(
+        "--show-config", action="store_true", help="Print the current configuration"
+    )
+    parser.add_argument(
+        "--verify-config", action="store_true", help="Verify the current configuration"
+    )
+    parser.add_argument(
         "--skip-confirmation",
         "-y",
         action="store_true",
@@ -98,6 +106,23 @@ def main():
         choices=JAVA_SDK_VERSIONS.keys(),
     )
     args = parser.parse_args()
+    if args.show_config or args.verify_config:
+        config_str = json.dumps(config_load(), indent=4)
+        print(f"{CONFIG_FILE}:\n{config_str}")
+        if not args.verify_config:
+            return 0
+    if args.verify_config:
+        bad = False
+        config = config_load()
+        for key, val in config.items():
+            if not os.path.exists(val):
+                warnings.warn(f"Config value {key} is invalid: {val}")
+                bad = True
+        if bad:
+            print("Please fix the above errors and try again.")
+            return 1
+        print("Config is valid.")
+        return 0
     check_preqs()
     any_skipped = any(
         [args.skip_java, args.skip_android, args.skip_flutter, args.skip_chrome]
@@ -152,6 +177,11 @@ def main():
         print("\nDone installing Flutter SDK and dependencies\n")
     if sys.platform == "win32":
         print("Please restart your terminal to apply the changes")
+    print(f"Paths: {paths.INSTALL_DIR}")
+    print(f"Config: {CONFIG_FILE}")
+    config = config_load()
+    config_str = json.dumps(config, indent=4)
+    print(f"Config:\n{config_str}")
     return 0
 
 

@@ -16,9 +16,6 @@ from pyflutterinstall.cmds import (
     aapt2,
 )
 
-# config
-from pyflutterinstall.config import config_load
-
 from pyflutterinstall.paths import Paths
 
 paths = Paths()
@@ -55,7 +52,7 @@ class UseExePaths(unittest.TestCase):
         """Tests that we can bind to the gradle executable."""
         print("Test gradle")
         # os.system("printenv")
-        #self.assertEqual(0, gradle.main(["-version"]))
+        # self.assertEqual(0, gradle.main(["-version"]))
         rtn = gradle.main(["-version"])
         self.assertEqual(0, rtn)
 
@@ -79,7 +76,7 @@ class UseExePaths(unittest.TestCase):
     def test_aapt(self) -> None:
         """Tests that we can bind to the aapt executable."""
         print("Test aapt")
-        #self.assertEqual(0, aapt.main(["v"]))
+        # self.assertEqual(0, aapt.main(["v"]))
         rtn = aapt.main(["v"])
         self.assertEqual(0, rtn)
 
@@ -87,7 +84,7 @@ class UseExePaths(unittest.TestCase):
     def test_aapt2(self) -> None:
         """Tests that we can bind to the aapt2 executable."""
         print("Test aapt2")
-        #self.assertEqual(0, aapt2.main(["v"]))
+        # self.assertEqual(0, aapt2.main(["v"]))
         rtn = aapt2.main(["v"])
         self.assertEqual(0, rtn)
 

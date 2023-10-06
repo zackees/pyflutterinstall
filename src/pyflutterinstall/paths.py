@@ -104,3 +104,10 @@ class Paths:
         # env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.FLUTTER_TARGET}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
+
+    def __str__(self) -> str:
+        # auto parse into list[str]
+        out = []
+        for key, value in self.__dict__.items():
+            out.append(f"{key}={value}")
+        return "\n".join(out)

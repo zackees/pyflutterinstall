@@ -7,7 +7,7 @@ name = "pyflutterinstall"
 description = "Installs Android studio and everything using the flutter doctor command."
 readme = "README.md"
 requires-python = ">=3.9"
-keywords = ["zcmds"]
+keywords = ["android", "install", "flutter", "android sdk"]
 license = { text = "BSD 3-Clause License" }
 classifiers = ["Programming Language :: Python :: 3"]
 dynamic = ["dependencies"]
@@ -35,4 +35,8 @@ aapt2 = "pyflutterinstall.cmds.aapt2:main"
 [tool.pylint.messages_control]
 disable = [
     "R0801",
+    "too-many-branches",
+    "too-many-statements",
+    "too-many-arguments",
+    "too-many-locals",
 ]
