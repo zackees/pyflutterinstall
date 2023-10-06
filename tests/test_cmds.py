@@ -85,7 +85,7 @@ class UseExePaths(unittest.TestCase):
         """Tests that we can bind to the aapt2 executable."""
         print("Test aapt2")
         # self.assertEqual(0, aapt2.main(["v"]))
-        rtn = aapt2.main(["v"])
+        rtn = aapt2.main(["version"])
         self.assertEqual(0, rtn)
 
 

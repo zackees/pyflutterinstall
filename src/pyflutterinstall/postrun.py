@@ -11,11 +11,11 @@ from shutil import which
 # coloram has an issue that just_fix_windows_console is broken
 # so rename init to just_fix_windows_console
 from colorama import init as just_fix_windows_console  # type: ignore
-
-from pyflutterinstall.setenv import init_dotenv
 from pyflutterinstall.util import print_tree_dir
+from pyflutterinstall.paths import Paths
 
-init_dotenv()
+paths = Paths()
+paths.apply_env()
 
 
 def main() -> int:
