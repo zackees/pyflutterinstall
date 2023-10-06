@@ -79,6 +79,7 @@ class Paths:
         env["JAVA_DIR"] = str(self.JAVA_DIR)
         env["PATH"] = f"{self.FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME_BIN}/bin{os.pathsep}{env['PATH']}"
 
     def make_dirs(self) -> None:
         # assert self.OVERRIDEN is False
