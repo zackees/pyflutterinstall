@@ -37,7 +37,7 @@ from pyflutterinstall.resources import (
 )
 from pyflutterinstall.paths import Paths
 from pyflutterinstall.config import config_load, config_save, CONFIG_FILE
-
+from pyflutterinstall.setenv import remove_env_path, unset_env_var
 
 def ask_if_interactive(
     is_interactive: bool, callback_name: str, callback: Callable[[], int]
@@ -129,6 +129,13 @@ def remove() -> int:
     paths = Paths()
     print(f"Removing {paths.INSTALL_DIR}")
     paths.delete_all()
+    config = config_load()
+    paths = config.get("PATHS", [])
+    env = config.get("ENV", {})
+    for path in paths:
+        remove_env_path(path)
+    for key in env:
+        unset_env_var(key)
     config_save({})
     return 0
 

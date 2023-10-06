@@ -11,7 +11,6 @@ import setenvironment  # type: ignore
 
 from pyflutterinstall.config import config_load, config_save
 
-
 def uniquify_paths(paths: list[str]) -> list[str]:
     """Removes duplicate paths from the given path string."""
     found = set()
@@ -29,7 +28,7 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     if verbose:
         print(f"$$$ Setting {var_name} to {var_value}")
     config = config_load()
-    config["env"][var_name] = var_value
+    config["ENV"][var_name] = var_value
     config_save(config)
     setenvironment.set_env_var(var_name, var_value)
 
@@ -37,7 +36,7 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
 def add_env_path(new_path: Union[Path, str]):
     """Adds a path to the front of the PATH environment variable."""
     config = config_load()
-    path_list = config.setdefault("env", {}).setdefault("PATH", [])
+    path_list = config.setdefault("PATH", [])
     config["PATH"] = uniquify_paths([str(new_path)] + path_list)
     config_save(config)
     setenvironment.add_env_path(new_path)
@@ -56,7 +55,7 @@ def get_env_var(var_name: str) -> str:
 def unset_env_var(var_name: str) -> str:
     """Unsets an environment variable."""
     config = config_load()
-    config.setdefault("env", {}).pop(var_name, None)
+    config.setdefault("ENV", {}).pop(var_name, None)
     config_save(config)
     return setenvironment.unset_env_var(var_name)
 
