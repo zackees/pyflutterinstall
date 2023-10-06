@@ -98,6 +98,12 @@ def parse_args() -> argparse.Namespace:
         help="Skip confirmation",
         default=False,
     )
+    parser.add_argument(
+        "--remove",
+        action="store_true",
+        help="Uninstalls pyflutterinstall and removes all files",
+        default=False,
+    )
 
     # Note that --install-dir is handled at the import level
     parser.add_argument("--install-dir", help="Install directory", default=None)
@@ -117,6 +123,14 @@ def parse_args() -> argparse.Namespace:
     )
     args = parser.parse_args()
     return args
+
+
+def remove() -> int:
+    paths = Paths()
+    print(f"Removing {paths.INSTALL_DIR}")
+    paths.delete_all()
+    config_save({})
+    return 0
 
 
 def main() -> int:
@@ -139,6 +153,9 @@ def main() -> int:
         msg = "This will only install the Java SDK"
     else:
         msg = f"This will install Flutter and its dependencies into {os.path.basename(paths.INSTALL_DIR)}"
+
+    if args.remove:
+        return remove()
 
     print(msg)
     skip_confirmation = (

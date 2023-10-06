@@ -7,6 +7,7 @@ import os
 
 from dataclasses import dataclass
 from pathlib import Path
+import shutil
 from pyflutterinstall.config import config_load
 
 
@@ -107,6 +108,13 @@ class Paths:
         # env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
+
+    def delete_all(self) -> None:
+        """Delete all directories"""
+        for _, val in self.__dict__.items():
+            if isinstance(val, Path):
+                if val.exists():
+                    shutil.rmtree(val, ignore_errors=True)
 
     def __str__(self) -> str:
         # auto parse into list[str]
