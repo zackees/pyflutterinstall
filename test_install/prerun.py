@@ -39,6 +39,7 @@ def main() -> int:
             errors.append(f"  {tool} not installed")
     if errors:
         error_str = "\n".join(errors)
+        print(f"Environment not correct:\n{error_str}")
         raise RuntimeError(f"Environment not correct:\n{error_str}")
     return 0
 
