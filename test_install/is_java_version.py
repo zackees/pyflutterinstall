@@ -33,7 +33,7 @@ def main() -> int:
     args = parser.parse_args()
     java_version = get_java_version()
     if args.version not in java_version:
-        print(f"Java version {args.version} not found")
+        print(f"Java version {args.version} not found\n  instead we got {java_version.strip()}")
         print("Printing environment")
         print(f"which java: {which('java')}")
         env_copy = os.environ.copy()
