@@ -7,9 +7,14 @@ This module provides functions for setting environment variables.
 from pathlib import Path
 from typing import Union
 
-import setenvironment  # type: ignore
+# import setenvironment  # type: ignore
+
+from setenvironment import setenv
+
 
 from pyflutterinstall.config import config_load, config_save
+
+PATH_KEY = "FlutterSKDPATH"
 
 
 def uniquify_paths(paths: list[str]) -> list[str]:
@@ -32,7 +37,7 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
     env = config.setdefault("ENV", {})
     env[var_name] = var_value
     config_save(config)
-    setenvironment.set_env_var(var_name, var_value)
+    setenv.set_env_var(var_name=var_name, var_value=var_value)
 
 
 def add_env_path(new_path: Union[Path, str]):
@@ -41,17 +46,18 @@ def add_env_path(new_path: Union[Path, str]):
     path_list = config.setdefault("PATH", [])
     config["PATH"] = uniquify_paths([str(new_path)] + path_list)
     config_save(config)
-    setenvironment.add_env_path(new_path)
+    # setenv.add_env_path(new_path)
+    setenv.add_template_path(env_var=PATH_KEY, new_path=new_path)
 
 
 def get_env_path() -> str:
     """Gets the PATH environment variable."""
-    return setenvironment.get_env_var("PATH")
+    return setenv.get_env_var(var_name=PATH_KEY)
 
 
 def get_env_var(var_name: str) -> str:
     """Gets an environment variable."""
-    return setenvironment.get_env_var(var_name)
+    return setenv.get_env_var(var_name=var_name)
 
 
 def unset_env_var(var_name: str) -> str:
@@ -59,7 +65,7 @@ def unset_env_var(var_name: str) -> str:
     config = config_load()
     config.setdefault("ENV", {}).pop(var_name, None)
     config_save(config)
-    return setenvironment.unset_env_var(var_name)
+    return setenv.unset_env_var(var_name=var_name)
 
 
 def remove_env_path(path: Union[Path, str]) -> None:
@@ -72,4 +78,5 @@ def remove_env_path(path: Union[Path, str]) -> None:
         paths.remove(path)
     config["PATH"] = paths
     config_save(config)
-    setenvironment.remove_env_path(path)
+    # setenv.remove_env_path(path)
+    setenv.remove_template_path(env_var=PATH_KEY, path=path, remove_if_empty=True)
