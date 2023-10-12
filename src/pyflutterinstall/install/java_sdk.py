@@ -61,7 +61,12 @@ def install_java_sdk(version: Optional[int] = None) -> int:
     assert found_java_path is not None, "No java path found"
     if str(java_bin_dir) not in found_java_path:
         msg = f"java installed not in expected path ({str(java_bin_dir)}), instead it's {found_java_path}\n"
-        msg += f"os environmental settings: {os.environ}"
+        msg += "os environmental settings: \n"
+        os_env = os.environ.copy()
+        os_paths = os_env.pop("PATH", "").split(os.pathsep)
+        os_paths = [str(Path(p).resolve()) for p in os_paths]
+        for key, value in sorted(os_env.items()):
+            msg += f"{key}={value}\n"
         warnings.warn(msg)
         raise AssertionError(msg)
     assert (
