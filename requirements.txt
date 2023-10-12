@@ -1,5 +1,5 @@
 download
 colorama
-setenvironment >= 1.1.7
+setenvironment >= 1.1.8
 shellexecute >= 1.0.4
 appdirs >= 1.4.4
