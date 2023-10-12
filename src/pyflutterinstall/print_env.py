@@ -17,5 +17,6 @@ def print_env() -> None:
         print(f"  {path}")
     print("")
 
+
 if __name__ == "__main__":
     print_env()

@@ -175,16 +175,14 @@ def main() -> int:
     interactive = not skip_confirmation
     print("\nInstalling Java/Flutter SDK and dependencies\n")
     config = config_load()
-    config.update(
-        {
-            "ANDROID_SDK": str(paths.ANDROID_SDK),
-            "GRADLE_DIR": str(paths.GRADLE_DIR),
-            "INSTALL_DIR": str(paths.INSTALL_DIR),
-            "JAVA_DIR": str(paths.INSTALL_DIR / "java"),
-            "JAVA_HOME": str(paths.INSTALL_DIR / "java"),
-            "FLUTTER_HOME": str(paths.FLUTTER_HOME),
-        }
-    )
+    config["ENV"] = {
+        "ANDROID_SDK": str(paths.ANDROID_SDK),
+        "GRADLE_DIR": str(paths.GRADLE_DIR),
+        "INSTALL_DIR": str(paths.INSTALL_DIR),
+        "JAVA_DIR": str(paths.INSTALL_DIR / "java"),
+        "JAVA_HOME": str(paths.INSTALL_DIR / "java"),
+        "FLUTTER_HOME": str(paths.FLUTTER_HOME),
+    }
     config_save(config)
     paths.make_dirs()
 
