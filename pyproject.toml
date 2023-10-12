@@ -42,3 +42,6 @@ disable = [
     "too-many-locals",
     "line-too-long",
 ]
+
+[tool.mypy]
+disable_error_code = ["import-untyped"]
