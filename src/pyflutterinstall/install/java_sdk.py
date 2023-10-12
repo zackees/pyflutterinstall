@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+import warnings
 from typing import Optional
 
 from download import download  # type: ignore
@@ -58,6 +59,11 @@ def install_java_sdk(version: Optional[int] = None) -> int:
         set_env_var("JAVA_HOME", str(base_java_dir))
     found_java_path = shutil.which("java")
     assert found_java_path is not None, "No java path found"
+    if str(java_bin_dir) not in found_java_path:
+        msg = f"java installed not in expected path ({str(java_bin_dir)}), instead it's {found_java_path}\n"
+        msg += f"os environmental settings: {os.environ}"
+        warnings.warn(msg)
+        raise AssertionError(msg)
     assert (
         str(java_bin_dir) in found_java_path
     ), f"java installed not in expected path ({str(java_bin_dir)}), instead it's {found_java_path}"
