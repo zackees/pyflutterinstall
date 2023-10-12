@@ -70,10 +70,12 @@ jobs:
       run: cd ./.downloads && find .
 
     - name: which java
-      run: which java
+      run: source ~/.bashrc && which java
       
     - name: Test java is 20
-      run: python test_install/is_java_version.py 20
+      run: |
+        source ~/.bashrc
+        python test_install/is_java_version.py 20
 
     - name: Which avdmanager
       run: which avdmanager
