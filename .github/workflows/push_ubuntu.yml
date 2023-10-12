@@ -39,13 +39,19 @@ jobs:
     - name: install java
       run: pyflutterinstall --skip-confirmation --skip-android --skip-flutter --skip-chrome
 
+    - name: cat ~/.bashrc
+      run: cat ~/.bashrc
+
+    - name: python -m pyflutterinstall.print_env
+      run: python -m pyflutterinstall.print_env
+
     - name: which java
       run: source ~/.bashrc && which java
       
     - name: Test java is 20
       run: |
         source ~/.bashrc
-        java -version 2>&1 | grep -q 'version "20' && echo "Java 20 is installed" || (echo "Java 20 is not installed" && exit 1)
+        python test_install/is_java_version.py 20
 
     - name: install android
       run: pyflutterinstall --skip-confirmation --skip-java --skip-flutter --skip-chrome
