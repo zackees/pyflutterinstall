@@ -1,9 +1,12 @@
-// just my code = false
-"configurations": [
-
-    {
-        "name": "Debug Unit Test",
-        "type": "python",
-        "justMyCode": false,
-    }
-]
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Unit Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "justMyCode": false
+        }
+    ]
+}
