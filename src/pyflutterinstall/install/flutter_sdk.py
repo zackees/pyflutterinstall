@@ -7,6 +7,7 @@ Contains the install functions for the various components
 import argparse
 import os
 import shutil
+import warnings
 
 from shellexecute import execute  # type: ignore
 
@@ -28,7 +29,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         error_msg += "\npath = \n"
         for path in os.environ["PATH"].split(os.path.pathsep):
             error_msg += f"  {path}\n"
-        print(error_msg)
+        warnings.warn(error_msg)
         raise FileNotFoundError(error_msg)
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
     if not paths.FLUTTER_HOME.exists():
