@@ -9,7 +9,7 @@ from pyflutterinstall.paths import Paths
 
 paths = Paths()
 paths.apply_env()
-INSTALLED = paths.INSTALL_DIR is not None
+INSTALLED = paths.INSTALLED
 
 
 class UseExePaths(unittest.TestCase):

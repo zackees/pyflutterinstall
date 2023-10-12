@@ -7,8 +7,6 @@ This module provides functions for setting environment variables.
 from pathlib import Path
 from typing import Union
 
-# import setenvironment  # type: ignore
-
 from setenvironment import setenv
 
 
@@ -72,11 +70,9 @@ def remove_env_path(path: Union[Path, str]) -> None:
     """Removes a path from the PATH environment variable."""
     config = config_load()
     path = str(path)
-    # paths = config["PATH"]
     paths = config.setdefault("PATH", [])
     while path in paths:
         paths.remove(path)
     config["PATH"] = paths
     config_save(config)
-    # setenv.remove_env_path(path)
     setenv.remove_template_path(env_var=PATH_KEY, path=path, remove_if_empty=True)

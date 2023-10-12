@@ -49,6 +49,7 @@ class Paths:
     CMDLINE_TOOLS_DIR: Path
     BUILD_TOOLS_DIR: Path
     OVERRIDEN: bool
+    INSTALLED: bool
 
     def __init__(self, cwd_override: str | None = None):
         if cwd_override is not None:
@@ -58,9 +59,11 @@ class Paths:
             self.ANDROID_SDK = self.INSTALL_DIR / "Android" / "sdk"
         else:
             self.OVERRIDEN = False
-            self.ANDROID_SDK = Path(config_load().get("ANDROID_SDK", ".")).resolve()
+            android_sdk = Path(config_load().get("ANDROID_SDK", ".")).resolve()
+            self.ANDROID_SDK = android_sdk
             self.INSTALL_DIR = self.ANDROID_SDK.parent
             self.INSTALL_ROOT = self.INSTALL_DIR.parent
+        self.INSTALLED = self.ANDROID_SDK.name == "ANDROID_SDK"
         self.ANDROID_HOME = self.ANDROID_SDK
         self.ENV_FILE = self.INSTALL_ROOT / ".env"
         self.DOWNLOAD_DIR = self.INSTALL_ROOT / ".downloads"
@@ -78,9 +81,9 @@ class Paths:
         env = os.environ
         env["ANDROID_SDK"] = str(self.ANDROID_SDK)
         env["JAVA_DIR"] = str(self.JAVA_DIR)
-        env["PATH"] = f"{self.FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.FLUTTER_HOME_BIN}/bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME}{os.pathsep}bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.JAVA_DIR}{os.pathsep}bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME_BIN}{os.pathsep}bin{os.pathsep}{env['PATH']}"
 
     def make_dirs(self) -> None:
         # assert self.OVERRIDEN is False
