@@ -69,6 +69,9 @@ jobs:
     - name: print out downloads folder
       run: cd ./.downloads && find .
 
+    - name: cat ~/.bashrc
+      run: cat ~/.bashrc
+
     - name: which java
       run: source ~/.bashrc && which java
       
