@@ -83,7 +83,7 @@ jobs:
       
     - name: Test java is 20
       run: |
-        source ~/.bashrc
+        source ~/.profile &&
         python test_install/is_java_version.py 20
 
     - name: Which avdmanager
