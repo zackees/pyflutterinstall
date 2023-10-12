@@ -16,12 +16,11 @@ from pyflutterinstall.setenv import add_env_path
 
 from pyflutterinstall.paths import Paths
 
-paths = Paths()
-paths.apply_env()
-
 
 def install_gradle() -> None:
     """Installs the gradle build tools"""
+    paths = Paths()
+    paths.apply_env()
     gradle_path_zip = Path(
         download(GRADLE_URL, paths.DOWNLOAD_DIR / os.path.basename(GRADLE_URL))
     )

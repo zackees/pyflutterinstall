@@ -18,12 +18,11 @@ from pyflutterinstall.util import make_title
 
 from pyflutterinstall.paths import Paths
 
-paths = Paths()
-paths.apply_env()
-
 
 def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     make_title("Installing Flutter")
+    paths = Paths()
+    paths.apply_env()
     if shutil.which("git") is None:
         error_msg = "'git' not found in path"
         error_msg += "\npath = \n"

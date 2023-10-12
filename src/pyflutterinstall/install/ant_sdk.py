@@ -24,12 +24,11 @@ from pyflutterinstall.util import make_title
 
 from pyflutterinstall.paths import Paths
 
-paths = Paths()
-paths.apply_env()
-
 
 def install_ant_sdk() -> int:
     make_title("Installing Ant SDK")
+    paths = Paths()
+    paths.apply_env()
     if shutil.which("ant") is not None:
         print("Ant already installed")
         return 0

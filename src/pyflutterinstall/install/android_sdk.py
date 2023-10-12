@@ -26,13 +26,12 @@ from pyflutterinstall.resources import (
 from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
 
-paths = Paths()
-paths.apply_env()
-
 BULK_INSTALL_TOOLS = True
 
 
 def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
+    paths = Paths()
+    paths.apply_env()
     if not BULK_INSTALL_TOOLS:
         tools_to_install = [f'"{tool}"' for tool in CMDLINE_TOOLS]
         for tool in tools_to_install:
@@ -57,6 +56,8 @@ def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
 
 
 def install_android_sdk(prompt: bool) -> int:
+    paths = Paths()
+    paths.apply_env()
     make_title("Installing Android SDK")
     print(
         f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {paths.INSTALL_DIR}"

@@ -27,12 +27,11 @@ from pyflutterinstall.util import make_title
 
 from pyflutterinstall.paths import Paths
 
-paths = Paths()
-paths.apply_env()
-
 
 def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
+    paths = Paths()
+    paths.apply_env()
     java_sdk_url = get_platform_java_sdk(version)
     local_file = paths.DOWNLOAD_DIR / os.path.basename(java_sdk_url)
     print(f"Install Java SDK from {java_sdk_url} to {local_file}")
@@ -61,7 +60,7 @@ def install_java_sdk(version: Optional[int] = None) -> int:
     assert found_java_path is not None, "No java path found"
     assert (
         str(java_bin_dir) in found_java_path
-    ), f"java installed not in expected path, instead it's {found_java_path}"
+    ), f"java installed not in expected path ({str(java_bin_dir)}), instead it's {found_java_path}"
     java_version = subprocess.check_output(
         "java -version", shell=True, universal_newlines=True, stderr=subprocess.STDOUT
     )

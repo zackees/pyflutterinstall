@@ -14,12 +14,11 @@ from pyflutterinstall.util import make_title
 
 from pyflutterinstall.paths import Paths
 
-paths = Paths()
-paths.apply_env()
-
 
 def install_chrome() -> int:
     make_title("Installing Chrome")
+    paths = Paths()
+    paths.apply_env()
     # Install chrome for windows
     try:
         stdout = subprocess.check_output(
