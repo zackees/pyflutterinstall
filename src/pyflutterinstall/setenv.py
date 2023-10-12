@@ -76,3 +76,8 @@ def remove_env_path(path: Union[Path, str]) -> None:
     config["PATH"] = paths
     config_save(config)
     setenv.remove_template_path(env_var=PATH_KEY, path=path, remove_if_empty=True)
+
+
+def remove_all_paths() -> None:
+    """Removes all paths from the PATH environment variable."""
+    setenv.remove_template_group(env_var=PATH_KEY)

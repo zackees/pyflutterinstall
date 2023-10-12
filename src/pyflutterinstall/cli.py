@@ -37,7 +37,7 @@ from pyflutterinstall.resources import (
 )
 from pyflutterinstall.paths import Paths
 from pyflutterinstall.config import config_load, config_save, CONFIG_FILE
-from pyflutterinstall.setenv import remove_env_path, unset_env_var
+from pyflutterinstall.setenv import remove_env_path, unset_env_var, remove_all_paths
 
 
 def ask_if_interactive(
@@ -140,6 +140,7 @@ def remove(cwd_override: str) -> int:
     for key in env:
         unset_env_var(key)
     config_save({})
+    remove_all_paths()
     return 0
 
 
