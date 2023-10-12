@@ -66,7 +66,11 @@ def install_java_sdk(version: Optional[int] = None) -> int:
         os_paths = os_env.pop("PATH", "").split(os.pathsep)
         os_paths = [str(Path(p).resolve()) for p in os_paths]
         for key, value in sorted(os_env.items()):
-            msg += f"{key}={value}\n"
+            msg += f"  {key}={value}\n"
+        # print paths
+        msg += "  PATH:\n"
+        for path in os_paths:
+            msg += f"    {path}\n"
         warnings.warn(msg)
         raise AssertionError(msg)
     assert (
