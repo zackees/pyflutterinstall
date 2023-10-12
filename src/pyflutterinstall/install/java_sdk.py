@@ -61,6 +61,7 @@ def install_java_sdk(version: Optional[int] = None) -> int:
         set_env_var("JAVA_HOME", str(base_java_dir / "Contents" / "Home"))
     else:
         set_env_var("JAVA_HOME", str(base_java_dir))
+    paths.apply_env()
     found_java_path = shutil.which("java")
     assert found_java_path is not None, "No java path found"
     if str(java_bin_dir) not in found_java_path:

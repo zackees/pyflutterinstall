@@ -8,8 +8,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 import shutil
+from setenvironment import reload_environment
 from pyflutterinstall.config import config_load
-
 
 """
 prior definitions
@@ -78,13 +78,7 @@ class Paths:
 
     def apply_env(self) -> None:
         """Apply environment variables"""
-        env = os.environ
-        sep = os.sep
-        env["ANDROID_SDK"] = str(self.ANDROID_SDK)
-        env["JAVA_DIR"] = str(self.JAVA_DIR)
-        env["PATH"] = f"{self.FLUTTER_HOME}{sep}bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.JAVA_DIR}{sep}bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.FLUTTER_HOME_BIN}{sep}bin{os.pathsep}{env['PATH']}"
+        reload_environment()
 
     def make_dirs(self) -> None:
         # assert self.OVERRIDEN is False
