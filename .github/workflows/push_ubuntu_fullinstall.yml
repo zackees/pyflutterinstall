@@ -57,8 +57,11 @@ jobs:
     #- name: Pre Run Environment state
     #  run: python test_install/prerun.py
 
+    - name: Check sh
+      run: which sh
+
     - name: install flutter
-      run: pyflutterinstall --skip-confirmation --skip-chrome
+      run: pyflutterinstall --skip-confirmation --skip-chrome || which sh
 
     - name: post install check
       run: python -m pyflutterinstall.postrun
