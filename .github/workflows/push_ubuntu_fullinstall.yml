@@ -72,14 +72,14 @@ jobs:
     - name: print out downloads folder
       run: cd ./.downloads && find .
 
-    - name: cat ~/.bashrc
-      run: cat ~/.bashrc
+    - name: cat ~/.profile
+      run: cat ~/.profile
 
     - name: python -m pyflutterinstall.print_env
       run: python -m pyflutterinstall.print_env
 
     - name: which java
-      run: source ~/.bashrc && which java
+      run: source ~/.profile && which java
       
     - name: Test java is 20
       run: |
