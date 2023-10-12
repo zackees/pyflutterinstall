@@ -79,11 +79,12 @@ class Paths:
     def apply_env(self) -> None:
         """Apply environment variables"""
         env = os.environ
+        sep = os.sep
         env["ANDROID_SDK"] = str(self.ANDROID_SDK)
         env["JAVA_DIR"] = str(self.JAVA_DIR)
-        env["PATH"] = f"{self.FLUTTER_HOME}{os.pathsep}bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.JAVA_DIR}{os.pathsep}bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.FLUTTER_HOME_BIN}{os.pathsep}bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME}{sep}bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.JAVA_DIR}{sep}bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME_BIN}{sep}bin{os.pathsep}{env['PATH']}"
 
     def make_dirs(self) -> None:
         # assert self.OVERRIDEN is False
