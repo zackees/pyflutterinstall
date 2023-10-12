@@ -9,6 +9,9 @@ import os
 import sys
 from shutil import which
 
+# paths
+from pyflutterinstall.paths import Paths
+
 
 def get_java_version() -> str:
     """Get java version"""
@@ -26,6 +29,7 @@ def get_java_version() -> str:
 
 def main() -> int:
     """Checks the environment and other tools are correct before run is invoked."""
+    Paths().apply_env()
     # Print out the current environment
     # if not macos arm
     parser = argparse.ArgumentParser()
