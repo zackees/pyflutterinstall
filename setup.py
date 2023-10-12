@@ -31,18 +31,4 @@ if __name__ == "__main__":
         extras_require={
             'test': ['pytest', 'pytest-cov'],
         },
-        entry_points={
-            "console_scripts": [
-                "pyflutterinstall = pyflutterinstall.cli:main",
-                "pyflutteractivate = pyflutterinstall.setenv:init_dotenv",
-                "pyflutterprintconfig = pyflutterinstall.config:print_config",
-                "sdkmanager = pyflutterinstall.cmds.sdkmanager:main",
-                "avdmanager = pyflutterinstall.cmds.avdmanager:main",
-                "adb = pyflutterinstall.cmds.adb:main",
-                "gradle = pyflutterinstall.cmds.gradle:main",
-                "emulator = pyflutterinstall.cmds.emulator:main",
-                "java = pyflutterinstall.cmds.java:main",
-                "apkanalyzer = pyflutterinstall.cmds.apkanalyzer:main",
-            ],
-        },
     )
