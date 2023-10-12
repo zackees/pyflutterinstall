@@ -29,6 +29,11 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         error_msg += "\npath = \n"
         for path in os.environ["PATH"].split(os.path.pathsep):
             error_msg += f"  {path}\n"
+        env_vars = os.environ.copy()
+        env_vars.pop("PATH")
+        error_msg += "\nENVIRONMENT:\n"
+        for key, val in sorted(env_vars.items()):
+            error_msg += f"  {key} = {val}\n"
         warnings.warn(error_msg)
         raise FileNotFoundError(error_msg)
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
