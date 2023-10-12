@@ -63,7 +63,7 @@ class Paths:
             self.ANDROID_SDK = android_sdk
             self.INSTALL_DIR = self.ANDROID_SDK.parent
             self.INSTALL_ROOT = self.INSTALL_DIR.parent
-        self.INSTALLED = self.ANDROID_SDK.name == "ANDROID_SDK"
+        self.INSTALLED = self.ANDROID_SDK.name == "sdk"
         self.ANDROID_HOME = self.ANDROID_SDK
         self.ENV_FILE = self.INSTALL_ROOT / ".env"
         self.DOWNLOAD_DIR = self.INSTALL_ROOT / ".downloads"
