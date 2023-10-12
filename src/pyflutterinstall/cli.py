@@ -126,12 +126,16 @@ def parse_args() -> argparse.Namespace:
     return args
 
 
-def remove() -> int:
-    Paths().delete_all()
+def remove(cwd_override: str) -> int:
+    paths = Paths(cwd_override=cwd_override)
+    if paths.INSTALLED:
+        paths.delete_all()
+    else:
+        warnings.warn("pyflutterinstall is not installed, skipping delete")
     config = config_load()
-    paths: list[str] = config.get("PATHS", [])
+    env_paths: list[str] = config.get("PATHS", [])
     env: dict[str, str] = config.get("ENV", {})
-    for p in paths:
+    for p in env_paths:
         remove_env_path(str(p))
     for key in env:
         unset_env_var(key)
@@ -140,7 +144,8 @@ def remove() -> int:
 
 
 def main() -> int:
-    paths = Paths(cwd_override=os.getcwd())
+    cwd_override = os.getcwd()
+    paths = Paths(cwd_override)
     args = parse_args()
     if args.show_config or args.verify_config:
         return handle_show_config(
@@ -161,7 +166,7 @@ def main() -> int:
         msg = f"This will install Flutter and its dependencies into {os.path.basename(paths.INSTALL_DIR)}"
 
     if args.remove:
-        return remove()
+        return remove(cwd_override)
 
     print(msg)
     skip_confirmation = (
