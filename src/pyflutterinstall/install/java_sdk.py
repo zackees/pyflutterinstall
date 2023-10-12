@@ -40,11 +40,11 @@ def install_java_sdk(version: Optional[int] = None) -> int:
     # if os.path.exists(JAVA_DIR):
     #    print(f"Removing existing Java SDK at {JAVA_DIR}")
     #    shutil.rmtree(JAVA_DIR)
-    print(f"Unpacking {java_sdk_zip_file} to {paths.JAVA_DIR}")
     if paths.JAVA_DIR.exists():
         # We must do this or unix will complain about the directory already existing.
         print(f"Removing existing Java SDK at {paths.JAVA_DIR}")
         shutil.rmtree(paths.JAVA_DIR, ignore_errors=True)
+    print(f"Unpacking {java_sdk_zip_file} to {paths.JAVA_DIR}")
     shutil.unpack_archive(java_sdk_zip_file, paths.JAVA_DIR)
     base_java_dir = paths.JAVA_DIR / os.listdir(paths.JAVA_DIR)[0]
     print(base_java_dir)
