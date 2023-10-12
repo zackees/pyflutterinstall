@@ -75,6 +75,11 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         for conf in confirmation.splitlines()
         if conf.strip()
     ]
+    paths.apply_env()
+    flutter = shutil.which("flutter")
+    if flutter is None:
+        raise FileNotFoundError("Could not find flutter in path")
+
     if install_precache:
         execute("flutter precache", ignore_errors=True)
     execute(
@@ -83,6 +88,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         ignore_errors=False,
         timeout=60 * 20,
     )
+
     # os.system("echo y | flutter doctor --android-licenses")
     print("Flutter installed.\n")
     return 0
