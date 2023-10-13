@@ -4,7 +4,6 @@ This module provides functions for setting environment variables.
 
 # pylint: disable=import-outside-toplevel
 
-import os
 import sys
 from pathlib import Path
 from typing import Union
@@ -13,6 +12,7 @@ from setenvironment import setenv
 
 if sys.platform != "win32":
     from setenvironment import setenv_unix
+
     # Note that github runners are forced to use the ~/.bashrc file
     setenv_unix.set_env_config_file("~/.bashrc")
 
