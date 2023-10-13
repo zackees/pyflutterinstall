@@ -63,6 +63,9 @@ jobs:
     - name: install flutter
       run: pyflutterinstall --skip-confirmation --skip-chrome || which sh
 
+    - name: pyflutterinstall --show-config
+      run: pyflutterinstall --show-config
+
     - name: post install check
       run: python -m pyflutterinstall.postrun
 
