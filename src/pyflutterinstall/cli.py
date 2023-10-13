@@ -65,7 +65,7 @@ def check_preqs() -> None:
 
 def handle_show_config(show_config: bool, verify_config: bool) -> int:
     if show_config:
-        config_str = json.dumps(config_load(), indent=4)
+        config_str = json.dumps(config_load().__dict__, indent=4)
         print(f"{CONFIG_FILE}:\n{config_str}")
         if not verify_config:
             return 0
