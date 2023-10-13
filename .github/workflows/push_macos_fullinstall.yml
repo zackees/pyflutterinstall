@@ -69,9 +69,6 @@ jobs:
 
     - name: which java
       run: which java
-
-    - name: java --which
-      run: java --which
     
     - name: java -version
       run: java -version
