@@ -29,11 +29,20 @@ from pyflutterinstall.util import make_title, check_git
 from pyflutterinstall.paths import Paths
 
 
+def print_paths() -> None:
+    os_paths = os.environ["PATH"].split(os.pathsep)
+    print("PATH:")
+    for path in os_paths:
+        print(f"  {path}")
+
+
 def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
     check_git()
+    print_paths()
     paths = Paths()
     paths.apply_env()
+    print_paths()
     check_git()
     java_sdk_url = get_platform_java_sdk(version)
     local_file = paths.DOWNLOAD_DIR / os.path.basename(java_sdk_url)

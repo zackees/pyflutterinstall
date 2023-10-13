@@ -29,9 +29,6 @@ from pyflutterinstall.util import make_title, check_git
 BULK_INSTALL_TOOLS = True
 
 
-
-
-
 def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
     paths = Paths()
     paths.apply_env()

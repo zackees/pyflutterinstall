@@ -49,6 +49,7 @@ def print_tree_dir(path: str, max_level=2, only_exe=False) -> None:
 
 
 def check_git() -> None:
+    """Check that git is installed"""
     if shutil.which("git") is None:
         error_msg = "'git' not found in path"
         error_msg += "\npath = \n"
