@@ -30,10 +30,14 @@ from pyflutterinstall.paths import Paths
 
 
 def print_paths() -> None:
+    call_frame = sys._getframe(1)  # pylint: disable=protected-access
+    calling_function = call_frame.f_code.co_name
+    calling_function_line = call_frame.f_lineno
     os_paths = os.environ["PATH"].split(os.pathsep)
-    print("PATH:")
+    msg = f"PATHS from {calling_function} at line {calling_function_line}:\n"
     for path in os_paths:
-        print(f"  {path}")
+        msg += f"  {path}\n"
+    print(msg)
 
 
 def install_java_sdk(version: Optional[int] = None) -> int:
