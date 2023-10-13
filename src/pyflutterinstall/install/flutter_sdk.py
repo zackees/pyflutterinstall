@@ -40,7 +40,6 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     paths = Paths()
     paths.apply_env()
     check_cmd_installed("git")
-    check_cmd_installed("flutter")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
     if not paths.FLUTTER_HOME.exists():
         cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_HOME}"'
@@ -60,6 +59,8 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         raise FileNotFoundError(error_msg)
     # Add flutter to path
     add_env_path(paths.FLUTTER_HOME_BIN)
+    paths.apply_env()
+    check_cmd_installed("flutter")
     execute(
         f'flutter config --android-sdk "{paths.ANDROID_SDK}" --no-analytics',
         send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
