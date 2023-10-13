@@ -6,6 +6,8 @@ Shared utility functions
 
 import os
 import sys
+import shutil
+import warnings
 
 
 def make_title(title: str) -> None:
@@ -44,3 +46,18 @@ def print_tree_dir(path: str, max_level=2, only_exe=False) -> None:
                 output += f"{subindent}{file}" + os.linesep
     sys.stdout.write(output)
     sys.stdout.flush()
+
+
+def check_git() -> None:
+    if shutil.which("git") is None:
+        error_msg = "'git' not found in path"
+        error_msg += "\npath = \n"
+        for path in os.environ["PATH"].split(os.path.pathsep):
+            error_msg += f"  {path}\n"
+        env_vars = os.environ.copy()
+        env_vars.pop("PATH")
+        error_msg += "\nENVIRONMENT:\n"
+        for key, val in sorted(env_vars.items()):
+            error_msg += f"  {key} = {val}\n"
+        warnings.warn(error_msg)
+        raise FileNotFoundError(error_msg)

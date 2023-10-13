@@ -8,7 +8,6 @@ import argparse
 import os
 import shutil
 import sys
-import warnings
 
 from download import download  # type: ignore
 from shellexecute import execute  # type: ignore
@@ -25,24 +24,12 @@ from pyflutterinstall.resources import (
     IS_GITHUB_RUNNER,
 )
 from pyflutterinstall.setenv import add_env_path, set_env_var
-from pyflutterinstall.util import make_title
+from pyflutterinstall.util import make_title, check_git
 
 BULK_INSTALL_TOOLS = True
 
 
-def check_git() -> None:
-    if shutil.which("git") is None:
-        error_msg = "'git' not found in path"
-        error_msg += "\npath = \n"
-        for path in os.environ["PATH"].split(os.path.pathsep):
-            error_msg += f"  {path}\n"
-        env_vars = os.environ.copy()
-        env_vars.pop("PATH")
-        error_msg += "\nENVIRONMENT:\n"
-        for key, val in sorted(env_vars.items()):
-            error_msg += f"  {key} = {val}\n"
-        warnings.warn(error_msg)
-        raise FileNotFoundError(error_msg)
+
 
 
 def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:

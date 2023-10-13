@@ -24,15 +24,17 @@ from pyflutterinstall.resources import (
     JAVA_VERSION,
 )
 from pyflutterinstall.setenv import add_env_path, set_env_var
-from pyflutterinstall.util import make_title
+from pyflutterinstall.util import make_title, check_git
 
 from pyflutterinstall.paths import Paths
 
 
 def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
+    check_git()
     paths = Paths()
     paths.apply_env()
+    check_git()
     java_sdk_url = get_platform_java_sdk(version)
     local_file = paths.DOWNLOAD_DIR / os.path.basename(java_sdk_url)
     print(f"Install Java SDK from {java_sdk_url} to {local_file}")
@@ -85,6 +87,7 @@ def install_java_sdk(version: Optional[int] = None) -> int:
         "java -version", shell=True, universal_newlines=True, stderr=subprocess.STDOUT
     )
     print(f"Java SDK installed: {java_version}\n")
+    check_git()
     return 0
 
 
