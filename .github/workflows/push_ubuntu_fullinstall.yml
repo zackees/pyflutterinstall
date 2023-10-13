@@ -79,7 +79,7 @@ jobs:
       run: cat ~/.profile
 
     - name: python -m pyflutterinstall.print_env
-      run: python -m pyflutterinstall.print_env
+      run: source ~/.profile; python -m pyflutterinstall.print_env
 
     - name: which java
       run: source ~/.profile && which java
