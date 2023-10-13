@@ -75,25 +75,25 @@ jobs:
     - name: print out downloads folder
       run: cd ./.downloads && find .
 
-    - name: cat ~/.profile
-      run: cat ~/.profile
+    - name: cat ~/.bashrc
+      run: cat ~/.bashrc
 
     - name: python -m pyflutterinstall.print_env
-      run: source ~/.profile; python -m pyflutterinstall.print_env
+      run: source ~/.bashrc; python -m pyflutterinstall.print_env
 
     - name: which java
-      run: source ~/.profile && which java
+      run: source ~/.bashrc && which java
       
     - name: Test java is 20
       run: |
-        source ~/.profile &&
+        source ~/.bashrc &&
         python test_install/is_java_version.py 20
 
     - name: print_env
       run: python -m pyflutterinstall.print_env
 
     - name: Which avdmanager
-      run: /bin/bash ~/.profile; which avdmanager
+      run: /bin/bash ~/.bashrc; which avdmanager
 
     - name: Test Install
       run: |
