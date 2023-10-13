@@ -36,6 +36,9 @@ jobs:
       run: |
         pip install -e '.[test]'
 
+    - name: where git
+      run: where git
+
     - name: Pre Run Environment state
       run: python test_install/prerun.py
 
