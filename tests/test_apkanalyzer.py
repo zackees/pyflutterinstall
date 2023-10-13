@@ -17,7 +17,7 @@ paths.apply_env()
 
 
 config = config_load()
-INSTALLED = config.get("INSTALL_DIR") is not None
+INSTALLED = paths.INSTALLED
 
 
 class ApkAnalyzerTester(unittest.TestCase):

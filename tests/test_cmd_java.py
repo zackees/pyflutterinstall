@@ -8,7 +8,8 @@ import unittest
 from pyflutterinstall.config import config_load
 
 config = config_load()
-INSTALLED = config.get("INSTALL_DIR") is not None
+# INSTALLED = config.get("INSTALL_DIR") is not None
+INSTALLED = config.vars.get("INSTALL_DIR") is not None
 
 
 class JavaTest(unittest.TestCase):

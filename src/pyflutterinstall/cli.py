@@ -36,7 +36,7 @@ from pyflutterinstall.resources import (
     JAVA_VERSION,
 )
 from pyflutterinstall.paths import Paths
-from pyflutterinstall.config import config_load, config_save, CONFIG_FILE
+from pyflutterinstall.config import config_load, config_save, CONFIG_FILE, Environment
 from pyflutterinstall.setenv import remove_env_path, unset_env_var, remove_all_paths
 
 
@@ -71,8 +71,8 @@ def handle_show_config(show_config: bool, verify_config: bool) -> int:
             return 0
     if verify_config:
         bad = False
-        config = config_load()
-        for key, val in config.items():
+        environment: Environment = config_load()
+        for key, val in sorted(environment.vars.items()):
             if not os.path.exists(val):
                 warnings.warn(f"Config value {key} is invalid: {val}")
                 bad = True
@@ -133,11 +133,9 @@ def remove(cwd_override: str) -> int:
     else:
         warnings.warn("pyflutterinstall is not installed, skipping delete")
     config = config_load()
-    env_paths: list[str] = config.get("PATHS", [])
-    env: dict[str, str] = config.get("ENV", {})
-    for p in env_paths:
+    for p in config.paths:
         remove_env_path(str(p))
-    for key in env:
+    for key in config.vars.keys():
         unset_env_var(key)
     config_save({})
     remove_all_paths()

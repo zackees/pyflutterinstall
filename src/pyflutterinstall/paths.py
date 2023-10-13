@@ -60,7 +60,7 @@ class Paths:
         else:
             self.OVERRIDEN = False
             config = config_load()
-            env = config.get("ENV", None)
+            env = config.vars
             assert env is not None
             maybe_android_sdk = env.get("ANDROID_SDK", None)
             assert maybe_android_sdk is not None

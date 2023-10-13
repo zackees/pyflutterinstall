@@ -6,24 +6,32 @@ import os
 
 from appdirs import user_config_dir  # type: ignore
 
+from setenvironment.types import Environment
+
 CONFIG_DIR = user_config_dir("pyflutterinstall")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "config.json")
 
 
-def config_save(config: dict):
+def config_save(config: Environment):
     """Dumps the json to disk."""
-    out_content = json.dumps(config, indent=4)
+    # data = config.__dict__
+    # data will be the json dump
+    data = {}
+    data["ENV"] = config.vars
+    data["PATH"] = config.paths
+    out_content = json.dumps(data, indent=4)
     os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
     with open(CONFIG_FILE, encoding="utf-8", mode="w") as filed:
         filed.write(out_content)
 
 
-def config_load() -> dict:
+def config_load() -> Environment:
     """Loads the json from disk."""
     if not os.path.exists(CONFIG_FILE):
-        return {}
+        return Environment(vars={}, paths=[])
     with open(CONFIG_FILE, encoding="utf-8", mode="r") as filed:
-        return json.load(filed)
+        out = json.load(filed)
+    return Environment(vars=out.get("ENV", {}), paths=out.get("PATH", []))
 
 
 def print_config() -> int:
