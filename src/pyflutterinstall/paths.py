@@ -83,7 +83,7 @@ class Paths:
 
     def apply_env(self) -> None:
         """Apply environment variables"""
-        reload_environment()
+        reload_environment(verbose=True)
 
     def make_dirs(self) -> None:
         # assert self.OVERRIDEN is False
