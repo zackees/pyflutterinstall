@@ -4,16 +4,19 @@ This module provides functions for setting environment variables.
 
 # pylint: disable=import-outside-toplevel
 
+import os
 import sys
 from pathlib import Path
 from typing import Union
 
 from setenvironment import setenv
 
+IS_GITHUB = os.environ.get("GITHUB_ACTIONS", "false") == "true"
+
 if sys.platform != "win32":
     from setenvironment import setenv_unix
-
-    setenv_unix.set_env_config_file("~/.bashrc")
+    profile_file = "~/.bashrc" if IS_GITHUB else "~/.bash_profile"
+    setenv_unix.set_env_config_file(profile_file)
 
 
 from pyflutterinstall.config import (  # pylint: disable=wrong-import-position
