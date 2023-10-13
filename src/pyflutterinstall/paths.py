@@ -59,7 +59,12 @@ class Paths:
             self.ANDROID_SDK = self.INSTALL_DIR / "Android" / "sdk"
         else:
             self.OVERRIDEN = False
-            android_sdk = Path(config_load().get("ANDROID_SDK", ".")).resolve()
+            config = config_load()
+            env = config.get("ENV", None)
+            assert env is not None
+            maybe_android_sdk = env.get("ANDROID_SDK", None)
+            assert maybe_android_sdk is not None
+            android_sdk = Path(maybe_android_sdk).resolve()
             self.ANDROID_SDK = android_sdk
             self.INSTALL_DIR = self.ANDROID_SDK.parent.parent
             self.INSTALL_ROOT = self.INSTALL_DIR.parent
