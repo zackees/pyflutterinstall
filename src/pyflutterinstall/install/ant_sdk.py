@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 from download import download  # type: ignore
-from shellexecute import execute  # type: ignore
+from pyflutterinstall.interactive_execute import execute
 
 from pyflutterinstall.resources import (
     # ANT_DIR,

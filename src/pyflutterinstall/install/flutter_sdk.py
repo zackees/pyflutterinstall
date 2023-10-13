@@ -9,7 +9,7 @@ import os
 import shutil
 import warnings
 
-from shellexecute import execute  # type: ignore
+from pyflutterinstall.interactive_execute import execute
 
 from pyflutterinstall.resources import (
     FLUTTER_GIT_DOWNLOAD,
@@ -41,7 +41,7 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     paths.apply_env()
     check_cmd_installed("git")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
-    if not paths.FLUTTER_HOME.exists():
+    if not paths.FLUTTER_HOME_BIN.exists():
         cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_HOME}"'
         execute(cmd, ignore_errors=False)
     else:

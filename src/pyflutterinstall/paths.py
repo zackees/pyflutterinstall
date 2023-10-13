@@ -116,7 +116,7 @@ class Paths:
         """Delete all directories"""
         if os.path.exists(self.INSTALL_DIR):
             print(f"Removing existing Flutter SDK at {self.INSTALL_DIR}")
-            shutil.rmtree(self.INSTALL_DIR, ignore_errors=True)
+            shutil.rmtree(self.INSTALL_DIR, ignore_errors=False)
 
     def __str__(self) -> str:
         # auto parse into list[str]
