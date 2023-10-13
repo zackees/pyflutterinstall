@@ -37,7 +37,9 @@ def print_paths() -> None:
     msg = f"PATHS from {calling_function} at line {calling_function_line}:\n"
     for path in os_paths:
         msg += f"  {path}\n"
-    print(msg)
+    # print(msg)
+    sys.stdout.write(f"{msg}\n")
+    sys.stdout.flush()
 
 
 def install_java_sdk(version: Optional[int] = None) -> int:

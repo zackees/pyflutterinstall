@@ -7,7 +7,6 @@ Shared utility functions
 import os
 import sys
 import shutil
-import warnings
 
 
 def make_title(title: str) -> None:
@@ -60,5 +59,6 @@ def check_git() -> None:
         error_msg += "\nENVIRONMENT:\n"
         for key, val in sorted(env_vars.items()):
             error_msg += f"  {key} = {val}\n"
-        warnings.warn(error_msg)
+        sys.stdout.write(f"{error_msg}\n")
+        sys.stdout.flush()
         raise FileNotFoundError(error_msg)
