@@ -4,7 +4,6 @@ Contains the install functions for the various components
 
 # pylint: disable=missing-function-docstring,consider-using-with,disable=invalid-name,subprocess-run-check,line-too-long
 
-import argparse
 import os
 import shutil
 import sys
@@ -29,7 +28,7 @@ from pyflutterinstall.util import make_title, check_git
 BULK_INSTALL_TOOLS = True
 
 
-def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
+def install_sdk_tools(sdkmanager_path: str) -> None:
     paths = Paths()
     paths.apply_env()
     if not BULK_INSTALL_TOOLS:
@@ -37,7 +36,6 @@ def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
         for tool in tools_to_install:
             execute(
                 f'{sdkmanager_path} --sdk_root="{paths.ANDROID_SDK}" --verbose --install {tool}',
-                send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
                 ignore_errors=False,
                 timeout=60 * 20,
             )
@@ -49,13 +47,12 @@ def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
         # Execute the sdkmanager command once with all the tools listed
         execute(
             f'{sdkmanager_path} --sdk_root="{paths.ANDROID_SDK}" --verbose --install {tools_string}',
-            send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
             ignore_errors=False,
             timeout=60 * 20,
         )
 
 
-def install_android_sdk(prompt: bool) -> int:
+def install_android_sdk() -> int:
     check_git()
     paths = Paths()
     paths.apply_env()
@@ -89,7 +86,6 @@ def install_android_sdk(prompt: bool) -> int:
     # install latest
     execute(
         f'{sdkmanager_path} --sdk_root="{paths.ANDROID_SDK}" --install "platform-tools"',
-        send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
         ignore_errors=False,
     )
     set_env_var("ANDROID_SDK_ROOT", paths.ANDROID_SDK)
@@ -98,10 +94,9 @@ def install_android_sdk(prompt: bool) -> int:
     print(f"Updating Android SDK with {sdkmanager_path}")
     execute(
         f'{sdkmanager_path} --sdk_root="{paths.ANDROID_SDK}" --update',
-        send_confirmation=[("Accept? (y/N):", "y")] if not prompt else None,
         ignore_errors=False,
     )
-    install_sdk_tools(str(sdkmanager_path), prompt)
+    install_sdk_tools(str(sdkmanager_path))
     confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\nn\n"
     send_confirmation = []
     send_confirmation.append(
@@ -111,7 +106,6 @@ def install_android_sdk(prompt: bool) -> int:
         send_confirmation.append(("Accept? (y/N):", conf))
     execute(
         f'{sdkmanager_path} --licenses --sdk_root="{paths.ANDROID_SDK}"',
-        send_confirmation=send_confirmation if not prompt else None,
         ignore_errors=False,
     )
     add_env_path(paths.ANDROID_SDK / "platform-tools")
@@ -130,10 +124,7 @@ def install_android_sdk(prompt: bool) -> int:
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--prompt", action="store_true")
-    args = parser.parse_args()
-    install_android_sdk(args.prompt)
+    install_android_sdk()
 
 
 if __name__ == "__main__":

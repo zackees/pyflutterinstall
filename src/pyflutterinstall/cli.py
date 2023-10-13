@@ -10,7 +10,6 @@ import os
 import shutil
 import sys
 import json
-from typing import Callable
 import warnings
 
 # if --install-dir is specified, add it to the path
@@ -38,17 +37,6 @@ from pyflutterinstall.resources import (
 from pyflutterinstall.paths import Paths
 from pyflutterinstall.config import config_load, config_save, CONFIG_FILE, Environment
 from pyflutterinstall.setenv import remove_env_path, unset_env_var, remove_all_paths
-
-
-def ask_if_interactive(
-    is_interactive: bool, callback_name: str, callback: Callable[[], int]
-) -> int:
-    if not is_interactive:
-        return callback()
-    do_install = input(f"install {callback_name} (y/n)? ") == "y"
-    if not do_install:
-        return 0
-    return callback()
 
 
 def check_preqs() -> None:
@@ -168,10 +156,13 @@ def main() -> int:
         return remove(cwd_override)
 
     print(msg)
-    skip_confirmation = (
+    accept_licences = (
         args.skip_confirmation or input("auto-accept all? (y/n): ").lower() == "y"
     )
-    interactive = not skip_confirmation
+    if not accept_licences:
+        print("Aborting")
+        return 1
+
     print("\nInstalling Java/Flutter SDK and dependencies\n")
     config = config_load()
     config.vars = {
@@ -192,26 +183,20 @@ def main() -> int:
             return rtn
     else:
         if not args.skip_java:
-            ask_if_interactive(interactive, "java_sdk", install_java_sdk_versioned)
+            install_java_sdk_versioned()
         if not args.skip_android:
 
             def install_android_sdk_and_gradle():
-                install_android_sdk(interactive)
+                install_android_sdk()
                 install_gradle()
 
-            ask_if_interactive(
-                interactive,
-                "android_sdk",
-                install_android_sdk_and_gradle,
-            )
+            install_android_sdk_and_gradle()
         if not args.skip_ant:
             install_ant_sdk()
         if not args.skip_flutter:
-            ask_if_interactive(
-                interactive, "flutter", lambda: install_flutter_sdk(interactive)
-            )
+            install_flutter_sdk()
         if not args.skip_chrome:
-            ask_if_interactive(interactive, "chrome", install_chrome)
+            install_chrome()
         if not args.skip_flutter:
             postinstall_run_flutter_doctor()
         if not any_skipped:

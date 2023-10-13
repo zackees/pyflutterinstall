@@ -35,7 +35,7 @@ def check_cmd_installed(command: str) -> None:
         raise FileNotFoundError(error_msg)
 
 
-def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
+def install_flutter_sdk(install_precache=False) -> int:
     make_title("Installing Flutter")
     paths = Paths()
     paths.apply_env()
@@ -63,7 +63,6 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     check_cmd_installed("flutter")
     execute(
         f'flutter config --android-sdk "{paths.ANDROID_SDK}" --no-analytics',
-        send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
         timeout=60 * 20,
     )
@@ -71,16 +70,9 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
     # of the java jre which will fail.
     execute(
         f"flutter config --android-studio-dir={paths.ANDROID_SDK} --no-analytics",
-        send_confirmation=[("Accept? (y/n): ", "y")] if not prompt else None,
         ignore_errors=False,
         timeout=60 * 20,
     )
-    confirmation = "y\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\ny\n"
-    send_confirmation = [
-        ("Accept? (y/n): ", conf.strip())
-        for conf in confirmation.splitlines()
-        if conf.strip()
-    ]
     paths.apply_env()
     flutter = shutil.which("flutter")
     if flutter is None:
@@ -90,7 +82,6 @@ def install_flutter_sdk(prompt: bool, install_precache=False) -> int:
         execute("flutter precache", ignore_errors=True)
     execute(
         "flutter doctor --android-licenses 2>&1",
-        send_confirmation=send_confirmation if not prompt else None,
         ignore_errors=False,
         timeout=60 * 20,
     )
