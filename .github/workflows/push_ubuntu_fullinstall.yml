@@ -90,7 +90,7 @@ jobs:
         python test_install/is_java_version.py 20
 
     - name: Which avdmanager
-      run: which avdmanager
+      run: /bin/bash ~/.profile; which avdmanager
 
     - name: Test Install
       run: |
