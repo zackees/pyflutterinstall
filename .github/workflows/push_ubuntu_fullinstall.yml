@@ -89,6 +89,9 @@ jobs:
         source ~/.profile &&
         python test_install/is_java_version.py 20
 
+    - name: print_env
+      run: python -m pyflutterinstall.print_env
+
     - name: Which avdmanager
       run: /bin/bash ~/.profile; which avdmanager
 
