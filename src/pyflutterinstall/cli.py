@@ -174,7 +174,7 @@ def main() -> int:
     interactive = not skip_confirmation
     print("\nInstalling Java/Flutter SDK and dependencies\n")
     config = config_load()
-    config["ENV"] = {
+    config.vars = {
         "ANDROID_SDK": str(paths.ANDROID_SDK),
         "GRADLE_DIR": str(paths.GRADLE_DIR),
         "INSTALL_DIR": str(paths.INSTALL_DIR),
