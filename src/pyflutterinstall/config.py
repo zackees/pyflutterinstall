@@ -16,6 +16,7 @@ def config_save(config: Environment):
     """Dumps the json to disk."""
     # data = config.__dict__
     # data will be the json dump
+    assert isinstance(config, Environment)
     data = {}
     data["ENV"] = config.vars
     data["PATH"] = config.paths

@@ -137,7 +137,7 @@ def remove(cwd_override: str) -> int:
         remove_env_path(str(p))
     for key in config.vars.keys():
         unset_env_var(key)
-    config_save({})
+    config_save(Environment(vars={}, paths=[]))
     remove_all_paths()
     return 0
 
