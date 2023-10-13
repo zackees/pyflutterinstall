@@ -10,6 +10,7 @@ import shutil
 import warnings
 
 from pyflutterinstall.interactive_execute import execute
+from pyflutterinstall.print_env import print_env
 
 from pyflutterinstall.resources import (
     FLUTTER_GIT_DOWNLOAD,
@@ -43,6 +44,8 @@ def install_flutter_sdk(install_precache=False) -> int:
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
     if not paths.FLUTTER_HOME_BIN.exists():
         cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_HOME}"'
+        print(f"pyflutter home is {paths.FLUTTER_HOME}")
+        print_env()
         execute(cmd, ignore_errors=False)
     else:
         print(f"Flutter already installed at {paths.FLUTTER_HOME}")
