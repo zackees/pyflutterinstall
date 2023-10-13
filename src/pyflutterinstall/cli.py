@@ -221,7 +221,7 @@ def main() -> int:
     print(f"Paths: {paths.INSTALL_DIR}")
     print(f"Config: {CONFIG_FILE}")
     config = config_load()
-    config_str = json.dumps(config, indent=4)
+    config_str = json.dumps(config.__dict__, indent=4)
     print(f"Config:\n{config_str}")
     return 0
 
