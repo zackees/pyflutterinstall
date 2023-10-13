@@ -8,6 +8,7 @@ import argparse
 import os
 import shutil
 import sys
+import warnings
 
 from download import download  # type: ignore
 from shellexecute import execute  # type: ignore
@@ -27,6 +28,21 @@ from pyflutterinstall.setenv import add_env_path, set_env_var
 from pyflutterinstall.util import make_title
 
 BULK_INSTALL_TOOLS = True
+
+
+def check_git() -> None:
+    if shutil.which("git") is None:
+        error_msg = "'git' not found in path"
+        error_msg += "\npath = \n"
+        for path in os.environ["PATH"].split(os.path.pathsep):
+            error_msg += f"  {path}\n"
+        env_vars = os.environ.copy()
+        env_vars.pop("PATH")
+        error_msg += "\nENVIRONMENT:\n"
+        for key, val in sorted(env_vars.items()):
+            error_msg += f"  {key} = {val}\n"
+        warnings.warn(error_msg)
+        raise FileNotFoundError(error_msg)
 
 
 def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
@@ -56,8 +72,10 @@ def install_sdk_tools(sdkmanager_path: str, prompt: bool) -> None:
 
 
 def install_android_sdk(prompt: bool) -> int:
+    check_git()
     paths = Paths()
     paths.apply_env()
+    check_git()
     make_title("Installing Android SDK")
     print(
         f"Install Android commandline-tools SDK from {ANDROID_SDK_URL} to {paths.INSTALL_DIR}"
@@ -123,6 +141,7 @@ def install_android_sdk(prompt: bool) -> int:
         else:
             package_mgr = "brew"
         execute(f"{package_mgr} install cocoapods", ignore_errors=True)
+    check_git()
     return 0
 
 
