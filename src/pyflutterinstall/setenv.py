@@ -11,12 +11,10 @@ from typing import Union
 
 from setenvironment import setenv
 
-IS_GITHUB = os.environ.get("GITHUB_ACTIONS", "false") == "true"
-
 if sys.platform != "win32":
     from setenvironment import setenv_unix
-    profile_file = "~/.bash_profile" if IS_GITHUB else "~/.bashrc"
-    setenv_unix.set_env_config_file(profile_file)
+    # Note that github runners are forced to use the ~/.bashrc file
+    setenv_unix.set_env_config_file("~/.bashrc")
 
 
 from pyflutterinstall.config import (  # pylint: disable=wrong-import-position
