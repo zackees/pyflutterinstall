@@ -15,7 +15,7 @@ IS_GITHUB = os.environ.get("GITHUB_ACTIONS", "false") == "true"
 
 if sys.platform != "win32":
     from setenvironment import setenv_unix
-    profile_file = "~/.bashrc" if IS_GITHUB else "~/.bash_profile"
+    profile_file = "~/.bash_profile" if IS_GITHUB else "~/.bashrc"
     setenv_unix.set_env_config_file(profile_file)
 
 
