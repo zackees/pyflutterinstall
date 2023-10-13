@@ -98,7 +98,7 @@ class Paths:
         os.makedirs(self.DOWNLOAD_DIR, exist_ok=True)
         os.makedirs(self.ANDROID_SDK, exist_ok=True)
         os.makedirs(self.JAVA_DIR, exist_ok=True)
-
+        sep = os.sep
         # INSTALL_DIR.mkdir(parents=True, exist_ok=True)
         # DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
         env = os.environ
@@ -109,8 +109,8 @@ class Paths:
         # add to path
         # env["PATH"] = f"{FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
         # env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
-        env["PATH"] = f"{self.JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.FLUTTER_HOME}{sep}bin{os.pathsep}{env['PATH']}"
+        env["PATH"] = f"{self.JAVA_DIR}{sep}bin{os.pathsep}{env['PATH']}"
 
     def delete_all(self) -> None:
         """Delete all directories"""
