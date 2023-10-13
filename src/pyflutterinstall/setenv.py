@@ -4,13 +4,22 @@ This module provides functions for setting environment variables.
 
 # pylint: disable=import-outside-toplevel
 
+import sys
 from pathlib import Path
 from typing import Union
 
 from setenvironment import setenv
 
+if sys.platform != "win32":
+    from setenvironment import setenv_unix
 
-from pyflutterinstall.config import config_load, config_save
+    setenv_unix.set_env_config_file("~/.bashrc")
+
+
+from pyflutterinstall.config import (  # pylint: disable=wrong-import-position
+    config_load,
+    config_save,
+)
 
 PATH_KEY = "FlutterSKDPATH"
 
