@@ -8,6 +8,7 @@ import argparse
 import os
 import shutil
 import warnings
+import sys
 
 from pyflutterinstall.interactive_execute import execute
 from pyflutterinstall.print_env import print_env
@@ -42,7 +43,8 @@ def install_flutter_sdk(install_precache=False) -> int:
     paths.apply_env()
     check_cmd_installed("git")
     print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
-    if not paths.FLUTTER_HOME_BIN.exists():
+    flutter_git = paths.FLUTTER_HOME / ".git"
+    if not flutter_git.exists():
         cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_HOME}"'
         print(f"pyflutter home is {paths.FLUTTER_HOME}")
         print_env()

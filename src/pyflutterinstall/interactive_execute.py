@@ -24,6 +24,17 @@ def get_yes_cmd() -> str:
     return "yes"
 
 
+def print_execution(command: str, cwd: str | None) -> None:
+    command = command.replace('"', "\"")
+    out = ""
+    out += "####################################\n"
+    out += f"Executing\n  {command}\n"
+    if cwd:
+        out += f"  CWD={cwd}\n"
+    out += "####################################\n"
+    sys.stdout.write(out)
+    sys.stdout.flush()
+
 def execute(
     command,
     cwd=None,
@@ -31,18 +42,14 @@ def execute(
     timeout=None,
 ) -> int:
     """Executes commands and pipes the command "yes" to it."""
-    out = ""
-    out += "####################################\n"
-    out += f"Executing\n  {command}\n"
-    if cwd:
-        out += f"  CWD={cwd}\n"
-    out += "####################################\n"
 
-    sys.stdout.write(out)
-    sys.stdout.flush()
     yes = get_yes_cmd()
     command = f'"{yes}" | {command}'
 
+    if sys.platform == "win32":
+        # Always use cmd on windows
+        command = f"cmd /c {command}"
+    print_execution(command, cwd)
     rtn = subprocess.call(
         command,
         shell=True,

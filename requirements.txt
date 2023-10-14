@@ -1,4 +1,4 @@
 download
 colorama
-setenvironment >= 1.1.10
+setenvironment >= 1.2.0
 appdirs >= 1.4.4
