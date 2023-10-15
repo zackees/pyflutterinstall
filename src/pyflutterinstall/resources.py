@@ -9,6 +9,9 @@ import sys
 import platform
 from typing import Optional
 
+CMDLINE_TOOLS_VERSION = "latest"
+BUILD_TOOLS_VERSION = "30.0.1"
+
 
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
@@ -19,9 +22,9 @@ CMDLINE_TOOLS = [
     "sources;android-33",
     # HUGE
     # "system-images;android-33;google_apis;x86_64",
-    "cmdline-tools;latest",
+    f"cmdline-tools;{CMDLINE_TOOLS_VERSION}",
     "platform-tools",
-    "build-tools;33.0.1",
+    f"build-tools;{BUILD_TOOLS_VERSION}",
     "platforms;android-33",
     "emulator",
     "tools",
