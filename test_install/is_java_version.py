@@ -9,8 +9,13 @@ import os
 import sys
 from shutil import which
 
+from setenvironment import reload_environment
+
 # paths
 from pyflutterinstall.paths import Paths
+
+
+reload_environment()
 
 
 def get_java_version() -> str:

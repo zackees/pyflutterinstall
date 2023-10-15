@@ -12,7 +12,7 @@ reload_environment()
 
 def exe(cmd: str) -> str:
     """Run a command and return the stdout, or raise an exception."""
-    proc = subprocess.Popen(
+    proc = subprocess.Popen(  # pylint: disable=consider-using-with
         cmd,
         shell=True,
         stdout=subprocess.PIPE,
@@ -21,7 +21,7 @@ def exe(cmd: str) -> str:
     )
     stdout, stderr = proc.communicate()
     if proc.returncode != 0:
-        raise Exception(f"Error executing {cmd}\n{stderr}")
+        raise RuntimeError(f"Error executing {cmd}\n{stderr}")
     return stdout
 
 
