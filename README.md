@@ -33,7 +33,7 @@ team.
 #### Versions
 
   * Android API: 33
-  * Java: 8
+  * Java: 20
   * Flutter: <TODO>
 
 Usage
