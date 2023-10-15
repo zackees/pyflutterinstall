@@ -62,16 +62,10 @@ jobs:
       run: python test_install/print_flutter_folder.py
 
     - name: Where Java?
-      run: where java
-
-    - name: What java version?
-      run: |
-        java --version
-        java --which || true
-      shell: bash
+      run: setenvironment refresh "where java"
 
     - name: Test java is 20
-      run: python test_install/is_java_version.py 20
+      run: setenvironment refresh "python test_install/is_java_version.py 20"
 
     - name: Test Install
       run: pytest tests
