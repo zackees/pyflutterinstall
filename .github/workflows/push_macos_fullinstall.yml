@@ -74,7 +74,7 @@ jobs:
       run: java -version
 
     - name: Test java is 20
-      run: python test_install/is_java_version.py 20
+      run: setenvironment refresh "python test_install/is_java_version.py 20"
 
     - name: Test Install
-      run: pytest tests
+      run: setenvironment refresh "pytest tests"
