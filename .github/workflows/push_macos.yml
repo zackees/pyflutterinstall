@@ -43,23 +43,24 @@ jobs:
     - name: which java
       run: setenvironment refresh "which java"
       
+    # Just so you know, this is the biggest hack ever to bring in env vars.
     - name: Test java is 20
       run: setenvironment refresh "python test_install/is_java_version.py 20"
 
     - name: install android
-      run: python -m pyflutterinstall.install.android_sdk
+      run: setenvironment refresh "python -m pyflutterinstall.install.android_sdk"
 
     - name: install ant
-      run: python -m pyflutterinstall.install.ant_sdk
+      run: setenvironment refresh "python -m pyflutterinstall.install.ant_sdk"
 
     - name: install gradle
-      run: python -m pyflutterinstall.install.gradle
+      run: setenvironment refresh "python -m pyflutterinstall.install.gradle"
 
     - name: install flutter
-      run: python -m pyflutterinstall.install.flutter_sdk
+      run: setenvironment refresh "python -m pyflutterinstall.install.flutter_sdk"
 
     - name: post install check
-      run: python -m pyflutterinstall.postrun
+      run: setenvironment refresh "python -m pyflutterinstall.postrun"
 
     - name: Print Flutter SDK Folder
-      run: python test_install/print_flutter_folder.py
+      run: setenvironment refresh "python test_install/print_flutter_folder.py"
