@@ -38,13 +38,13 @@ jobs:
       run: python test_install/prerun.py
 
     - name: install java
-      run: python -m pyflutterinstall.install.java_sdk
+      run: pyflutterinstall --only-java
 
     - name: which java
-      run: which java
+      run: setenvironment refresh "which java"
       
     - name: Test java is 20
-      run: python test_install/is_java_version.py 20
+      run: setenvironment refresh "python test_install/is_java_version.py 20"
 
     - name: install android
       run: python -m pyflutterinstall.install.android_sdk
