@@ -44,6 +44,7 @@ def set_env_var(var_name: str, var_value: Union[str, Path], verbose=True):
 def add_env_path(new_path: Union[Path, str]):
     """Adds a path to the front of the PATH environment variable."""
     config = config_load()
+    new_path = str(new_path)
     # path_list = config.setdefault("PATH", [])
     # config["PATH"] = uniquify_paths([str(new_path)] + path_list)
     config.paths.insert(0, str(new_path))
