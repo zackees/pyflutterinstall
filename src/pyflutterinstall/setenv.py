@@ -4,7 +4,6 @@ This module provides functions for setting environment variables.
 
 # pylint: disable=import-outside-toplevel
 
-import sys
 from pathlib import Path
 from typing import Union
 
