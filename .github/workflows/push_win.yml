@@ -47,7 +47,7 @@ jobs:
       run: python test_install/prerun.py
 
     - name: install java
-      run: pyflutterinstall --only-java 
+      run: pyflutterinstall --only-java -y
 
     - name: Where Java?
       run: setenvironment refresh "where java"
