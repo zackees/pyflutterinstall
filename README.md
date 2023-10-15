@@ -43,6 +43,7 @@ Usage
 ```
 
 # Releases
+  * 1.4.1: Adds build tools to the path, enabling aapt and aapt2 and others.
   * 1.4.0: Remove the trampoline hack, now sets paths properly thanks to setenvironment 2.0
   * 1.2.7: Use a trampoline for apkanalyzer to fix missing class paths
   * 1.2.6: Java trampoline fixed for Mac OSX
