@@ -89,7 +89,7 @@ jobs:
       
     - name: Test java is 20
       run: |
-        python test_install/is_java_version.py 20
+        setenvironment refresh "python test_install/is_java_version.py 20"
 
     - name: print_env
       run: python -m pyflutterinstall.print_env
@@ -99,7 +99,7 @@ jobs:
 
     - name: Test Install
       run: |
-        pytest tests
+        setenvironment refresh "pytest tests"
 
     - name: Remove all symlinks in .downloads directory
       run: find ./.downloads -type l -delete
