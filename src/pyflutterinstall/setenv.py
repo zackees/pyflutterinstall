@@ -55,7 +55,7 @@ def add_env_path(new_path: Union[Path, str]):
     config.paths.insert(0, str(new_path))
     config_save(config)
     # setenv.add_env_path(new_path)
-    setenv.add_template_path(env_var=PATH_KEY, new_path=new_path)
+    setenv.add_to_path_group(group_name=PATH_KEY, new_path=new_path)
 
 
 def get_env_path() -> str:
@@ -84,9 +84,9 @@ def remove_env_path(path: Union[Path, str]) -> None:
     while path in config.paths:
         config.paths.remove(path)
     config_save(config)
-    setenv.remove_template_path(env_var=PATH_KEY, path=path, remove_if_empty=True)
+    setenv.remove_from_path_group(group_name=PATH_KEY, path_to_remove=path)
 
 
 def remove_all_paths() -> None:
     """Removes all paths from the PATH environment variable."""
-    setenv.remove_template_group(env_var=PATH_KEY)
+    setenv.remove_path_group(group_name=PATH_KEY)

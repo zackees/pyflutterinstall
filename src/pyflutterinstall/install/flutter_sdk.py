@@ -8,7 +8,6 @@ import argparse
 import os
 import shutil
 import warnings
-import sys
 
 from pyflutterinstall.interactive_execute import execute
 from pyflutterinstall.print_env import print_env

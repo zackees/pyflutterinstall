@@ -25,7 +25,8 @@ def get_yes_cmd() -> str:
 
 
 def print_execution(command: str, cwd: str | None) -> None:
-    command = command.replace('"', "\"")
+    """Prints the command to stdout."""
+    command = command.replace('"', '"')
     out = ""
     out += "####################################\n"
     out += f"Executing\n  {command}\n"
@@ -34,6 +35,7 @@ def print_execution(command: str, cwd: str | None) -> None:
     out += "####################################\n"
     sys.stdout.write(out)
     sys.stdout.flush()
+
 
 def execute(
     command,
