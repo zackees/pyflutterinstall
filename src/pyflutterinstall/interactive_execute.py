@@ -6,12 +6,6 @@ import os
 import subprocess
 import sys
 
-# from typing import Optional
-
-# import shellexecute
-
-# execute = shellexecute.execute
-
 HERE = os.path.dirname(os.path.abspath(__file__))
 INSTALL_DIR = os.path.join(HERE, "install")
 WIN_DIR = os.path.join(INSTALL_DIR, "win")

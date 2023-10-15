@@ -6,7 +6,7 @@ import os
 
 from appdirs import user_config_dir  # type: ignore
 
-from setenvironment.types import Environment
+from setenvironment.types import Environment  # type: ignore
 
 CONFIG_DIR = user_config_dir("pyflutterinstall")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "config.json")

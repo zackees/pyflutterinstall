@@ -15,11 +15,8 @@ from pyflutterinstall.paths import Paths
 
 
 from pyflutterinstall.resources import (
-    # ANDROID_SDK,
     ANDROID_SDK_URL,
     CMDLINE_TOOLS,
-    # DOWNLOAD_DIR,
-    # INSTALL_DIR,
     IS_GITHUB_RUNNER,
 )
 from pyflutterinstall.setenv import add_env_path, set_env_var
@@ -113,6 +110,11 @@ def install_android_sdk() -> int:
     add_env_path(paths.ANDROID_SDK / "tools" / "bin")
     # avdmanager needs to get picked up from here.
     add_env_path(paths.ANDROID_SDK / "cmdline-tools" / "latest" / "bin")
+    # now add build tools
+    if os.path.exists(paths.BUILD_TOOLS_DIR):
+        for build_tool in os.listdir(paths.BUILD_TOOLS_DIR):
+            add_env_path(paths.BUILD_TOOLS_DIR / build_tool)
+            break
     if sys.platform == "darwin":
         if IS_GITHUB_RUNNER:
             package_mgr = "gem"
