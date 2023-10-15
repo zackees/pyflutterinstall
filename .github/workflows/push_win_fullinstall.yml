@@ -39,6 +39,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -e '.[test]'
+        pip install pytest
 
     - name: where git
       run: where git
