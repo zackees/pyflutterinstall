@@ -55,8 +55,8 @@ jobs:
     - name: which git
       run: where git
 
-    - name: print_env
-      run: python -m pyflutterinstall.print_env
+    - name: setenvironment show
+      run: setenvironment show
 
     - name: Print Flutter SDK Folder
       run: python test_install/print_flutter_folder.py
