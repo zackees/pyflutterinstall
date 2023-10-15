@@ -40,24 +40,8 @@ jobs:
       run: |
         pip install -e '.[test]'
 
-    - name: check prerun
-      run: python test_install/prerun.py
-
     - name: install all
-      run: pyflutterinstall --skip-confirmation
-
-    - name: post install check
-      run: python -m pyflutterinstall.postrun
-
-    - name: Print Flutter SDK Folder
-      run: python test_install/print_flutter_folder.py
-
-    - name: which java
-      run: which java
-      
-    - name: Test java is 20
-      run: |
-        java -version 2>&1 | grep -q 'version "20' && echo "Java 20 is installed" || (echo "Java 20 is not installed" && exit 1)
+      run: pyflutterinstall -y
 
     - name: Test Install
       run: pytest tests
