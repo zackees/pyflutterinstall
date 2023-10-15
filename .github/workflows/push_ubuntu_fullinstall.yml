@@ -81,8 +81,11 @@ jobs:
     - name: cat ~/.bashrc
       run: cat ~/.bashrc
 
-    - name: python -m pyflutterinstall.print_env
-      run: source ~/.bash_profile; python -m pyflutterinstall.print_env
+    - name: virgin environment
+      run: env
+
+    - name: refreshed evironment
+      run: setenvironment refresh env
 
     - name: which java
       run: which java
