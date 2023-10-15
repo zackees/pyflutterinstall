@@ -11,7 +11,9 @@ from typing import Optional
 
 CMDLINE_TOOLS_VERSION = "latest"
 BUILD_TOOLS_VERSION = "30.0.1"
-
+ANDROID_SDK_VERSION = "10406996"
+JAVA_VERSION = 20
+GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.2-bin.zip"
 
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
@@ -79,8 +81,6 @@ def get_platform_java_sdk8() -> str:
     return get_platform_java_sdk_dynamic("8.0.312")
 
 
-DEFAULT_JAVA_VERSION = 17
-
 JAVA_SDK_VERSIONS = {
     8: get_platform_java_sdk8,
     11: get_platform_java_sdk11,
@@ -92,7 +92,7 @@ JAVA_SDK_VERSIONS = {
 
 def get_platform_java_sdk(version: Optional[int] = None) -> str:
     """Gets the java platform specific url"""
-    version = version or DEFAULT_JAVA_VERSION
+    version = version or JAVA_VERSION
     url_function = JAVA_SDK_VERSIONS.get(version)
     if url_function:
         return url_function()
@@ -101,7 +101,7 @@ def get_platform_java_sdk(version: Optional[int] = None) -> str:
 
 def get_android_sdk_url() -> str:
     """Gets the android platform specific url"""
-    version = "10406996"
+    version = ANDROID_SDK_VERSION
     if sys.platform == "win32":
         os_name = "win"
     elif sys.platform == "darwin":
@@ -122,7 +122,4 @@ def get_chrome_url() -> str:
 
 CHROME_URL = get_chrome_url()
 ANDROID_SDK_URL = get_android_sdk_url()
-GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.2-bin.zip"
-
 IS_GITHUB_RUNNER = os.getenv("GITHUB_ACTIONS", "false") == "true"
-JAVA_VERSION = 20
