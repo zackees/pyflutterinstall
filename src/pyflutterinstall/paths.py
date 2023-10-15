@@ -4,6 +4,8 @@ Provides a path interface to generate paths for the various tools.
 
 # pylint: disable=missing-function-docstring,invalid-name,pointless-string-statement,missing-class-docstring,too-many-instance-attributes
 import os
+import tempfile
+import time
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -11,26 +13,44 @@ import shutil
 from setenvironment import reload_environment
 from pyflutterinstall.config import config_load
 
-"""
-prior definitions
--PROJECT_ROOT = Path(os.getcwd())
--INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
--ENV_FILE = PROJECT_ROOT / ".env"
--DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
--ANDROID_SDK = INSTALL_DIR / "Android" / "sdk"
--ANT_DIR = INSTALL_DIR / "ant"
--FLUTTER_HOME = INSTALL_DIR / "flutter"
--JAVA_DIR = INSTALL_DIR / "java"
--GRADLE_DIR = INSTALL_DIR / "gradle"
--CMDLINE_TOOLS_DIR = ANDROID_SDK / "cmdline-tools" / "latest" / "bin"
--BUILD_TOOLS_DIR = ANDROID_SDK / "build-tools"
-+# PROJECT_ROOT = Path(os.getcwd()).resolve()
-+# INSTALL_DIR = PROJECT_ROOT / "FlutterSDK"
-+# ENV_FILE = PROJECT_ROOT / ".env"
-+# DOWNLOAD_DIR = PROJECT_ROOT / ".downloads"
-+# ANDROID_SDK = INSTALL_DIR / "Android" / "sdk"
-+# ANT_DIR = INSTALL_DIR / "ant"
-"""
+
+def retry_delete(path, max_retries=3, delay=0.001):
+    for _ in range(max_retries):
+        try:
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.remove(path)
+            return
+        except PermissionError:
+            time.sleep(delay)
+    print(f"Failed to delete {path} after {max_retries} attempts.")
+
+
+def error_handler(func, path, exc_info):
+    """Custom error handler for shutil.rmtree"""
+    print(f"Error deleting {path}. Error: {exc_info[1]}")
+
+    if os.name == "nt":
+        os.chmod(path, 0o777)  # Try making the file/directory writable
+
+    retry_delete(path)
+
+    if not os.path.exists(path):
+        return
+
+    # Try to fix the issue for busy files by renaming and then deleting
+    if "PermissionError" in str(exc_info[0]):
+        tmp_dir = tempfile.mkdtemp(dir=os.path.dirname(path))
+        tmp_path = os.path.join(tmp_dir, os.path.basename(path))
+
+        try:
+            os.rename(path, tmp_path)
+            func(tmp_path)  # Retry the delete operation
+            os.rmdir(tmp_dir)
+            print(f"Successfully fixed and deleted {path}")
+        except Exception as e:  # pylint: disable=broad-except
+            print(f"Failed to fix the error for {path}. Error: {e}")
 
 
 @dataclass
@@ -116,7 +136,7 @@ class Paths:
         """Delete all directories"""
         if os.path.exists(self.INSTALL_DIR):
             print(f"Removing existing Flutter SDK at {self.INSTALL_DIR}")
-            shutil.rmtree(self.INSTALL_DIR, ignore_errors=False)
+            shutil.rmtree(self.INSTALL_DIR, onerror=error_handler)
 
     def __str__(self) -> str:
         # auto parse into list[str]
