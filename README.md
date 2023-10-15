@@ -43,6 +43,7 @@ Usage
 ```
 
 # Releases
+  * 1.4.0: Remove the trampoline hack, now sets paths properly thanks to setenvironment 2.0
   * 1.2.7: Use a trampoline for apkanalyzer to fix missing class paths
   * 1.2.6: Java trampoline fixed for Mac OSX
   * 1.2.5: Java is now jdk v17 by default
