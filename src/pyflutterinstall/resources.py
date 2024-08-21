@@ -8,11 +8,10 @@ import os
 import sys
 import platform
 from typing import Optional
-import requests
 
 CMDLINE_TOOLS_VERSION = "latest"
-BUILD_TOOLS_VERSION = "30.0.1"
-ANDROID_SDK_VERSION = "10406996"
+BUILD_TOOLS_VERSION = "34.0.0"
+ANDROID_SDK_VERSION = "11076708"
 JAVA_VERSION = 17
 GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.7-all.zip"
 
