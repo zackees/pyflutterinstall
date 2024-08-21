@@ -58,8 +58,8 @@ def install_java_sdk(version: Optional[int] = None) -> int:
     except Exception as e:
         # try again with backup url
         print(f"Error downloading {java_sdk_url}: {e}")
-        print("Trying backup url")
-        java_sdk_url = java_sdk_url.replace("/latest/", "/archive")
+        java_sdk_url = java_sdk_url.replace("/latest/", "/archive/")
+        print(f"Trying backup url: {java_sdk_url}")
         java_sdk_zip_file = Path(download(url=java_sdk_url, path=local_file, replace=False))
     # if os.path.exists(JAVA_DIR):
     #    print(f"Removing existing Java SDK at {JAVA_DIR}")
