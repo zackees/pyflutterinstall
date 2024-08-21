@@ -1,6 +1,7 @@
 """
 Saves the global runtime configuration of the install state.
 """
+
 import json
 import os
 

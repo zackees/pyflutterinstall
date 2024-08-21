@@ -8,6 +8,7 @@ import os
 import sys
 import platform
 from typing import Optional
+import requests
 
 CMDLINE_TOOLS_VERSION = "latest"
 BUILD_TOOLS_VERSION = "30.0.1"
@@ -34,7 +35,7 @@ CMDLINE_TOOLS = [
 
 
 # Not all versions of java support getting url by version number.
-def get_platform_java_sdk_dynamic(version: str) -> str:
+def _get_platform_java_sdk_dynamic(version: str) -> str:
     """Gets the java platform specific url using the version string."""
     major_version = int(version.split(".")[0])
     if sys.platform == "win32":
@@ -46,8 +47,24 @@ def get_platform_java_sdk_dynamic(version: str) -> str:
     if sys.platform == "darwin":
         return f"https://download.oracle.com/java/{major_version}/latest/jdk-{version}_macos-{arch}_bin.tar.gz"
     if "linux" in sys.platform:
-        return f"https://download.oracle.com/java/{major_version}/archive/jdk-{version}_linux-{arch}_bin.tar.gz"
+        return f"https://download.oracle.com/java/{major_version}/latest/jdk-{version}_linux-{arch}_bin.tar.gz"
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
+
+
+def get_platform_java_sdk_dynamic(version: str) -> str:
+    """Gets the java platform specific url using the version string."""
+    url = _get_platform_java_sdk_dynamic(version)
+    response = requests.head(url, allow_redirects=True, timeout=10)
+    if response.status_code == 200:
+        return url
+    # attempt to get it from the archive version of the url
+    archive_url = url.replace("/latest/", "/archive/")
+    response = requests.head(archive_url, allow_redirects=True, timeout=10)
+    if response.status_code == 200:
+        return url
+    raise ValueError(
+        f"Could not find url for java version {version} at:\n  {url}\n  {archive_url}"
+    )
 
 
 def get_platform_java_sdk11() -> str:

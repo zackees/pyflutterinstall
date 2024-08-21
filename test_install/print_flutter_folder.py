@@ -2,7 +2,6 @@
 Print all files from FlutterSDK folder.
 """
 
-
 import os
 import sys
 
