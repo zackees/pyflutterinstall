@@ -107,7 +107,7 @@ def create_virtual_environment() -> None:
     if not is_tool("virtualenv"):
         _exe("pip install virtualenv")
     # Which one is better? virtualenv or venv? This may switch later.
-    _exe("virtualenv -p python310 venv")
+    _exe("virtualenv -p python311 venv")
     # _exe('python3 -m venv venv')
     # Linux/MacOS uses bin and Windows uses Script, so create
     # a soft link in order to always refer to bin for all
