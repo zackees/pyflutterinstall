@@ -13,7 +13,7 @@ CMDLINE_TOOLS_VERSION = "latest"
 BUILD_TOOLS_VERSION = "30.0.1"
 ANDROID_SDK_VERSION = "10406996"
 JAVA_VERSION = 20
-GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.2-bin.zip"
+GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.7-all.zip"
 
 FLUTTER_GIT_DOWNLOAD = (
     "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
