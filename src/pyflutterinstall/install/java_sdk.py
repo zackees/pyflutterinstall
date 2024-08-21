@@ -41,6 +41,35 @@ def print_paths() -> None:
     sys.stdout.write(f"{msg}\n")
     sys.stdout.flush()
 
+def _download(url: str, path: Path, replace: bool = False) -> Path:
+    retries = 10
+    for i in range(retries):
+        try:
+            if path.exists() and not replace:
+                return path
+            return Path(download(url=url, path=path, replace=replace))
+        except Exception as e:
+            if "Exception: Error: File size is" in str(e):
+                print(f"Error downloading {url}: {e}")
+                print(f"Retrying download {i+1}/{retries}")
+                replace = True
+                continue
+            else:
+                break
+    alt_url = url.replace("/latest/", "/archive/")
+    print(f"Trying backup url: {alt_url}")
+    for i in range(retries):
+        try:
+            if path.exists() and not replace:
+                return path
+            return Path(download(url=alt_url, path=path, replace=replace))
+        except Exception as e:
+            if "Exception: Error: File size is" in str(e):
+                print(f"Error downloading {alt_url}: {e}")
+                print(f"Retrying download {i+1}/{retries}")
+                continue
+            raise
+
 
 def install_java_sdk(version: Optional[int] = None) -> int:
     make_title("Installing Java SDK")
@@ -53,21 +82,7 @@ def install_java_sdk(version: Optional[int] = None) -> int:
     java_sdk_url = get_platform_java_sdk(version)
     local_file = paths.DOWNLOAD_DIR / os.path.basename(java_sdk_url)
     print(f"Install Java SDK from {java_sdk_url} to {local_file}")
-    try:
-        java_sdk_zip_file = Path(download(url=java_sdk_url, path=local_file, replace=False))
-    except Exception as e:
-        # try again with backup url
-        print(f"Error downloading {java_sdk_url}: {e}")
-        java_sdk_url = java_sdk_url.replace("/latest/", "/archive/")
-        print(f"Trying backup url: {java_sdk_url}")
-        java_sdk_zip_file = Path(download(url=java_sdk_url, path=local_file, replace=False))
-    # if os.path.exists(JAVA_DIR):
-    #    print(f"Removing existing Java SDK at {JAVA_DIR}")
-    #    shutil.rmtree(JAVA_DIR)
-    if paths.JAVA_DIR.exists():
-        # We must do this or unix will complain about the directory already existing.
-        print(f"Removing existing Java SDK at {paths.JAVA_DIR}")
-        shutil.rmtree(paths.JAVA_DIR, ignore_errors=True)
+    java_sdk_zip_file = _download(url=java_sdk_url, path=local_file, replace=False)
     print(f"Unpacking {java_sdk_zip_file} to {paths.JAVA_DIR}")
     shutil.unpack_archive(java_sdk_zip_file, paths.JAVA_DIR)
     base_java_dir = paths.JAVA_DIR / os.listdir(paths.JAVA_DIR)[0]
