@@ -35,7 +35,7 @@ CMDLINE_TOOLS = [
 
 
 # Not all versions of java support getting url by version number.
-def _get_platform_java_sdk_dynamic(version: str) -> str:
+def get_platform_java_sdk_dynamic(version: str) -> str:
     """Gets the java platform specific url using the version string."""
     major_version = int(version.split(".")[0])
     if sys.platform == "win32":
@@ -50,25 +50,6 @@ def _get_platform_java_sdk_dynamic(version: str) -> str:
         return f"https://download.oracle.com/java/{major_version}/latest/jdk-{version}_linux-{arch}_bin.tar.gz"
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
 
-
-def get_platform_java_sdk_dynamic(version: str) -> str:
-    """Gets the java platform specific url using the version string."""
-    url = _get_platform_java_sdk_dynamic(version)
-    try:
-        response = requests.head(url, allow_redirects=True, timeout=10)
-        if response.status_code == 200:
-            print(f"Found url for java version {version} at:\n  {url}")
-            return url
-    except requests.exceptions.RequestException as e:
-        pass
-    # attempt to get it from the archive version of the url
-    archive_url = url.replace("/latest/", "/archive/")
-    response = requests.head(archive_url, allow_redirects=True, timeout=10)
-    if response.status_code == 200:
-        return url
-    raise ValueError(
-        f"Could not find url for java version {version} at:\n  {url}\n  {archive_url}"
-    )
 
 
 def get_platform_java_sdk11() -> str:
