@@ -65,8 +65,8 @@ jobs:
     - name: Where Java?
       run: setenvironment refresh "where java"
 
-    - name: Test java is 20
-      run: setenvironment refresh "python test_install/is_java_version.py 20"
+    - name: Test java is 17
+      run: setenvironment refresh "python test_install/is_java_version.py 17"
 
     - name: Test Install
       run: setenvironment refresh "pytest tests"

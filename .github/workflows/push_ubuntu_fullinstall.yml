@@ -90,9 +90,9 @@ jobs:
     - name: which java
       run: which java
       
-    - name: Test java is 20
+    - name: Test java is 17
       run: |
-        setenvironment refresh "python test_install/is_java_version.py 20"
+        setenvironment refresh "python test_install/is_java_version.py 17"
 
     - name: print_env
       run: python -m pyflutterinstall.print_env

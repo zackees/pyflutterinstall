@@ -8,6 +8,7 @@ import argparse
 import os
 import sys
 from shutil import which
+import argparse
 
 from setenvironment import reload_environment
 
@@ -56,7 +57,11 @@ def main() -> int:
             print(f"  {path}")
         return 1
     print(f"Java version {args.version} found at {which('java')}")
-    return 0
+    if args.version in java_version:
+        print(f"Java version {args.version} found")
+        return 0
+    print(f"Java version {args.version} not found\n  instead we got {java_version.strip()}")
+    return 1
 
 
 if __name__ == "__main__":

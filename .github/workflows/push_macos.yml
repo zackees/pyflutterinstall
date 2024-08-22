@@ -44,7 +44,7 @@ jobs:
       run: setenvironment refresh "which java"
       
     # Just so you know, this is the biggest hack ever to bring in env vars.
-    - name: Test java is 20
+    - name: Test java is 17
       run: setenvironment refresh "python test_install/is_java_version.py 20"
 
     - name: install android
