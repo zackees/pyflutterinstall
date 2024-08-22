@@ -36,7 +36,6 @@ def check_cmd_installed(command: str) -> None:
         warnings.warn(error_msg)
         raise FileNotFoundError(error_msg)
 
-from pathlib import Path
 
 def install_flutter_sdk(install_precache=False) -> int:
     make_title("Installing Flutter")

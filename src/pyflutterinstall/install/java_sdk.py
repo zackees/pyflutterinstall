@@ -50,7 +50,9 @@ def _download(url: str, path: Path, replace: bool = False) -> Path:
                 return path
             return Path(download(url=url, path=path, replace=replace))
         except Exception as e:  # pylint: disable=broad-except
-            if "Exception: Error: File size is" in str(e) or "Error while fetching file" in str(e):
+            if "Exception: Error: File size is" in str(
+                e
+            ) or "Error while fetching file" in str(e):
                 print(f"Error downloading {url}: {e}")
                 print(f"Retrying download {i+1}/{retries}")
                 replace = True
@@ -64,7 +66,9 @@ def _download(url: str, path: Path, replace: bool = False) -> Path:
                 return path
             return Path(download(url=alt_url, path=path, replace=replace))
         except Exception as e:
-            if "Exception: Error: File size is" in str(e) or "Error while fetching file" in str(e):
+            if "Exception: Error: File size is" in str(
+                e
+            ) or "Error while fetching file" in str(e):
                 print(f"Error downloading {alt_url}: {e}")
                 print(f"Retrying download {i+1}/{retries}")
                 continue
