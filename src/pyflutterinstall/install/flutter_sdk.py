@@ -45,27 +45,26 @@ def install_flutter_sdk(install_precache=False) -> int:
     check_cmd_installed("git")
     print(f"Install Flutter to {paths.FLUTTER_HOME}")
     flutter_git = paths.FLUTTER_HOME / ".git"
-    flutter_dir = str(paths.FLUTTER_HOME.relative_to(Path(".")))
+    flutter_dir = paths.FLUTTER_HOME
     if not flutter_git.exists():
         cmd_list = [
             "git",
             "clone",
             "https://github.com/flutter/flutter.git",
-            "--single-branch",
             f"{flutter_dir}",
-            "&&",
-            "cd",
-            f"{flutter_dir}",
-            "&&",
-            "git",
-            "checkout",
-            f"{FLUTTER_COMMIT}",
         ]
 
         cmd = subprocess.list2cmdline(cmd_list)
         print(f"pyflutter home is {paths.FLUTTER_HOME}")
         print_env()
         execute(cmd, ignore_errors=False, accept_all=False)
+        cmd_list = [
+            "git",
+            "checkout",
+            f"{FLUTTER_COMMIT}",
+        ]
+        cmd = subprocess.list2cmdline(cmd_list)
+        execute(cmd, cwd=flutter_dir, ignore_errors=False, accept_all=False)
     else:
         print(f"Flutter already installed at {paths.FLUTTER_HOME}")
     if not os.path.exists(paths.FLUTTER_HOME):
