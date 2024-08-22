@@ -36,6 +36,7 @@ def check_cmd_installed(command: str) -> None:
         warnings.warn(error_msg)
         raise FileNotFoundError(error_msg)
 
+from pathlib import Path
 
 def install_flutter_sdk(install_precache=False) -> int:
     make_title("Installing Flutter")
@@ -44,16 +45,17 @@ def install_flutter_sdk(install_precache=False) -> int:
     check_cmd_installed("git")
     print(f"Install Flutter to {paths.FLUTTER_HOME}")
     flutter_git = paths.FLUTTER_HOME / ".git"
+    flutter_dir = str(paths.FLUTTER_HOME.relative_to(Path(".")))
     if not flutter_git.exists():
         cmd_list = [
             "git",
             "clone",
             "https://github.com/flutter/flutter.git",
             "--single-branch",
-            f"{paths.FLUTTER_HOME}",
+            f"{flutter_dir}",
             "&&",
             "cd",
-            f"{paths.FLUTTER_HOME}",
+            f"{flutter_dir}",
             "&&",
             "git",
             "checkout",
