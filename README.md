@@ -43,6 +43,7 @@ Usage
 ```
 
 # Releases
+  * 1.5.0: Upgrade to Android sdk 35 and update related settings.
   * 1.4.2: Better better file deletion attempts for --remove.
   * 1.4.1: Adds build tools to the path, enabling aapt and aapt2 and others.
   * 1.4.0: Remove the trampoline hack, now sets paths properly thanks to setenvironment 2.0
