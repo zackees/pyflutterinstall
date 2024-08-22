@@ -36,11 +36,13 @@ def execute(
     cwd=None,
     ignore_errors=False,
     timeout=None,
+    accept_all=True,
 ) -> int:
     """Executes commands and pipes the command "yes" to it."""
 
     yes = get_yes_cmd()
-    command = f'"{yes}" | {command}'
+    if accept_all:
+        command = f'"{yes}" | {command}'
 
     if sys.platform == "win32":
         # Always use cmd on windows

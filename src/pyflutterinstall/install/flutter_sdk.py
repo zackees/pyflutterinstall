@@ -63,7 +63,7 @@ def install_flutter_sdk(install_precache=False) -> int:
         cmd = subprocess.list2cmdline(cmd_list)
         print(f"pyflutter home is {paths.FLUTTER_HOME}")
         print_env()
-        execute(cmd, ignore_errors=False)
+        execute(cmd, ignore_errors=False, accept_all=False)
     else:
         print(f"Flutter already installed at {paths.FLUTTER_HOME}")
     if not os.path.exists(paths.FLUTTER_HOME):
