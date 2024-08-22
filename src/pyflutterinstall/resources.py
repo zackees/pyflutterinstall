@@ -16,7 +16,9 @@ JAVA_VERSION = 17
 GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.7-all.zip"
 
 FLUTTER_GIT_DOWNLOAD = (
-    "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
+    # "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
+    # Flutter beta 3.16.0-0.1
+    "git clone https://github.com/flutter/flutter.git --branch f0abad66b249244cbdbb291cf6edfbba9937ffa0 --single-branch"
 )
 ANT_SDK_DOWNLOAD = "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.13-bin.zip"
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
