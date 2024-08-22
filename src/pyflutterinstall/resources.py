@@ -14,19 +14,22 @@ BUILD_TOOLS_VERSION = "34.0.0"
 ANDROID_SDK_VERSION = "11076708"
 JAVA_VERSION = 17
 GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.7-all.zip"
+SOURCES_VERSION = "android-35"
+PLATFORMS_VERSION = "android-35"
 
+# Flutter 3.16 beta
 FLUTTER_COMMIT = "f0abad66b249244cbdbb291cf6edfbba9937ffa0"
 
 ANT_SDK_DOWNLOAD = "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.13-bin.zip"
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CMDLINE_TOOLS = [
-    "sources;android-33",
+    f"sources;{SOURCES_VERSION}",
     # HUGE
     # "system-images;android-33;google_apis;x86_64",
     f"cmdline-tools;{CMDLINE_TOOLS_VERSION}",
     "platform-tools",
     f"build-tools;{BUILD_TOOLS_VERSION}",
-    "platforms;android-33",
+    f"platforms;{PLATFORMS_VERSION}",
     "emulator",
     "tools",
 ]
