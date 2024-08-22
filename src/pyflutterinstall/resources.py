@@ -15,11 +15,8 @@ ANDROID_SDK_VERSION = "11076708"
 JAVA_VERSION = 17
 GRADLE_URL = "https://services.gradle.org/distributions/gradle-8.7-all.zip"
 
-FLUTTER_GIT_DOWNLOAD = (
-    # "git clone --depth 1 https://github.com/flutter/flutter.git -b stable"
-    # Flutter beta 3.16.0-0.1
-    "git clone https://github.com/flutter/flutter.git --single-branch && cd flutter && git checkout f0abad66b249244cbdbb291cf6edfbba9937ffa0 && cd .."
-)
+FLUTTER_COMMIT = "f0abad66b249244cbdbb291cf6edfbba9937ffa0"
+
 ANT_SDK_DOWNLOAD = "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.13-bin.zip"
 # Note that commit is 135454af32477f815a7525073027a3ff9eff1bfd
 CMDLINE_TOOLS = [
@@ -50,7 +47,6 @@ def get_platform_java_sdk_dynamic(version: str) -> str:
     if "linux" in sys.platform:
         return f"https://download.oracle.com/java/{major_version}/latest/jdk-{version}_linux-{arch}_bin.tar.gz"
     raise NotImplementedError(f"Unsupported platform: {sys.platform}")
-
 
 
 def get_platform_java_sdk11() -> str:

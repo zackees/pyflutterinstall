@@ -8,12 +8,13 @@ import argparse
 import os
 import shutil
 import warnings
+import subprocess
 
 from pyflutterinstall.interactive_execute import execute
 from pyflutterinstall.print_env import print_env
 
 from pyflutterinstall.resources import (
-    FLUTTER_GIT_DOWNLOAD,
+    FLUTTER_COMMIT,
 )  # , ANDROID_SDK, , FLUTTER_HOME
 from pyflutterinstall.setenv import add_env_path
 from pyflutterinstall.util import make_title
@@ -41,10 +42,25 @@ def install_flutter_sdk(install_precache=False) -> int:
     paths = Paths()
     paths.apply_env()
     check_cmd_installed("git")
-    print(f"Install Flutter from {FLUTTER_GIT_DOWNLOAD} to {paths.FLUTTER_HOME}")
+    print(f"Install Flutter to {paths.FLUTTER_HOME}")
     flutter_git = paths.FLUTTER_HOME / ".git"
     if not flutter_git.exists():
-        cmd = f'{FLUTTER_GIT_DOWNLOAD} "{paths.FLUTTER_HOME}"'
+        cmd_list = [
+            "git",
+            "clone",
+            "https://github.com/flutter/flutter.git",
+            "--single-branch",
+            f"{paths.FLUTTER_HOME}",
+            "&&",
+            "cd",
+            f"{paths.FLUTTER_HOME}",
+            "&&",
+            "git",
+            "checkout",
+            f"{FLUTTER_COMMIT}",
+        ]
+
+        cmd = subprocess.list2cmdline(cmd_list)
         print(f"pyflutter home is {paths.FLUTTER_HOME}")
         print_env()
         execute(cmd, ignore_errors=False)

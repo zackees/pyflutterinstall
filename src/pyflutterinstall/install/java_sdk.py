@@ -41,6 +41,7 @@ def print_paths() -> None:
     sys.stdout.write(f"{msg}\n")
     sys.stdout.flush()
 
+
 def _download(url: str, path: Path, replace: bool = False) -> Path:
     retries = 10
     for i in range(retries):
@@ -48,14 +49,13 @@ def _download(url: str, path: Path, replace: bool = False) -> Path:
             if path.exists() and not replace:
                 return path
             return Path(download(url=url, path=path, replace=replace))
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-except
             if "Exception: Error: File size is" in str(e):
                 print(f"Error downloading {url}: {e}")
                 print(f"Retrying download {i+1}/{retries}")
                 replace = True
                 continue
-            else:
-                break
+            break
     alt_url = url.replace("/latest/", "/archive/")
     print(f"Trying backup url: {alt_url}")
     for i in range(retries):
@@ -69,6 +69,7 @@ def _download(url: str, path: Path, replace: bool = False) -> Path:
                 print(f"Retrying download {i+1}/{retries}")
                 continue
             raise
+    raise FileNotFoundError(f"Failed to download {url} or {alt_url}")
 
 
 def install_java_sdk(version: Optional[int] = None) -> int:
