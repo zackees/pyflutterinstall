@@ -91,7 +91,7 @@ class Paths:
         self.INSTALLED = self.ANDROID_SDK.name == "sdk"
         self.ANDROID_HOME = self.ANDROID_SDK
         self.ENV_FILE = self.INSTALL_ROOT / ".env"
-        self.DOWNLOAD_DIR = self.INSTALL_ROOT / ".downloads"
+        self.DOWNLOAD_DIR = self.INSTALL_ROOT / ".." / ".pyflutter_downloads"
         self.ANDROID_SDK = self.ANDROID_SDK
         self.ANT_DIR = self.INSTALL_DIR / "ant"
         self.FLUTTER_HOME = self.INSTALL_DIR / "flutter"
