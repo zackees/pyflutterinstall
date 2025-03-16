@@ -55,29 +55,31 @@ def error_handler(func, path, exc_info):
 
 @dataclass
 class Paths:
-    INSTALL_ROOT: Path
-    INSTALL_DIR: Path
-    ENV_FILE: Path
-    DOWNLOAD_DIR: Path
-    ANDROID_SDK: Path
-    ANDROID_HOME: Path
-    ANT_DIR: Path
-    FLUTTER_HOME: Path
-    FLUTTER_HOME_BIN: Path
-    JAVA_DIR: Path
-    GRADLE_DIR: Path
-    CMDLINE_TOOLS_DIR: Path
-    BUILD_TOOLS_DIR: Path
-    OVERRIDEN: bool
-    INSTALLED: bool
+    INSTALL_ROOT: Path  # Root directory for the installation
+    INSTALL_DIR: Path  # Directory where Flutter SDK and other tools are installed
+    ENV_FILE: Path  # Path to the .env file for environment variables
+    DOWNLOAD_DIR: Path  # Directory for temporary downloads
+    ANDROID_SDK: Path  # Path to the Android SDK
+    ANDROID_HOME: Path  # Alias for ANDROID_SDK, used by some tools
+    ANT_DIR: Path  # Directory for Apache Ant
+    FLUTTER_HOME: Path  # Directory where Flutter is installed
+    FLUTTER_HOME_BIN: Path  # Path to Flutter's bin directory
+    JAVA_DIR: Path  # Directory where Java is installed
+    GRADLE_DIR: Path  # Directory for Gradle
+    CMDLINE_TOOLS_DIR: Path  # Path to Android SDK command-line tools
+    BUILD_TOOLS_DIR: Path  # Path to Android SDK build tools
+    OVERRIDEN: bool  # Flag to indicate if paths are overridden
+    INSTALLED: bool  # Flag to indicate if Flutter is already installed
 
     def __init__(self, cwd_override: str | None = None):
         if cwd_override is not None:
+            # If a custom working directory is provided, use it as the installation root
             self.OVERRIDEN = True
             self.INSTALL_ROOT = Path(cwd_override).resolve()
             self.INSTALL_DIR = self.INSTALL_ROOT / "FlutterSDK"
             self.ANDROID_SDK = self.INSTALL_DIR / "Android" / "sdk"
         else:
+            # If no override, load configuration and use existing paths
             self.OVERRIDEN = False
             config = config_load()
             env = config.vars
@@ -88,11 +90,14 @@ class Paths:
             self.ANDROID_SDK = android_sdk
             self.INSTALL_DIR = self.ANDROID_SDK.parent.parent
             self.INSTALL_ROOT = self.INSTALL_DIR.parent
+        
+        # Check if Flutter is already installed
         self.INSTALLED = self.ANDROID_SDK.name == "sdk"
+        
+        # Set up other paths based on the installation directory
         self.ANDROID_HOME = self.ANDROID_SDK
         self.ENV_FILE = self.INSTALL_ROOT / ".env"
         self.DOWNLOAD_DIR = self.INSTALL_ROOT / ".." / ".pyflutter_downloads"
-        self.ANDROID_SDK = self.ANDROID_SDK
         self.ANT_DIR = self.INSTALL_DIR / "ant"
         self.FLUTTER_HOME = self.INSTALL_DIR / "flutter"
         self.FLUTTER_HOME_BIN = self.FLUTTER_HOME / "bin"
@@ -106,29 +111,17 @@ class Paths:
         reload_environment(verbose=True)
 
     def make_dirs(self) -> None:
-        # assert self.OVERRIDEN is False
         if not self.OVERRIDEN:
             raise AssertionError("make_dirs() should only be called when not overriden")
         """Make directories for installation"""
-        # os.makedirs(INSTALL_DIR, exist_ok=True)
-        # os.makedirs(DOWNLOAD_DIR, exist_ok=True)
-        # os.makedirs(ANDROID_SDK, exist_ok=True)
-        # os.makedirs(JAVA_DIR, exist_ok=True)
         os.makedirs(self.INSTALL_DIR, exist_ok=True)
         os.makedirs(self.DOWNLOAD_DIR, exist_ok=True)
         os.makedirs(self.ANDROID_SDK, exist_ok=True)
         os.makedirs(self.JAVA_DIR, exist_ok=True)
         sep = os.sep
-        # INSTALL_DIR.mkdir(parents=True, exist_ok=True)
-        # DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
         env = os.environ
         env["ANDROID_SDK"] = str(self.ANDROID_SDK)
         env["JAVA_DIR"] = str(self.JAVA_DIR)
-        # add to path
-        # ${FLUTTER_HOME}/bin
-        # add to path
-        # env["PATH"] = f"{FLUTTER_HOME}/bin{os.pathsep}{env['PATH']}"
-        # env["PATH"] = f"{JAVA_DIR}/bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.FLUTTER_HOME}{sep}bin{os.pathsep}{env['PATH']}"
         env["PATH"] = f"{self.JAVA_DIR}{sep}bin{os.pathsep}{env['PATH']}"
 
